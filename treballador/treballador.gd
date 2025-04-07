@@ -113,7 +113,8 @@ func fes_tasca()->void:
 	energia_actual -= punts_feina_actuals / 10
 	Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
 	particules_treball.emitting = true
-	
+	await get_tree().create_timer(1.0).timeout 
+	particules_treball.emitting = false
 	print(str(feina_actual) + " - " + str(punts_feina_actuals))
 	
 
