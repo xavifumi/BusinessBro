@@ -26,6 +26,10 @@ shape = SubResource("RectangleShape2D_6sqha")
 
 [node name="Treballador" parent="." instance=ExtResource("1_f278c")]
 position = Vector2(489, 198)
+max_speed = null
+acceleration = null
+deceleration = null
+avoidance_strength = null
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

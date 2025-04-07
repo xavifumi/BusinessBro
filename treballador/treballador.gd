@@ -2,23 +2,30 @@ class_name Treballador extends CharacterBody2D
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var emocions: Sprite2D = %Emocions
 @onready var _raycasts: Node2D = %Raycasts
+@onready var particules_treball: GPUParticles2D = %ParticulesTreball
+
 
 @export var max_speed := 300.0
-var actual_speed := 500.0
-## How much speed is added per second when the player presses a movement key.
-@export var acceleration := 600.0
-## How much speed is lost per second when the player releases all movement keys.
-@export var deceleration := 540.0
-@export var avoidance_strength := 21000.0
+var actual_speed := 300.0
+@export var acceleration := 300.0
+@export var deceleration := 5000.0
+@export var avoidance_strength := 500.0
 
 var atributs = {
 	"nivell": 1,
-	"disseny": 0,
-	"enginyer": 0,
-	"informatica": 0,
+	"disseny": 100,
+	"enginyer": 100,
+	"informatica": 100,
 	"social": 0,
-	"motivacio": 1
+	"motivacio": 1,
+	"energia": 100
 }
+
+var energia_actual := 100
+static var descansant = false
+var moviment := false
+var treballant := false
+
 var llista_emocions ={
 	"ofuscat" : Vector2i(1,1),
 	"cantant" : Vector2i(2,1),
@@ -46,27 +53,23 @@ var llista_emocions ={
 
 enum States {TREBALLANT, ESTUDIANT, ESPERANT, AVORRIT, CAOS}
 
-var estat: States = States.ESPERANT
+var estat: States = States.TREBALLANT
 var avorriment: Timer
+var tasca: Timer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animation_player.play("idle")
-	avorriment = Timer.new()
-	avorriment.set_wait_time(10.0)
-	avorriment.one_shot = true
-	avorriment.connect("timeout", Callable(self, "avorreix"))
-	add_child(avorriment)
-	avorriment.start()
+	tasca = get_node("tasca")
+	tasca.one_shot = true
+	tasca.connect("timeout", Callable(self, "fes_tasca"))
 	#mostra_emocio("riure")
-
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	match estat:
 		States.TREBALLANT:
-			treballa()
+			treballa(delta)
 		States.ESTUDIANT:
 			estudia()
 		States.ESPERANT:
@@ -76,8 +79,43 @@ func _process(delta: float) -> void:
 		States.CAOS:
 			caos()
 
-func treballa() -> void:
-	pass
+func treballa(delta: float) -> void:
+	if Pantalla.tasca_actual.size() != 0:
+		if energia_actual > 0:
+			if !treballant and Pantalla.posicions_descans.size() != 0:
+				camina(Pantalla.posicions_treball.keys()[0], delta)
+			else:
+				espera()
+			if tasca.is_stopped() && treballant:
+				animation_player.play("idle")
+				tasca.set_wait_time(randi_range(3, 6))
+				tasca.start()
+		else:
+			treballant= false
+			estat = States.AVORRIT
+	else:
+		treballant= false
+		estat = States.ESPERANT
+
+
+func fes_tasca()->void:
+	var feina_actual : String
+	var stats := ["disseny","enginyer","informatica"]
+	feina_actual = stats.pick_random()
+	match feina_actual:
+		"disseny":
+			particules_treball.texture = load("res://resources/palette.svg")
+		"enginyer":
+			particules_treball.texture = load("res://resources/unbalanced.svg")
+		"informatica":
+			particules_treball.texture = load("res://resources/processor.svg")
+	var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
+	energia_actual -= punts_feina_actuals / 10
+	Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
+	particules_treball.emitting = true
+	
+	print(str(feina_actual) + " - " + str(punts_feina_actuals))
+	
 
 func estudia() -> void:
 	pass
@@ -86,7 +124,25 @@ func espera() -> void:
 	pass
 
 func avorreix(delta: float) -> void:
-	print("avorrit!")
+	avorriment = Timer.new()
+	avorriment.set_wait_time(10.0)
+	avorriment.one_shot = true
+	avorriment.connect("timeout", Callable(self, "avorreix"))
+	add_child(avorriment)
+	avorriment.start()
+	if !descansant:
+		if Pantalla.posicions_descans.size() == 0:
+			espera()
+		else:
+			#var coordenadas = str_to_var("Vector2" + Pantalla.posicions_descans.keys()[0]) as Vector2
+			camina(Pantalla.posicions_descans.keys()[0], delta)
+			#print(Pantalla.posicions_descans.keys()[0])
+	else:
+		if energia_actual < atributs["energia"]:
+			energia_actual += 1
+		else:
+			descansant = false
+			estat = States.ESPERANT
 	
 
 func caos() -> void:
@@ -103,19 +159,10 @@ func mostra_emocio(emocio: String)-> void:
 	#tween.tween_callback(emocions.queue_free)	
 
 func camina(desti: Vector2, delta)->void:
-	var direction := global_position.direction_to(desti)
-	var distance := global_position.distance_to(desti)
-	var speed := actual_speed if distance > 100 else actual_speed * distance / 100
-	var has_input_direction := direction.length() > 0.0
-	var desired_velocity := direction * speed
-	desired_velocity += calculate_avoidance_force() * delta
-	if has_input_direction:
-		velocity = velocity.move_toward(desired_velocity, acceleration * delta)
-	else:
-		velocity = velocity.move_toward(desired_velocity, acceleration * delta)
-	move_and_slide()
-	if velocity.length() > 10.0:
+	if global_position != desti:
 		animation_player.play("walk")
+		global_position = global_position.move_toward(desti, delta*max_speed)
+		print("posicio: " + str(global_position) + " - desti: " + str(desti))
 	else:
 		animation_player.play("idle")
 
@@ -131,3 +178,11 @@ func calculate_avoidance_force() -> Vector2:
 			var force := direction_away_from_obstacle * avoidance_strength * intensity
 			avoidance_force += force
 	return avoidance_force
+
+
+func _on_treball_area_entered(area: Area2D) -> void:
+	treballant = true
+
+
+func _on_treball_area_exited(area: Area2D) -> void:
+	treballant = false

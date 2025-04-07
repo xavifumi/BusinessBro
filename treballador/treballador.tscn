@@ -1,12 +1,44 @@
-[gd_scene load_steps=9 format=3 uid="uid://cgbepm64mxp57"]
+[gd_scene load_steps=15 format=3 uid="uid://cgbepm64mxp57"]
 
 [ext_resource type="Texture2D" uid="uid://c25qyxkmyfc5p" path="res://resources/character_maleAdventurer_sheet.png" id="1_1otmv"]
 [ext_resource type="Script" path="res://treballador.gd" id="1_yrqwm"]
 [ext_resource type="Texture2D" uid="uid://b27w2mpqxbsub" path="res://resources/pixel_style3.png" id="3_ux43y"]
+[ext_resource type="Texture2D" uid="uid://cu25idy7sdyjq" path="res://resources/palette.svg" id="4_77350"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_otts6"]
 radius = 25.0
 height = 50.0
+
+[sub_resource type="Curve" id="Curve_2oehg"]
+max_value = 200.0
+_data = [Vector2(0, 65.9341), 0.0, 0.0, 0, 0, Vector2(0.986667, 200), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qiir1"]
+curve = SubResource("Curve_2oehg")
+
+[sub_resource type="Curve" id="Curve_o1rg3"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.986667, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0j22b"]
+curve = SubResource("Curve_o1rg3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ka4ix"]
+particle_flag_disable_z = true
+direction = Vector3(0, -10, 0)
+spread = 18.707
+initial_velocity_min = 166.67
+initial_velocity_max = 166.67
+gravity = Vector3(0, 0, 0)
+scale_min = 0.07
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_0j22b")
+scale_over_velocity_min = 3.0
+scale_over_velocity_max = 4.0
+anim_speed_min = 5.0
+anim_speed_max = 20.0
+anim_speed_curve = SubResource("CurveTexture_qiir1")
 
 [sub_resource type="Animation" id="Animation_ne7m8"]
 length = 0.001
@@ -97,6 +129,15 @@ frame = 1
 region_rect = Rect2(0, 0, 16, 16)
 
 [node name="ParticulesTreball" type="GPUParticles2D" parent="Sprite2D"]
+unique_name_in_owner = true
+position = Vector2(52, 49)
+emitting = false
+amount = 4
+amount_ratio = 0.5
+process_material = SubResource("ParticleProcessMaterial_ka4ix")
+texture = ExtResource("4_77350")
+explosiveness = 0.41
+randomness = 0.4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -114,3 +155,5 @@ target_position = Vector2(39, 60)
 [node name="RayCast2D2" type="RayCast2D" parent="Raycasts"]
 position = Vector2(46, 77)
 target_position = Vector2(-36, 57)
+
+[node name="tasca" type="Timer" parent="."]
