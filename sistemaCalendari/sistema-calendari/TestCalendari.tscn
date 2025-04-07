@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Calendari.gd" id="1_7doy7"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Calendari" type="Node"]
 script = ExtResource("1_7doy7")
 
 [node name="UI" type="Control" parent="."]
