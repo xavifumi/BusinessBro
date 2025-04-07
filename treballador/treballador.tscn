@@ -118,10 +118,9 @@ frame = 36
 
 [node name="Emocions" type="Sprite2D" parent="Sprite2D"]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0)
 texture_filter = 1
 position = Vector2(47, 8)
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("3_ux43y")
 hframes = 5
 vframes = 6
@@ -157,3 +156,5 @@ position = Vector2(46, 77)
 target_position = Vector2(-36, 57)
 
 [node name="tasca" type="Timer" parent="."]
+
+[node name="avorriment" type="Timer" parent="."]

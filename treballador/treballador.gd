@@ -25,6 +25,7 @@ var energia_actual := 100
 static var descansant = false
 var moviment := false
 var treballant := false
+var tween_começat = false
 
 var llista_emocions ={
 	"ofuscat" : Vector2i(1,1),
@@ -63,7 +64,12 @@ func _ready() -> void:
 	tasca = get_node("tasca")
 	tasca.one_shot = true
 	tasca.connect("timeout", Callable(self, "fes_tasca"))
-	#mostra_emocio("riure")
+	avorriment = get_node("avorriment")
+	avorriment.set_wait_time(10.0)
+	avorriment.one_shot = true
+	avorriment.connect("timeout", Callable(self, "avorreix"))
+	#mostra_emocio("ofuscat")
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -92,9 +98,11 @@ func treballa(delta: float) -> void:
 				tasca.start()
 		else:
 			treballant= false
+			mostra_emocio("feliç")
 			estat = States.AVORRIT
 	else:
 		treballant= false
+		mostra_emocio("ofuscat")
 		estat = States.ESPERANT
 
 
@@ -115,7 +123,7 @@ func fes_tasca()->void:
 	particules_treball.emitting = true
 	await get_tree().create_timer(1.0).timeout 
 	particules_treball.emitting = false
-	print(str(feina_actual) + " - " + str(punts_feina_actuals))
+	#print(str(feina_actual) + " - " + str(punts_feina_actuals))
 	
 
 func estudia() -> void:
@@ -125,11 +133,6 @@ func espera() -> void:
 	pass
 
 func avorreix(delta: float) -> void:
-	avorriment = Timer.new()
-	avorriment.set_wait_time(10.0)
-	avorriment.one_shot = true
-	avorriment.connect("timeout", Callable(self, "avorreix"))
-	add_child(avorriment)
 	avorriment.start()
 	if !descansant:
 		if Pantalla.posicions_descans.size() == 0:
@@ -150,13 +153,17 @@ func caos() -> void:
 	pass
 
 func mostra_emocio(emocio: String)-> void:
+	tween_começat = true
 	var coord_emocio = llista_emocions[emocio] - Vector2i(1,1)
 	emocions.frame_coords = coord_emocio
 	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_EXPO)
-	tween.tween_property(emocions, "modulate:a", 255, 1).set_delay(0.5)
-	tween.set_trans(Tween.TRANS_ELASTIC)
-	tween.tween_property(emocions, "scale", Vector2(), 1).set_delay(5)
+	if tween_começat:
+		tween.set_trans(Tween.TRANS_EXPO)
+		#tween.tween_property(emocions, "modulate:a", 255, 1).set_delay(0.5)
+		tween.tween_property(emocions, "scale", Vector2(1.5,1.5), 1).set_delay(0.5)
+		tween.set_trans(Tween.TRANS_ELASTIC)
+		tween.tween_property(emocions, "scale", Vector2(), 1).set_delay(5)
+		tween_começat = false
 	#tween.tween_callback(emocions.queue_free)	
 
 func camina(desti: Vector2, delta)->void:
@@ -181,9 +188,9 @@ func calculate_avoidance_force() -> Vector2:
 	return avoidance_force
 
 
-func _on_treball_area_entered(area: Area2D) -> void:
+func _on_treball_area_entered(_area: Area2D) -> void:
 	treballant = true
 
 
-func _on_treball_area_exited(area: Area2D) -> void:
+func _on_treball_area_exited(_area: Area2D) -> void:
 	treballant = false
