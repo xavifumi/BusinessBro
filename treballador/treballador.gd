@@ -3,6 +3,8 @@ class_name Treballador extends CharacterBody2D
 @onready var emocions: Sprite2D = %Emocions
 @onready var _raycasts: Node2D = %Raycasts
 @onready var particules_treball: GPUParticles2D = %ParticulesTreball
+@onready var progress_energia: ProgressBar = %progressEnergia
+@onready var print_estat: Label = $Control/printEstat
 
 
 @export var max_speed := 300.0
@@ -68,11 +70,26 @@ func _ready() -> void:
 	avorriment.set_wait_time(10.0)
 	avorriment.one_shot = true
 	avorriment.connect("timeout", Callable(self, "avorreix"))
+	progress_energia.max_value = atributs["energia"]
 	#mostra_emocio("ofuscat")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	var estat_a_text
+	match(estat):
+		0:
+			estat_a_text="TREBALLANT"
+		1:
+			estat_a_text="ESTUDIANT"
+		2:
+			estat_a_text="ESPERANT"
+		3:
+			estat_a_text="AVORRIT"
+		4:
+			estat_a_text="CAOS"
+	print_estat.text = str(estat_a_text)
+	progress_energia.value = energia_actual
 	match estat:
 		States.TREBALLANT:
 			treballa(delta)
@@ -87,7 +104,7 @@ func _process(delta: float) -> void:
 
 func treballa(delta: float) -> void:
 	if Pantalla.tasca_actual.size() != 0:
-		if energia_actual > 0:
+		if energia_actual > atributs["energia"]*0.1:
 			if !treballant and Pantalla.posicions_descans.size() != 0:
 				camina(Pantalla.posicions_treball.keys()[0], delta)
 			else:
@@ -97,40 +114,44 @@ func treballa(delta: float) -> void:
 				tasca.set_wait_time(randi_range(3, 6))
 				tasca.start()
 		else:
-			treballant= false
+			#treballant= false
 			mostra_emocio("feliç")
 			estat = States.AVORRIT
 	else:
-		treballant= false
+		#treballant= false
 		mostra_emocio("ofuscat")
 		estat = States.ESPERANT
 
 
 func fes_tasca()->void:
-	var feina_actual : String
-	var stats := ["disseny","enginyer","informatica"]
-	feina_actual = stats.pick_random()
-	match feina_actual:
-		"disseny":
-			particules_treball.texture = load("res://resources/palette.svg")
-		"enginyer":
-			particules_treball.texture = load("res://resources/unbalanced.svg")
-		"informatica":
-			particules_treball.texture = load("res://resources/processor.svg")
-	var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
-	energia_actual -= punts_feina_actuals / 10
-	Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
-	particules_treball.emitting = true
-	await get_tree().create_timer(1.0).timeout 
-	particules_treball.emitting = false
+	if treballant:
+		var feina_actual : String
+		var stats := ["disseny","enginyer","informatica"]
+		feina_actual = stats.pick_random()
+		match feina_actual:
+			"disseny":
+				particules_treball.texture = load("res://resources/palette.svg")
+			"enginyer":
+				particules_treball.texture = load("res://resources/unbalanced.svg")
+			"informatica":
+				particules_treball.texture = load("res://resources/processor.svg")
+		var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
+		energia_actual -= punts_feina_actuals / 10
+		Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
+		particules_treball.emitting = true
+		await get_tree().create_timer(1.0).timeout 
+		particules_treball.emitting = false
 	#print(str(feina_actual) + " - " + str(punts_feina_actuals))
+	if descansant:
+		energia_actual += 10
 	
 
 func estudia() -> void:
 	pass
 
 func espera() -> void:
-	pass
+	if Pantalla.tasca_actual.size() != 0:
+		estat = States.TREBALLANT
 
 func avorreix(delta: float) -> void:
 	avorriment.start()
@@ -143,7 +164,11 @@ func avorreix(delta: float) -> void:
 			#print(Pantalla.posicions_descans.keys()[0])
 	else:
 		if energia_actual < atributs["energia"]:
-			energia_actual += 1
+			if tasca.is_stopped():
+				animation_player.play("idle")
+				tasca.set_wait_time(randi_range(1, 3))
+				tasca.start()
+			energia_actual += 0.01
 		else:
 			descansant = false
 			estat = States.ESPERANT
@@ -170,7 +195,7 @@ func camina(desti: Vector2, delta)->void:
 	if global_position != desti:
 		animation_player.play("walk")
 		global_position = global_position.move_toward(desti, delta*max_speed)
-		print("posicio: " + str(global_position) + " - desti: " + str(desti))
+		#print("posicio: " + str(global_position) + " - desti: " + str(desti))
 	else:
 		animation_player.play("idle")
 
@@ -194,3 +219,11 @@ func _on_treball_area_entered(_area: Area2D) -> void:
 
 func _on_treball_area_exited(_area: Area2D) -> void:
 	treballant = false
+
+
+func _on_esbarjo_area_entered(area: Area2D) -> void:
+	descansant = true
+
+
+func _on_esbarjo_area_exited(area: Area2D) -> void:
+	descansant = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cgbepm64mxp57"]
+[gd_scene load_steps=16 format=3 uid="uid://cgbepm64mxp57"]
 
 [ext_resource type="Texture2D" uid="uid://c25qyxkmyfc5p" path="res://resources/character_maleAdventurer_sheet.png" id="1_1otmv"]
 [ext_resource type="Script" path="res://treballador.gd" id="1_yrqwm"]
@@ -95,11 +95,18 @@ _data = {
 "walk": SubResource("Animation_rr782")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0l81y"]
+bg_color = Color(0.190085, 0.576399, 1.92523e-07, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
 [node name="Treballador" type="CharacterBody2D"]
 script = ExtResource("1_yrqwm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(47, 103)
+position = Vector2(1, 11)
 shape = SubResource("CapsuleShape2D_otts6")
 
 [node name="Hitbox" type="Area2D" parent="."]
@@ -110,6 +117,7 @@ position = Vector2(47, 78)
 shape = SubResource("CapsuleShape2D_otts6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-48, -98)
 texture = ExtResource("1_1otmv")
 centered = false
 hframes = 9
@@ -148,13 +156,40 @@ libraries = {
 unique_name_in_owner = true
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts"]
-position = Vector2(46, 77)
 target_position = Vector2(39, 60)
 
 [node name="RayCast2D2" type="RayCast2D" parent="Raycasts"]
-position = Vector2(46, 77)
 target_position = Vector2(-36, 57)
 
 [node name="tasca" type="Timer" parent="."]
 
 [node name="avorriment" type="Timer" parent="."]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -48.0
+offset_top = -98.0
+offset_right = -8.0
+offset_bottom = -58.0
+
+[node name="progressEnergia" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 2.002
+anchor_bottom = 3.104
+offset_left = 2.0
+offset_top = 111.0
+offset_right = -4.08
+offset_bottom = 11.84
+grow_horizontal = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_0l81y")
+show_percentage = false
+
+[node name="printEstat" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 94.0
+offset_bottom = 23.0

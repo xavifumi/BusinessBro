@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://vem35m58na6p"]
+[gd_scene load_steps=7 format=3 uid="uid://vem35m58na6p"]
 
 [ext_resource type="PackedScene" uid="uid://cgbepm64mxp57" path="res://treballador.tscn" id="1_f278c"]
 [ext_resource type="Script" path="res://test_treballador.gd" id="1_np6og"]
 [ext_resource type="Script" path="res://treball.gd" id="2_oo8t0"]
+[ext_resource type="PackedScene" uid="uid://2yjtaugoco0x" path="res://resources/calendari/TestCalendari.tscn" id="2_uwtvl"]
+[ext_resource type="PackedScene" uid="uid://bnx7d7x0olguq" path="res://resources/ux/UI_BB.tscn" id="4_r0dl8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6sqha"]
 size = Vector2(64, 128)
@@ -10,9 +12,15 @@ size = Vector2(64, 128)
 [node name="Test Treballador" type="Node2D"]
 script = ExtResource("1_np6og")
 
+[node name="Calendari" parent="." instance=ExtResource("2_uwtvl")]
+
+[node name="Ux" parent="." instance=ExtResource("4_r0dl8")]
+tween_intensity = 0.0
+tween_duration = 0.0
+
 [node name="esbarjo" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="esbarjo"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="esbarjo" groups=["llocsDeDescans"]]
 position = Vector2(936, 284)
 shape = SubResource("RectangleShape2D_6sqha")
 
@@ -20,12 +28,16 @@ shape = SubResource("RectangleShape2D_6sqha")
 position = Vector2(-823, -17)
 script = ExtResource("2_oo8t0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="treball"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="treball" groups=["llocsDeTreball"]]
 position = Vector2(929, 290)
 shape = SubResource("RectangleShape2D_6sqha")
 
 [node name="Treballador" parent="." instance=ExtResource("1_f278c")]
 position = Vector2(489, 198)
+
+[node name="Label" type="Label" parent="Treballador"]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -54,10 +66,10 @@ text = "treball:"
 
 [node name="labelDiners" type="Label" parent="Control"]
 layout_mode = 0
-offset_left = 525.0
-offset_top = 15.0
-offset_right = 592.0
-offset_bottom = 38.0
+offset_left = 526.0
+offset_top = 43.0
+offset_right = 593.0
+offset_bottom = 66.0
 text = "diners:"
 
 [node name="ProgressBar" type="ProgressBar" parent="Control"]
@@ -68,5 +80,16 @@ offset_right = 136.0
 offset_bottom = 204.0
 show_percentage = false
 
+[node name="ButtonFeina" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 32.0
+offset_right = 104.0
+offset_bottom = 63.0
+text = "Feina Nova"
+
+[connection signal="area_entered" from="esbarjo" to="Treballador" method="_on_esbarjo_area_entered"]
+[connection signal="area_exited" from="esbarjo" to="." method="_on_esbarjo_area_exited"]
+[connection signal="area_exited" from="esbarjo" to="Treballador" method="_on_esbarjo_area_exited"]
 [connection signal="area_entered" from="treball" to="Treballador" method="_on_treball_area_entered"]
 [connection signal="area_exited" from="treball" to="Treballador" method="_on_treball_area_exited"]
