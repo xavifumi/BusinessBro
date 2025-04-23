@@ -1,0 +1,94 @@
+[gd_scene load_steps=9 format=3 uid="uid://vem35m58na6p"]
+
+[ext_resource type="Script" path="res://demo.gd" id="1_5vbv4"]
+[ext_resource type="PackedScene" uid="uid://bnx7d7x0olguq" path="res://resources/ux/UI_BB.tscn" id="2_nlrnl"]
+[ext_resource type="PackedScene" uid="uid://2yjtaugoco0x" path="res://resources/calendari/TestCalendari.tscn" id="3_ue7x6"]
+[ext_resource type="Script" path="res://engine.gd" id="4_bqhpf"]
+[ext_resource type="PackedScene" uid="uid://et473icat4wv" path="res://resources/oficina/oficina.tscn" id="4_rlfx0"]
+[ext_resource type="Script" path="res://treball.gd" id="5_cxuuc"]
+[ext_resource type="PackedScene" uid="uid://cgbepm64mxp57" path="res://resources/treballador/treballador.tscn" id="6_q3qq8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6sqha"]
+size = Vector2(64, 65)
+
+[node name="Pantalla" type="Node2D"]
+script = ExtResource("1_5vbv4")
+
+[node name="Ux" parent="." instance=ExtResource("2_nlrnl")]
+
+[node name="Calendari" parent="." instance=ExtResource("3_ue7x6")]
+
+[node name="BusinessEngine" type="Node" parent="."]
+script = ExtResource("4_bqhpf")
+
+[node name="Oficina" parent="." instance=ExtResource("4_rlfx0")]
+position = Vector2(9, -73)
+
+[node name="PuntInici" type="Marker2D" parent="Oficina"]
+position = Vector2(543, 342)
+
+[node name="esbarjo" type="Area2D" parent="Oficina"]
+position = Vector2(644, 420)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Oficina/esbarjo" groups=["llocsDeDescans"]]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_6sqha")
+
+[node name="labelDescans" type="Label" parent="Oficina/esbarjo/CollisionShape2D"]
+offset_left = -33.0
+offset_top = -60.0
+offset_right = 34.0
+offset_bottom = -37.0
+text = "descans:
+"
+
+[node name="treball" type="Area2D" parent="Oficina"]
+position = Vector2(-848.425, -135.35)
+script = ExtResource("5_cxuuc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Oficina/treball" groups=["llocsDeTreball"]]
+position = Vector2(1318.43, 374.35)
+shape = SubResource("RectangleShape2D_6sqha")
+
+[node name="labelTreball" type="Label" parent="Oficina/treball/CollisionShape2D"]
+offset_left = -27.0
+offset_top = -88.0
+offset_right = 40.0
+offset_bottom = -65.0
+text = "treball:"
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Oficina/treball" groups=["llocsDeTreball"]]
+position = Vector2(1318.43, 549.35)
+shape = SubResource("RectangleShape2D_6sqha")
+
+[node name="labelTreball" type="Label" parent="Oficina/treball/CollisionShape2D2"]
+offset_left = -27.0
+offset_top = -88.0
+offset_right = 40.0
+offset_bottom = -65.0
+text = "treball:"
+
+[node name="ProgressBar" type="ProgressBar" parent="Oficina/treball"]
+offset_left = 853.0
+offset_top = 132.0
+offset_right = 914.0
+offset_bottom = 140.0
+show_percentage = false
+
+[node name="Plantilla" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Treballador" parent="Plantilla" instance=ExtResource("6_q3qq8")]
+visible = false
+position = Vector2(575, 275)
+
+[node name="Label" type="Label" parent="Plantilla/Treballador"]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="area_entered" from="Oficina/esbarjo" to="Plantilla/Treballador" method="_on_esbarjo_area_entered"]
+[connection signal="area_exited" from="Oficina/esbarjo" to="." method="_on_esbarjo_area_exited"]
+[connection signal="area_exited" from="Oficina/esbarjo" to="Plantilla/Treballador" method="_on_esbarjo_area_exited"]
+[connection signal="area_entered" from="Oficina/treball" to="Plantilla/Treballador" method="_on_treball_area_entered"]
+[connection signal="area_exited" from="Oficina/treball" to="Plantilla/Treballador" method="_on_treball_area_exited"]

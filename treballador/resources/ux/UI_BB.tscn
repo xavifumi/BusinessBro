@@ -1,15 +1,33 @@
-[gd_scene load_steps=10 format=3 uid="uid://bnx7d7x0olguq"]
+[gd_scene load_steps=15 format=3 uid="uid://bnx7d7x0olguq"]
 
 [ext_resource type="Texture2D" uid="uid://sogf77ofguuf" path="res://resources/ux/resources/icons/battery-pack.svg" id="1_gwgrh"]
 [ext_resource type="Texture2D" uid="uid://b730uiyp6cy23" path="res://resources/ux/resources/UI/yellow/button_square_flat.png" id="1_qwasm"]
 [ext_resource type="Script" path="res://resources/ux/ui_bb.gd" id="1_rhcq0"]
 [ext_resource type="Texture2D" uid="uid://bpv15yqfej8fk" path="res://resources/ux/resources/UI/yellow/arrow_basic_e_small.png" id="2_kuiqx"]
-[ext_resource type="Texture2D" uid="uid://cknfp421pbe70" path="res://resources/ux/resources/icons/id-card.svg" id="2_tks70"]
-[ext_resource type="Texture2D" uid="uid://b404lkerv2hw8" path="res://resources/ux/resources/icons/histogram.svg" id="3_03873"]
-[ext_resource type="Texture2D" uid="uid://cgmbvwmiptnod" path="res://resources/ux/resources/icons/price-tag.svg" id="4_f6vhh"]
+[ext_resource type="Texture2D" uid="uid://c0wixt2eavejf" path="res://resources/ux/resources/generic_icons/Team.png" id="4_au4hh"]
+[ext_resource type="Texture2D" uid="uid://bp2m2o8cltisd" path="res://resources/ux/resources/icons/User_Green.png" id="5_0hgnc"]
+[ext_resource type="Texture2D" uid="uid://cj1rklftmbbw4" path="res://resources/ux/resources/generic_icons/Power.png" id="5_35mba"]
+[ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="5_jx2w3"]
+[ext_resource type="Texture2D" uid="uid://jvx7yn8thaqo" path="res://resources/ux/resources/icons/Book_Orange.png" id="6_h5ggj"]
+[ext_resource type="PackedScene" uid="uid://bpoiw2pucgank" path="res://resources/ux/fitxa_treballador.tscn" id="6_mj216"]
+[ext_resource type="Texture2D" uid="uid://dsb6hbkv1fosu" path="res://resources/ux/resources/icons/Handbag_Lightblue.png" id="7_ke4w8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csvx7"]
 bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70rfr"]
+bg_color = Color(0.121569, 0.6, 0.305882, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.121569, 0.360784, 0.243137, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.733333)
+shadow_offset = Vector2(10, 10)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tat2i"]
 texture = ExtResource("1_qwasm")
@@ -23,25 +41,25 @@ script = ExtResource("1_rhcq0")
 tween_intensity = 1.5
 tween_duration = 0.2
 
-[node name="Pantalla" type="VBoxContainer" parent="."]
+[node name="PantallaSencera" type="VBoxContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanellSuperior" type="PanelContainer" parent="Pantalla"]
+[node name="PanellSuperior" type="PanelContainer" parent="PantallaSencera"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_csvx7")
 
-[node name="MarginContainer" type="MarginContainer" parent="Pantalla/PanellSuperior"]
+[node name="MarginContainer" type="MarginContainer" parent="PantallaSencera/PanellSuperior"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_right = 5
 
-[node name="Liquid" type="Label" parent="Pantalla/PanellSuperior/MarginContainer"]
+[node name="Liquid" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -49,12 +67,12 @@ theme_override_colors/font_color = Color(0.329386, 0.584566, 0.0497552, 1)
 text = "1.000.000 $"
 vertical_alignment = 1
 
-[node name="Calendari" type="Control" parent="Pantalla/PanellSuperior/MarginContainer"]
+[node name="Calendari" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Pantalla/PanellSuperior/MarginContainer/Calendari"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -64,29 +82,29 @@ offset_right = 52.0
 offset_bottom = 23.0
 grow_horizontal = 2
 
-[node name="dia" type="Label" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="dia" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "30"
 
-[node name="mes" type="Label" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="mes" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "març"
 
-[node name="any" type="Label" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="any" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "2025"
 
-[node name="Button1" type="Control" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="Button1" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button1"]
+[node name="TextureButton" type="TextureButton" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button1"]
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 0
 offset_top = 1.0
@@ -96,7 +114,7 @@ texture_normal = ExtResource("2_kuiqx")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button1"]
+[node name="Label" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button1"]
 layout_mode = 0
 offset_right = 17.0
 offset_bottom = 23.0
@@ -106,11 +124,11 @@ text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button2" type="Control" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="Button2" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button2"]
+[node name="TextureButton" type="TextureButton" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button2"]
 modulate = Color(1, 0.658824, 0.756863, 1)
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 0
@@ -121,7 +139,7 @@ texture_normal = ExtResource("2_kuiqx")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button2"]
+[node name="Label" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button2"]
 layout_mode = 0
 offset_right = 17.0
 offset_bottom = 23.0
@@ -131,11 +149,11 @@ text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button3" type="Control" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="Button3" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button3"]
+[node name="TextureButton" type="TextureButton" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button3"]
 modulate = Color(1, 0.396078, 0.25098, 1)
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 0
@@ -146,7 +164,7 @@ texture_normal = ExtResource("2_kuiqx")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="Pantalla/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button3"]
+[node name="Label" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button3"]
 layout_mode = 0
 offset_right = 17.0
 offset_bottom = 23.0
@@ -156,57 +174,177 @@ text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Pantalla/PanellSuperior/MarginContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PantallaSencera/PanellSuperior/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="TextureRect" type="TextureRect" parent="Pantalla/PanellSuperior/MarginContainer/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(20, 10)
 layout_mode = 2
 texture = ExtResource("1_gwgrh")
 expand_mode = 5
 
-[node name="Bateria" type="Label" parent="Pantalla/PanellSuperior/MarginContainer/HBoxContainer2"]
+[node name="Bateria" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "100%"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Pantalla/PanellSuperior/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PantallaSencera/PanellSuperior/MarginContainer"]
 layout_mode = 2
 
-[node name="AppDrawer" type="PanelContainer" parent="Pantalla"]
+[node name="MenuTreballadors" type="PanelContainer" parent="PantallaSencera"]
+unique_name_in_owner = true
+visible = false
+clip_contents = true
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_70rfr")
+
+[node name="MarginContainer" type="MarginContainer" parent="PantallaSencera/MenuTreballadors"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PantallaSencera/MenuTreballadors/MarginContainer"]
+layout_mode = 2
+
+[node name="Titol" type="MarginContainer" parent="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="IconaMenu" type="TextureRect" parent="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_au4hh")
+expand_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+
+[node name="NomMenu" type="Label" parent="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_jx2w3")
+text = "Contactes
+"
+
+[node name="closeMenuTreballadors" type="TextureButton" parent="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture_normal = ExtResource("5_35mba")
+stretch_mode = 4
+
+[node name="LlistaCandidats" type="VBoxContainer" parent="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Fitxa treballador" parent="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/LlistaCandidats" instance=ExtResource("6_mj216")]
+visible = false
+layout_mode = 2
+
+[node name="AppDrawer" type="PanelContainer" parent="PantallaSencera"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 theme_override_styles/panel = SubResource("StyleBoxTexture_tat2i")
 
-[node name="CalaixAplicacions" type="GridContainer" parent="Pantalla/AppDrawer"]
+[node name="CalaixAplicacions" type="GridContainer" parent="PantallaSencera/AppDrawer"]
 unique_name_in_owner = true
 layout_direction = 2
 layout_mode = 2
 columns = 10
 
-[node name="Button" type="Button" parent="Pantalla/AppDrawer/CalaixAplicacions"]
+[node name="Button" type="Button" parent="PantallaSencera/AppDrawer/CalaixAplicacions"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-icon = ExtResource("2_tks70")
+icon = ExtResource("5_0hgnc")
 flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="Button2" type="Button" parent="Pantalla/AppDrawer/CalaixAplicacions"]
+[node name="PopUpButtonContactes" type="PanelContainer" parent="PantallaSencera/AppDrawer/CalaixAplicacions/Button"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -56.0
+offset_right = 43.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="PantallaSencera/AppDrawer/CalaixAplicacions/Button/PopUpButtonContactes"]
+layout_mode = 2
+theme = ExtResource("5_jx2w3")
+text = " Contactes "
+
+[node name="Button2" type="Button" parent="PantallaSencera/AppDrawer/CalaixAplicacions"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-icon = ExtResource("3_03873")
+icon = ExtResource("6_h5ggj")
 flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="Button3" type="Button" parent="Pantalla/AppDrawer/CalaixAplicacions"]
+[node name="PopUpButtonProjectes" type="PanelContainer" parent="PantallaSencera/AppDrawer/CalaixAplicacions/Button2"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -56.0
+offset_right = 47.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="PantallaSencera/AppDrawer/CalaixAplicacions/Button2/PopUpButtonProjectes"]
+layout_mode = 2
+theme = ExtResource("5_jx2w3")
+text = " Projectes"
+
+[node name="Button3" type="Button" parent="PantallaSencera/AppDrawer/CalaixAplicacions"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-icon = ExtResource("4_f6vhh")
+icon = ExtResource("7_ke4w8")
 flat = true
 icon_alignment = 1
 expand_icon = true
+
+[node name="PopUpButtonCompres" type="PanelContainer" parent="PantallaSencera/AppDrawer/CalaixAplicacions/Button3"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -56.0
+offset_right = 47.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="PantallaSencera/AppDrawer/CalaixAplicacions/Button3/PopUpButtonCompres"]
+layout_mode = 2
+theme = ExtResource("5_jx2w3")
+text = " Compres"
+
+[connection signal="pressed" from="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTreballadors" to="." method="_on_close_menu_treballadors_pressed"]
