@@ -66,7 +66,8 @@ func is_leap_year(y: int) -> bool:
 
 func _next_day():
 	day += 1
-
+	if Pantalla.tasca_actual.size() != 0:
+		Pantalla.tasca_actual["dies_restants"] -= 1
 	# Comprovar si febrer ha de tenir 29 dies
 	if month == 2:
 		days_in_months[2] = 29 if is_leap_year(year) else 28

@@ -4,3 +4,4 @@
 
 [resource]
 Label/fonts/font = ExtResource("1_o1adb")
+RichTextLabel/fonts/normal_font = ExtResource("1_o1adb")

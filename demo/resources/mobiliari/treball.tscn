@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbnh8g06ufw4"]
+
+[ext_resource type="Script" path="res://resources/mobiliari/treball.gd" id="1_p3s36"]
+[ext_resource type="Texture2D" uid="uid://clrx7dxu1k8pn" path="res://resources/oficina/resources/Office tiles/Little_Bits_office_objects.png" id="2_6peo5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ls25b"]
+size = Vector2(51.5, 21.5)
+
+[node name="treball" type="Area2D" groups=["llocsDeTreball"]]
+script = ExtResource("1_p3s36")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 10.25)
+shape = SubResource("RectangleShape2D_ls25b")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_6peo5")
+region_enabled = true
+region_rect = Rect2(98.3209, 70, 27.5134, 19.6812)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -26)
+scale = Vector2(2, 2)
+texture = ExtResource("2_6peo5")
+region_enabled = true
+region_rect = Rect2(32.4352, 5.68544, 15.0712, 15.7365)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

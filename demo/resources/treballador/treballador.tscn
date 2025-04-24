@@ -154,6 +154,7 @@ libraries = {
 
 [node name="Raycasts" type="Node2D" parent="."]
 unique_name_in_owner = true
+visible = false
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(39, 60)

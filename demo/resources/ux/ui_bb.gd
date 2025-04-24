@@ -11,6 +11,7 @@ class_name UX
 @onready var calaix_aplicacions: GridContainer = %CalaixAplicacions
 @onready var menu_treballadors: PanelContainer = %MenuTreballadors
 @onready var llista_candidats: VBoxContainer = %LlistaCandidats
+@onready var feina_info: PanelContainer = %FeinaInfo
 
 @export var tween_intensity: float
 @export var tween_duration: float
@@ -31,6 +32,16 @@ func _process(_delta: float) -> void:
 	any.text = str(Calendar.year)
 	for button in calaix_aplicacions.get_children():
 		btn_hovered(button)
+	if Pantalla.tasca_actual.size() != 0:
+		%FeinaInfo.show()
+	else :
+		%FeinaInfo.hide()
+	if %FeinaInfo.is_visible_in_tree():
+		%FeinaInfoDescription.text = Pantalla.tasca_actual["nom"]  if Pantalla.tasca_actual.size() != 0 else ""
+		%FeinaInfoDies.text = str(Pantalla.tasca_actual["dies_restants"]) if Pantalla.tasca_actual.size() != 0 else ""
+		%FeinaInfoProgress.max_value = Pantalla.tasca_actual["feina"] if Pantalla.tasca_actual.size() != 0 else 0
+		%FeinaInfoProgress.value = Pantalla.feina_total_acumulada
+		
 
 func start_tween(object: Object, property: String, final_val:Variant, duration: float):
 	var tween = create_tween()
@@ -95,3 +106,15 @@ func _on_popup_close_button_pressed() -> void:
 func activa_popup(text: String) -> void:
 	get_node("PopUp/PopUpLabel").text = text
 	get_node("PopUp").show()
+	
+static func activa_panell_info(node: Node) -> void:
+	node.show()
+
+static func amaga_panell_info(node: Node) -> void:
+	node.hide()
+
+static func set_valor_maxim(node: ProgressBar, valor: int)-> void:
+	node.max_value = valor
+
+static func actualitza_valor(node: ProgressBar, valor: int)-> void:
+	node.value = valor

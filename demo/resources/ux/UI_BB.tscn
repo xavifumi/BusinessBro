@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bnx7d7x0olguq"]
+[gd_scene load_steps=19 format=3 uid="uid://bnx7d7x0olguq"]
 
 [ext_resource type="Texture2D" uid="uid://b730uiyp6cy23" path="res://resources/ux/UI/yellow/button_square_flat.png" id="1_qwasm"]
 [ext_resource type="Script" path="res://resources/ux/ui_bb.gd" id="1_rhcq0"]
@@ -36,6 +36,12 @@ texture_margin_left = 8.0
 texture_margin_top = 8.0
 texture_margin_right = 8.0
 texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04j7c"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yxn8"]
+bg_color = Color(1, 1, 1, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q2dts"]
 bg_color = Color(0.0470588, 0.0470588, 0.0470588, 0.831373)
@@ -364,6 +370,71 @@ grow_vertical = 2
 layout_mode = 2
 theme = ExtResource("5_jx2w3")
 text = " Compres"
+
+[node name="FeinaInfo" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 50)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -50.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_styles/panel = SubResource("StyleBoxTexture_tat2i")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FeinaInfo"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FeinaInfo/VBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="FeinaInfo/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_04j7c")
+
+[node name="FeinaInfoDescription" type="RichTextLabel" parent="FeinaInfo/VBoxContainer/HBoxContainer/PanelContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+theme = ExtResource("5_jx2w3")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "Nom de la tasca amb multiple text"
+scroll_active = false
+tab_size = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="FeinaInfo/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_3yxn8")
+
+[node name="FeinaInfoDies" type="Label" parent="FeinaInfo/VBoxContainer/HBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = ExtResource("5_jx2w3")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "15"
+horizontal_alignment = 1
+justification_flags = 0
+
+[node name="FeinaInfoProgress" type="ProgressBar" parent="FeinaInfo/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_vertical = 8
+show_percentage = false
 
 [node name="PopUp" type="PanelContainer" parent="."]
 unique_name_in_owner = true

@@ -1,19 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://vem35m58na6p"]
+[gd_scene load_steps=9 format=3 uid="uid://vem35m58na6p"]
 
 [ext_resource type="Script" path="res://pantalla.gd" id="1_5vbv4"]
 [ext_resource type="PackedScene" uid="uid://bnx7d7x0olguq" path="res://resources/ux/UI_BB.tscn" id="2_nlrnl"]
 [ext_resource type="PackedScene" uid="uid://2yjtaugoco0x" path="res://resources/calendari/TestCalendari.tscn" id="3_ue7x6"]
 [ext_resource type="Script" path="res://engine.gd" id="4_bqhpf"]
 [ext_resource type="PackedScene" uid="uid://et473icat4wv" path="res://resources/oficina/oficina.tscn" id="4_rlfx0"]
-[ext_resource type="Script" path="res://treball.gd" id="5_cxuuc"]
-[ext_resource type="Script" path="res://esbarjo.gd" id="6_6bngq"]
 [ext_resource type="PackedScene" uid="uid://cgbepm64mxp57" path="res://resources/treballador/treballador.tscn" id="6_q3qq8"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uns5h"]
-size = Vector2(56, 52)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ls25b"]
-size = Vector2(51.5, 55)
+[ext_resource type="PackedScene" uid="uid://c485k6ubdatbb" path="res://resources/mobiliari/esbarjo.tscn" id="6_rmddr"]
+[ext_resource type="PackedScene" uid="uid://cbnh8g06ufw4" path="res://resources/mobiliari/treball.tscn" id="7_hix65"]
 
 [node name="Pantalla" type="Node2D"]
 script = ExtResource("1_5vbv4")
@@ -31,28 +25,11 @@ position = Vector2(9, -73)
 [node name="PuntInici" type="Marker2D" parent="Oficina"]
 position = Vector2(543, 342)
 
-[node name="esbarjo" type="Area2D" parent="Oficina"]
-position = Vector2(644, 420)
-script = ExtResource("6_6bngq")
+[node name="esbarjo" parent="Oficina" instance=ExtResource("6_rmddr")]
+position = Vector2(658, 419)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Oficina/esbarjo"]
-position = Vector2(-5, -3)
-shape = SubResource("RectangleShape2D_uns5h")
-
-[node name="treball" type="Area2D" parent="Oficina" groups=["llocsDeTreball"]]
-script = ExtResource("5_cxuuc")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Oficina/treball"]
-position = Vector2(456.25, 232)
-shape = SubResource("RectangleShape2D_ls25b")
-
-[node name="ProgressBar" type="ProgressBar" parent="Oficina/treball"]
-visible = false
-offset_left = 853.0
-offset_top = 132.0
-offset_right = 914.0
-offset_bottom = 140.0
-show_percentage = false
+[node name="treball" parent="Oficina" instance=ExtResource("7_hix65")]
+position = Vector2(464, 247)
 
 [node name="Plantilla" type="Node" parent="."]
 unique_name_in_owner = true
@@ -65,8 +42,3 @@ position = Vector2(575, 275)
 visible = false
 offset_right = 40.0
 offset_bottom = 23.0
-
-[connection signal="body_entered" from="Oficina/esbarjo" to="Oficina/esbarjo" method="_on_body_entered"]
-[connection signal="body_exited" from="Oficina/esbarjo" to="Oficina/esbarjo" method="_on_body_exited"]
-[connection signal="body_entered" from="Oficina/treball" to="Oficina/treball" method="_on_body_entered"]
-[connection signal="body_exited" from="Oficina/treball" to="Oficina/treball" method="_on_body_exited"]

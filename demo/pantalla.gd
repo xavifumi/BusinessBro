@@ -15,6 +15,7 @@ static var tasca_exemple = {
 	"nom": "Pla de Marketing",
 	"dies_restants": 10,
 	"recompensa": 5000,
+	"penyora": 1500,
 	"feina":500
 }
 
@@ -49,10 +50,10 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	#var label_diners = get_node("Control/labelDiners")
 	var label_diners = get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid")
-	var progres_feina = get_node("Oficina/treball/ProgressBar")
-	progres_feina.max_value = tasca_actual["feina"] if tasca_actual.size() != 0 else 0
+	#var progres_feina = UX.feina_info
+	#progres_feina.max_value = tasca_actual["feina"] if tasca_actual.size() != 0 else 0
 	feina_total_acumulada = feina_acumulada["disseny"] + feina_acumulada["enginy"] + feina_acumulada["informatica"]
-	progres_feina.value = feina_total_acumulada
+	#progres_feina.value = feina_total_acumulada
 	label_diners.text = str(diners) + "€"
 	if tasca_actual.size() != 0:
 		_feina_in_progress()
@@ -69,8 +70,11 @@ func _feina_in_progress()->void:
 				"informatica": 0
 			}
 			feina_total_acumulada = 0
-			progres_feina.value = feina_total_acumulada
-			
+			#progres_feina.value = feina_total_acumulada
+	else:
+		diners -= tasca_actual.penyora
+		tasca_actual = {}
+	
 static func _on_button_feina_pressed() -> void:
 	tasca_actual = tasca_exemple
 	print(tasca_actual)
