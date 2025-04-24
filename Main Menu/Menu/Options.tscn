@@ -1,21 +1,21 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Menu/Main Menu.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Menu/Main Menu.tres" type="FontFile" id=1]
 [ext_resource path="res://Menu/Options.gd" type="Script" id=2]
-[ext_resource path="res://Menu/ARIAL.TTF" type="DynamicFontData" id=3]
-[ext_resource path="res://Menu/background.png" type="Texture" id=4]
+[ext_resource path="res://Menu/ARIAL.TTF" type="FontFile" id=3]
+[ext_resource path="res://Menu/background.png" type="Texture2D" id=4]
 [ext_resource path="res://fade_in/FadeIn.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Menu/UISound.tscn" type="PackedScene" id=6]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 32
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 32
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 32
 font_data = ExtResource( 3 )
 
@@ -27,15 +27,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="background" type="Sprite" parent="."]
+[node name="background" type="Sprite2D" parent="."]
 position = Vector2( 960, 540 )
 texture = ExtResource( 4 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 852.0
-margin_top = 420.0
-margin_right = 1152.0
-margin_bottom = 720.0
+offset_left = 852.0
+offset_top = 420.0
+offset_right = 1152.0
+offset_bottom = 720.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 alignment = 1
@@ -44,33 +44,33 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="VBoxContainer"]
-margin_top = 30.0
-margin_right = 300.0
-margin_bottom = 85.0
-custom_fonts/font = ExtResource( 1 )
-custom_colors/font_color_shadow = Color( 0.00784314, 0.0235294, 1, 1 )
-custom_constants/shadow_offset_x = 0
-custom_constants/shadow_offset_y = 4
+offset_top = 30.0
+offset_right = 300.0
+offset_bottom = 85.0
+theme_override_fonts/font = ExtResource( 1 )
+theme_override_colors/font_shadow_color = Color( 0.00784314, 0.0235294, 1, 1 )
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 4
 text = "Options"
 align = 1
 valign = 1
 uppercase = true
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 89.0
-margin_right = 300.0
-margin_bottom = 125.0
+offset_top = 89.0
+offset_right = 300.0
+offset_bottom = 125.0
 
 [node name="Music Sound" type="Label" parent="VBoxContainer/HBoxContainer1"]
-margin_right = 93.0
-margin_bottom = 36.0
-custom_fonts/font = SubResource( 1 )
+offset_right = 93.0
+offset_bottom = 36.0
+theme_override_fonts/font = SubResource( 1 )
 text = "Music:"
 
 [node name="Music_Slider" type="HSlider" parent="VBoxContainer/HBoxContainer1"]
-margin_left = 97.0
-margin_right = 300.0
-margin_bottom = 16.0
+offset_left = 97.0
+offset_right = 300.0
+offset_bottom = 16.0
 size_flags_horizontal = 3
 min_value = -30.0
 max_value = 0.0
@@ -79,27 +79,27 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 129.0
-margin_right = 300.0
-margin_bottom = 165.0
+offset_top = 129.0
+offset_right = 300.0
+offset_bottom = 165.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Game Sound" type="Label" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 97.0
-margin_bottom = 36.0
-custom_fonts/font = SubResource( 2 )
+offset_right = 97.0
+offset_bottom = 36.0
+theme_override_fonts/font = SubResource( 2 )
 text = "Game:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Game_Slider" type="HSlider" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 101.0
-margin_right = 300.0
-margin_bottom = 16.0
+offset_left = 101.0
+offset_right = 300.0
+offset_bottom = 16.0
 size_flags_horizontal = 3
 min_value = -30.0
 max_value = 0.0
@@ -108,34 +108,34 @@ __meta__ = {
 }
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 169.0
-margin_right = 300.0
-margin_bottom = 205.0
+offset_top = 169.0
+offset_right = 300.0
+offset_bottom = 205.0
 
 [node name="FullScreen" type="Label" parent="VBoxContainer/HBoxContainer3"]
-margin_right = 172.0
-margin_bottom = 36.0
+offset_right = 172.0
+offset_bottom = 36.0
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 3 )
+theme_override_fonts/font = SubResource( 3 )
 text = "Full Screen:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer3/FullScreen"]
-margin_left = 179.27
-margin_top = 7.0
-margin_right = 203.27
-margin_bottom = 31.9597
+offset_left = 179.27
+offset_top = 7.0
+offset_right = 203.27
+offset_bottom = 31.9597
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Button" type="Button" parent="VBoxContainer"]
-margin_top = 209.0
-margin_right = 300.0
-margin_bottom = 270.0
-custom_fonts/font = ExtResource( 1 )
+offset_top = 209.0
+offset_right = 300.0
+offset_bottom = 270.0
+theme_override_fonts/font = ExtResource( 1 )
 text = "Back"
 __meta__ = {
 "_edit_use_anchors_": false

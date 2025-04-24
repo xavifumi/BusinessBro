@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://booypfowjamvo"
+path="res://.godot/imported/Plus Black_Lightgreen.png-c8dea06d6b2b68d6541821b1ad7b7622.ctex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://resources/ux/Small (24x24) PNG/Lightgreen/Plus Black_Lightgreen.png"
+dest_files=["res://.godot/imported/Plus Black_Lightgreen.png-c8dea06d6b2b68d6541821b1ad7b7622.ctex"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=1

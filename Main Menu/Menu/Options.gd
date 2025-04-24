@@ -7,11 +7,11 @@ func _on_Button_pressed():
 
 func _on_CheckBox_pressed():
 	$UISound.play()
-	OS.window_fullscreen = !OS.window_fullscreen
+	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (!((get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN) or (get_window().mode == Window.MODE_FULLSCREEN))) else Window.MODE_WINDOWED
 
 func _on_FadeIn_fade_finished():
 # warning-ignore:return_value_discarded
-	get_tree().change_scene("res://Menu/Main Menu.tscn")
+	get_tree().change_scene_to_file("res://Menu/Main Menu.tscn")
 
 func _ready():
 	set_process(true)

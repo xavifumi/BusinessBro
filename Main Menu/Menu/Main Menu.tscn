@@ -1,117 +1,95 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://byxrtp6bw2b8x"]
 
-[ext_resource path="res://Menu/Buttons/StartButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Menu/background.png" type="Texture" id=2]
-[ext_resource path="res://Menu/Logo.png" type="Texture" id=3]
-[ext_resource path="res://Menu/Buttons/OptionsButton.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Menu/ARIAL.TTF" type="DynamicFontData" id=5]
-[ext_resource path="res://fade_in/FadeIn.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Menu/Main Menu.tres" type="DynamicFont" id=7]
-[ext_resource path="res://Menu/title_screen.gd" type="Script" id=8]
-[ext_resource path="res://Menu/UISound.tscn" type="PackedScene" id=9]
+[ext_resource type="PackedScene" path="res://Menu/Buttons/StartButton.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://cacl4vsaed6i" path="res://Menu/background.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b5nj4gxfu726a" path="res://Menu/Logo.png" id="3"]
+[ext_resource type="PackedScene" path="res://Menu/Buttons/OptionsButton.tscn" id="4"]
+[ext_resource type="FontFile" uid="uid://crhsqsxsdiaao" path="res://Menu/ARIAL.TTF" id="5"]
+[ext_resource type="PackedScene" path="res://fade_in/FadeIn.tscn" id="6"]
+[ext_resource type="FontFile" path="res://Menu/Main Menu.tres" id="7"]
+[ext_resource type="Script" path="res://Menu/title_screen.gd" id="8"]
+[ext_resource type="PackedScene" path="res://Menu/UISound.tscn" id="9"]
 
-[sub_resource type="DynamicFont" id=2]
-size = 40
-font_data = ExtResource( 5 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("5")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
 
 [node name="Title Screen" type="Control"]
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("8")
 
-[node name="background" type="Sprite" parent="."]
-position = Vector2( 800, 460 )
-texture = ExtResource( 2 )
-offset = Vector2( 160, 80 )
+[node name="background" type="Sprite2D" parent="."]
+position = Vector2(800, 460)
+texture = ExtResource("2")
+offset = Vector2(160, 80)
 
 [node name="Menu" type="VBoxContainer" parent="."]
-margin_left = 120.0
-margin_top = 80.0
-margin_right = 1800.0
-margin_bottom = 1000.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 0
+offset_left = 120.0
+offset_top = 80.0
+offset_right = 1800.0
+offset_bottom = 1000.0
 
 [node name="Logo" type="TextureRect" parent="Menu"]
-margin_right = 1680.0
-margin_bottom = 128.0
-texture = ExtResource( 3 )
+layout_mode = 2
+texture = ExtResource("3")
 stretch_mode = 4
 
 [node name="CenterRow" type="HBoxContainer" parent="Menu"]
-margin_top = 132.0
-margin_right = 1680.0
-margin_bottom = 524.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Buttons" type="VBoxContainer" parent="Menu/CenterRow"]
-margin_right = 838.0
-margin_bottom = 392.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 20
+theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Start Game" parent="Menu/CenterRow/Buttons" instance=ExtResource( 1 )]
-margin_top = 125.0
-margin_right = 838.0
-margin_bottom = 186.0
-custom_fonts/font = ExtResource( 7 )
+[node name="Start Game" parent="Menu/CenterRow/Buttons" instance=ExtResource("1")]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
 
-[node name="OptionsButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 4 )]
-margin_top = 206.0
-margin_right = 838.0
-margin_bottom = 267.0
-custom_fonts/font = ExtResource( 7 )
+[node name="OptionsButton" parent="Menu/CenterRow/Buttons" instance=ExtResource("4")]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
 
 [node name="CenterContainer" type="CenterContainer" parent="Menu/CenterRow"]
-margin_left = 842.0
-margin_right = 1680.0
-margin_bottom = 392.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Menu/CenterRow/CenterContainer"]
-margin_left = 1.0
-margin_top = 110.0
-margin_right = 837.0
-margin_bottom = 281.0
-custom_fonts/font = ExtResource( 7 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
 text = "Controls:
 left Click - Spawn ball
 Use mouse to move the paddle"
 uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Menu/CenterRow/CenterContainer"]
-margin_left = 419.0
-margin_top = 196.0
-margin_right = 419.0
-margin_bottom = 196.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="VersionLabel" type="Label" parent="Menu"]
-margin_top = 528.0
-margin_right = 1680.0
-margin_bottom = 920.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource("2")
 text = "Version 1.0
 jackboyman"
 
-[node name="FadeIn" parent="." instance=ExtResource( 6 )]
+[node name="FadeIn" parent="." instance=ExtResource("6")]
 visible = false
+layout_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="UISound" parent="." instance=ExtResource( 9 )]
+[node name="UISound" parent="." instance=ExtResource("9")]
 
 [connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]
