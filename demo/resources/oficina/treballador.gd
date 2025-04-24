@@ -58,7 +58,7 @@ var llista_emocions ={
 
 enum States {TREBALLANT, ESTUDIANT, ESPERANT, AVORRIT, CAOS}
 
-var estat: States = States.TREBALLANT
+var estat: States = States.ESPERANT
 var avorriment: Timer
 var tasca: Timer
 
@@ -104,83 +104,8 @@ func _process(delta: float) -> void:
 			avorreix(delta)
 		States.CAOS:
 			caos()
-	print(moviment)
-
-func treballa(delta: float) -> void:
-	if Pantalla.tasca_actual.size() != 0:
-		if energia_actual > atributs["energia"]*0.1:
-			if !treballant and Pantalla.posicions_descans.size() != 0:
-				camina(Pantalla.posicions_treball.keys()[0], delta)
-			else:
-				espera()
-			if tasca.is_stopped() && treballant:
-				animation_player.play("idle")
-				tasca.set_wait_time(randi_range(3, 6))
-				tasca.start()
-		else:
-			#treballant= false
-			mostra_emocio("feliç")
-			estat = States.AVORRIT
-	else:
-		#treballant= false
-		mostra_emocio("ofuscat")
-		estat = States.ESPERANT
-
-
-func fes_tasca()->void:
-	if treballant:
-		var feina_actual : String
-		var stats := ["disseny","enginy","informatica"]
-		feina_actual = stats.pick_random()
-		match feina_actual:
-			"disseny":
-				particules_treball.texture = load("res://resources/palette.svg")
-			"enginy":
-				particules_treball.texture = load("res://resources/unbalanced.svg")
-			"informatica":
-				particules_treball.texture = load("res://resources/processor.svg")
-		var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
-		energia_actual -= punts_feina_actuals / 10
-		Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
-		particules_treball.emitting = true
-		await get_tree().create_timer(1.0).timeout 
-		particules_treball.emitting = false
-	#print(str(feina_actual) + " - " + str(punts_feina_actuals))
-	if descansant:
-		energia_actual += 10
+	#print(moviment)
 	
-
-func estudia() -> void:
-	pass
-
-func espera() -> void:
-	if Pantalla.tasca_actual.size() != 0:
-		estat = States.TREBALLANT
-
-func avorreix(delta: float) -> void:
-	avorriment.start()
-	if !descansant:
-		if Pantalla.posicions_descans.size() == 0:
-			espera()
-		else:
-			#var coordenadas = str_to_var("Vector2" + Pantalla.posicions_descans.keys()[0]) as Vector2
-			camina(Pantalla.posicions_descans.keys()[0], delta)
-			#print(Pantalla.posicions_descans.keys()[0])
-	else:
-		if energia_actual < atributs["energia"]:
-			if tasca.is_stopped():
-				animation_player.play("idle")
-				tasca.set_wait_time(randi_range(1, 3))
-				tasca.start()
-			energia_actual += 0.01
-		else:
-			descansant = false
-			estat = States.ESPERANT
-	
-
-func caos() -> void:
-	pass
-
 func mostra_emocio(emocio: String)-> void:
 	tween_começat = true
 	var coord_emocio = llista_emocions[emocio] - Vector2i(1,1)
@@ -195,15 +120,91 @@ func mostra_emocio(emocio: String)-> void:
 		tween_começat = false
 	#tween.tween_callback(emocions.queue_free)	
 
+func treballa(delta: float) -> void:
+	print("treballant: " + str(treballant) + " - descansant: " + str(descansant))
+	if Pantalla.tasca_actual.size() != 0:
+		if energia_actual > atributs["energia"]*0.1:
+			if (!treballant or moviment) and Pantalla.posicions_descans.size() != 0:
+				camina(Pantalla.posicions_treball.keys()[0], delta)
+			else:
+				espera()
+			if tasca.is_stopped() and (treballant or !moviment):
+				await get_tree().create_timer(1.0).timeout
+				animation_player.play("idle")
+				tasca.set_wait_time(randi_range(3, 6))
+				tasca.start()
+		else:
+			#treballant= false
+			mostra_emocio("feliç")
+			estat = States.AVORRIT
+	else:
+		#treballant= false
+		mostra_emocio("ofuscat")
+		estat = States.ESPERANT
+
+func fes_tasca()->void:
+	if treballant:
+		var feina_actual : String
+		var stats := ["disseny","enginy","informatica"]
+		feina_actual = stats.pick_random()
+		match feina_actual:
+			"disseny":
+				particules_treball.texture = load("res://resources/palette.svg")
+			"enginy":
+				particules_treball.texture = load("res://resources/unbalanced.svg")
+			"informatica":
+				particules_treball.texture = load("res://resources/processor.svg")
+		var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
+		energia_actual -= punts_feina_actuals #/ 10
+		Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
+		particules_treball.emitting = true
+		await get_tree().create_timer(1.0).timeout 
+		particules_treball.emitting = false
+	if descansant:
+		energia_actual += 10
+	
+
+func estudia() -> void:
+	pass
+
+func espera() -> void:
+	animation_player.play("idle")
+	if Pantalla.tasca_actual.size() != 0:
+		estat = States.TREBALLANT
+		
+
+func avorreix(delta: float) -> void:
+	avorriment.start()
+	if !descansant:
+		if Pantalla.posicions_descans.size() == 0:
+			espera()
+		else:
+			#var coordenadas = str_to_var("Vector2" + Pantalla.posicions_descans.keys()[0]) as Vector2
+			camina(Pantalla.posicions_descans.keys()[0], delta)
+	else:
+		if energia_actual < atributs["energia"]:
+			if tasca.is_stopped():
+				animation_player.play("idle")
+				tasca.set_wait_time(randi_range(1, 1))
+				tasca.start()
+			energia_actual += 0.01
+		else:
+			#descansant = false
+			estat = States.ESPERANT
+	
+
+func caos() -> void:
+	pass
+
+
 func camina(desti: Vector2, delta)->void:
 	if global_position != desti:
 		moviment = true
 		animation_player.play("walk")
 		global_position = global_position.move_toward(desti, delta*max_speed)
-		#print("posicio: " + str(global_position) + " - desti: " + str(desti))
 	else:
-		animation_player.play("idle")
 		moviment = false
+		animation_player.play("idle")
 
 func calculate_avoidance_force() -> Vector2:
 	var avoidance_force := Vector2.ZERO

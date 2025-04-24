@@ -19,10 +19,6 @@ static var tasca_exemple = {
 }
 
 static var tasca_actual = {
-	"nom": "Pla de Marketing",
-	"dies_restants": 10,
-	"recompensa": 5000,
-	"feina":500
 }
 
 static var feina_acumulada = {

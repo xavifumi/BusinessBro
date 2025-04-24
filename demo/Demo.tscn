@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://vem35m58na6p"]
+[gd_scene load_steps=11 format=3 uid="uid://vem35m58na6p"]
 
 [ext_resource type="Script" path="res://pantalla.gd" id="1_5vbv4"]
 [ext_resource type="PackedScene" uid="uid://bnx7d7x0olguq" path="res://resources/ux/UI_BB.tscn" id="2_nlrnl"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://engine.gd" id="4_bqhpf"]
 [ext_resource type="PackedScene" uid="uid://et473icat4wv" path="res://resources/oficina/oficina.tscn" id="4_rlfx0"]
 [ext_resource type="Script" path="res://treball.gd" id="5_cxuuc"]
+[ext_resource type="Script" path="res://esbarjo.gd" id="6_6bngq"]
 [ext_resource type="PackedScene" uid="uid://cgbepm64mxp57" path="res://resources/treballador/treballador.tscn" id="6_q3qq8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uns5h"]
@@ -32,6 +33,7 @@ position = Vector2(543, 342)
 
 [node name="esbarjo" type="Area2D" parent="Oficina"]
 position = Vector2(644, 420)
+script = ExtResource("6_6bngq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Oficina/esbarjo"]
 position = Vector2(-5, -3)
@@ -45,6 +47,7 @@ position = Vector2(456.25, 232)
 shape = SubResource("RectangleShape2D_ls25b")
 
 [node name="ProgressBar" type="ProgressBar" parent="Oficina/treball"]
+visible = false
 offset_left = 853.0
 offset_top = 132.0
 offset_right = 914.0
@@ -55,6 +58,7 @@ show_percentage = false
 unique_name_in_owner = true
 
 [node name="Treballador" parent="Plantilla" instance=ExtResource("6_q3qq8")]
+visible = false
 position = Vector2(575, 275)
 
 [node name="Label" type="Label" parent="Plantilla/Treballador"]
@@ -62,4 +66,7 @@ visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 
+[connection signal="body_entered" from="Oficina/esbarjo" to="Oficina/esbarjo" method="_on_body_entered"]
+[connection signal="body_exited" from="Oficina/esbarjo" to="Oficina/esbarjo" method="_on_body_exited"]
 [connection signal="body_entered" from="Oficina/treball" to="Oficina/treball" method="_on_body_entered"]
+[connection signal="body_exited" from="Oficina/treball" to="Oficina/treball" method="_on_body_exited"]
