@@ -155,7 +155,7 @@ func fes_tasca()->void:
 			"informatica":
 				particules_treball.texture = load("res://resources/processor.svg")
 		var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
-		energia_actual -= punts_feina_actuals #/ 10
+		energia_actual -= punts_feina_actuals/2 #/ 10
 		Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
 		particules_treball.emitting = true
 		await get_tree().create_timer(1.0).timeout 

@@ -14,9 +14,9 @@ static var tenim_tasca := true
 static var tasca_exemple = {
 	"nom": "Pla de Marketing",
 	"dies_restants": 10,
-	"recompensa": 5000,
-	"penyora": 1500,
-	"feina":500
+	"recompensa": 750,
+	"penyora": 300,
+	"feina":400
 }
 
 static var tasca_actual = {
@@ -39,12 +39,13 @@ func _ready() -> void:
 	var temp_pos_treballador = get_node("Oficina/PuntInici").position
 	punt_nou_treballador = temp_pos_treballador
 	
-	
 	for node in get_node("Oficina/esbarjo").get_children():
 		posicions_descans[node.global_position] = null
 
 	for node in get_node("Oficina/treball").get_children():
 		posicions_treball[node.global_position] = null
+	print("posicions treball: " + str(posicions_treball))
+	print("posicions esbarjo: " + str(posicions_descans))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -59,7 +60,7 @@ func _process(_delta: float) -> void:
 		_feina_in_progress()
 	
 func _feina_in_progress()->void:
-	var progres_feina = get_node("Oficina/treball/ProgressBar")
+	#var progres_feina = get_node("Oficina/treball/ProgressBar")
 	if tasca_actual["dies_restants"] > 0:
 		if tasca_actual["feina"] <= feina_total_acumulada:
 			diners += tasca_actual["recompensa"]

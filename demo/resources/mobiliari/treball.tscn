@@ -7,6 +7,7 @@
 size = Vector2(51.5, 21.5)
 
 [node name="treball" type="Area2D" groups=["llocsDeTreball"]]
+collision_mask = 2
 script = ExtResource("1_p3s36")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

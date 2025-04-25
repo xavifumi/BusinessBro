@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://vem35m58na6p"]
+[gd_scene load_steps=8 format=3 uid="uid://vem35m58na6p"]
 
 [ext_resource type="Script" path="res://pantalla.gd" id="1_5vbv4"]
 [ext_resource type="PackedScene" uid="uid://bnx7d7x0olguq" path="res://resources/ux/UI_BB.tscn" id="2_nlrnl"]
 [ext_resource type="PackedScene" uid="uid://2yjtaugoco0x" path="res://resources/calendari/TestCalendari.tscn" id="3_ue7x6"]
 [ext_resource type="Script" path="res://engine.gd" id="4_bqhpf"]
 [ext_resource type="PackedScene" uid="uid://et473icat4wv" path="res://resources/oficina/oficina.tscn" id="4_rlfx0"]
-[ext_resource type="PackedScene" uid="uid://cgbepm64mxp57" path="res://resources/treballador/treballador.tscn" id="6_q3qq8"]
 [ext_resource type="PackedScene" uid="uid://c485k6ubdatbb" path="res://resources/mobiliari/esbarjo.tscn" id="6_rmddr"]
 [ext_resource type="PackedScene" uid="uid://cbnh8g06ufw4" path="res://resources/mobiliari/treball.tscn" id="7_hix65"]
 
@@ -25,20 +24,15 @@ position = Vector2(9, -73)
 [node name="PuntInici" type="Marker2D" parent="Oficina"]
 position = Vector2(543, 342)
 
-[node name="esbarjo" parent="Oficina" instance=ExtResource("6_rmddr")]
-position = Vector2(658, 419)
+[node name="esbarjo" type="Node" parent="Oficina"]
 
-[node name="treball" parent="Oficina" instance=ExtResource("7_hix65")]
-position = Vector2(464, 247)
+[node name="esbarjo" parent="Oficina/esbarjo" instance=ExtResource("6_rmddr")]
+position = Vector2(668, 343)
+
+[node name="treball" type="Node" parent="Oficina"]
+
+[node name="treball" parent="Oficina/treball" instance=ExtResource("7_hix65")]
+position = Vector2(473, 174)
 
 [node name="Plantilla" type="Node" parent="."]
 unique_name_in_owner = true
-
-[node name="Treballador" parent="Plantilla" instance=ExtResource("6_q3qq8")]
-visible = false
-position = Vector2(575, 275)
-
-[node name="Label" type="Label" parent="Plantilla/Treballador"]
-visible = false
-offset_right = 40.0
-offset_bottom = 23.0

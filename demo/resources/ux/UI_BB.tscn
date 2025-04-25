@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bnx7d7x0olguq"]
+[gd_scene load_steps=20 format=3 uid="uid://bnx7d7x0olguq"]
 
 [ext_resource type="Texture2D" uid="uid://b730uiyp6cy23" path="res://resources/ux/UI/yellow/button_square_flat.png" id="1_qwasm"]
 [ext_resource type="Script" path="res://resources/ux/ui_bb.gd" id="1_rhcq0"]
@@ -42,6 +42,9 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yxn8"]
 bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5cifg"]
+bg_color = Color(0.352502, 0.700717, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q2dts"]
 bg_color = Color(0.0470588, 0.0470588, 0.0470588, 0.831373)
@@ -434,6 +437,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_styles/fill = SubResource("StyleBoxFlat_5cifg")
 show_percentage = false
 
 [node name="PopUp" type="PanelContainer" parent="."]
