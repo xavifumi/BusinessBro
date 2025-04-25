@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://cgbepm64mxp57"]
 
 [ext_resource type="Texture2D" uid="uid://c25qyxkmyfc5p" path="res://resources/character_maleAdventurer_sheet.png" id="1_1otmv"]
-[ext_resource type="Script" path="res://resources/oficina/treballador.gd" id="1_yrqwm"]
+[ext_resource type="Script" path="res://resources/treballador/treballador.gd" id="1_yrqwm"]
 [ext_resource type="Texture2D" uid="uid://b27w2mpqxbsub" path="res://resources/pixel_style3.png" id="3_ux43y"]
 [ext_resource type="Texture2D" uid="uid://cu25idy7sdyjq" path="res://resources/palette.svg" id="4_77350"]
 

@@ -30,6 +30,7 @@ static var descansant = false
 static var moviment := false
 static var treballant := false
 var tween_começat = false
+var last_delta = 0
 
 var llista_emocions ={
 	"ofuscat" : Vector2i(1,1),
@@ -72,13 +73,14 @@ func _ready() -> void:
 	avorriment = get_node("avorriment")
 	avorriment.set_wait_time(5)
 	avorriment.one_shot = true
-	avorriment.connect("timeout", Callable(self, "avorreix"))
+	avorriment.connect("timeout", avorreix.bind(last_delta))
 	progress_energia.max_value = atributs["energia"]
 	#mostra_emocio("ofuscat")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	last_delta = delta
 	var estat_a_text
 	match(estat):
 		0:
@@ -121,7 +123,7 @@ func mostra_emocio(emocio: String)-> void:
 	#tween.tween_callback(emocions.queue_free)	
 
 func treballa(delta: float) -> void:
-	print("treballant: " + str(treballant) + " - descansant: " + str(descansant))
+	#print("treballant: " + str(treballant) + " - descansant: " + str(descansant))
 	if Pantalla.tasca_actual.size() != 0:
 		if energia_actual > atributs["energia"]*0.1:
 			if (!treballant or moviment) and Pantalla.posicions_descans.size() != 0:
@@ -155,7 +157,7 @@ func fes_tasca()->void:
 			"informatica":
 				particules_treball.texture = load("res://resources/processor.svg")
 		var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
-		energia_actual -= punts_feina_actuals/2 #/ 10
+		energia_actual -= punts_feina_actuals/3 #/ 10
 		Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
 		particules_treball.emitting = true
 		await get_tree().create_timer(1.0).timeout 

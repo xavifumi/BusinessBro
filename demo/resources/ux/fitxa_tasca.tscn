@@ -1,0 +1,114 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqjpb6ktw44w4"]
+
+[ext_resource type="Script" path="res://resources/ux/fitxa_treballador.gd" id="1_mqu2p"]
+[ext_resource type="Texture2D" uid="uid://frj425jwwnjm" path="res://resources/ux/generic_icons/Letter.png" id="3_elatg"]
+[ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="3_oi4fq"]
+
+[node name="Fitxa tasca" type="PanelContainer"]
+custom_minimum_size = Vector2(600, 0)
+script = ExtResource("1_mqu2p")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "De:"
+
+[node name="labelNomEmpresa" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "Nom de la empresa"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "Tasca: "
+
+[node name="labelNomTasca" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "Nom de la tasca"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "Deadline:"
+
+[node name="labelDurada" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "15 dies"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer5"]
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "Pressu:"
+
+[node name="labelPressu" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "750€"
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer6"]
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "Penyora:"
+
+[node name="labelPenyora" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+theme_override_colors/font_color = Color(1, 0.3241, 0.258944, 1)
+text = "250€"
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="buttonAcceptaTasca" type="TextureButton" parent="MarginContainer/HBoxContainer/CenterContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture_normal = ExtResource("3_elatg")
+stretch_mode = 4

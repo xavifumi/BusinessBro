@@ -75,10 +75,17 @@ func _feina_in_progress()->void:
 	else:
 		diners -= tasca_actual.penyora
 		tasca_actual = {}
+		feina_acumulada = {
+				"disseny": 0,
+				"enginy": 0,
+				"informatica": 0
+			}
+		feina_total_acumulada = 0
 	
 static func _on_button_feina_pressed() -> void:
-	tasca_actual = tasca_exemple
+	tasca_actual = tasca_exemple.duplicate()
 	print(tasca_actual)
+	print(tasca_actual.size())
 
 static func contracta_treballador(treballador_cont_temp: Dictionary, index: int) -> void:
 	llista_treballadors.append(treballador_cont_temp)

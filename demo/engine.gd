@@ -46,12 +46,84 @@ static var llista_habilitats = [
 ]
 
 static var llista_candidats = []
-
+static var llista_tasques = []
+static var idees_creatives = [
+  [
+	"Llença", "Organitza", "Publica", "Dissenya", "Contracta", "Personalitza", "Lloga", "Simula",
+	"Espia", "Reutilitza", "Dibuixa", "Automatitza", "Envia", "Fabrica", "Programa", "Crea",
+	"Estampa", "Construeix", "Interroga", "Reinterpreta", "Grava", "Barreja", "Compra", "Encola",
+	"Vesteix", "Compón", "Juga", "Embolica", "Vesteix", "Emula", "Pinta", "Incorpora", "Camufla",
+	"Coreografia", "Fotocopia", "Organitza", "Atreu", "Domina", "Reemplaça", "Tatuatge", "Llenca",
+	"Sincronitza", "Utilitza", "Reinvindica", "Afegeix", "Anuncia", "Condimenta", "Col·labora", "Juga"
+  ],
+  [
+	"una newsletter perfumada", "un webinar de crits", "un TikTok amb flamencs", "una app de meditació amb reggaeton",
+	"un pallasso especialista en SEO", "una tassa amb frases de PPC", "un helicòpter amb pancarta críptica",
+	"una crisi de reputació amb llamps", "influencers amb prismàtics", "mems del 2012",
+	"un embut de conversió amb plastilina", "una playlist de jingles agressius", "stickers d'Excel",
+	"una disfressa de chatbot", "un test A/B de gossos i gats", "una IA que només fa hashtags",
+	"el teu ROI a una samarreta", "una landing page en format còmic", "leads freds amb preguntes filosòfiques",
+	"la bio de l’empresa com si fos una novel·la", "un podcast amb grills de fons", "un Excel amb sabó",
+	"un domini amb accents estranys", "un QR a una fruita", "un chatbot amb roba vintage",
+	"un jingle amb galls dindi", "a pedra-paper-email", "un informe SEO amb paper de regal",
+	"el community amb una capa", "una startup del 2007", "un KPI sobre una paret",
+	"un GIF de llamps en tots els butlletins", "un CTA dins d’un meme de gats",
+	"una dansa per anunciar el Black Friday", "una landing en versió fax", "una rave amb LinkedIners",
+	"audiències Z amb gifs de dinosaures", "l’art de les fonts Comic Sans", "el copy amb haikus",
+	"un insight de Google Analytics", "globus amb CTA", "stories amb les fases lunars",
+	"fum de colors per fer branding", "el spam com a forma d'art", "gifs d’explosions en els informes",
+	"una API amb un poema èpic", "una estratègia amb memes picants", "amb un ninot de ventríloc",
+	"amb colors fluorescents"
+  ],
+  [
+	"per seduir unicorns digitals", "per atraure boomers confusos", "per promocionar croquetes veganes",
+	"per relaxar CM sobreestresats", "per millorar el CTR dels memes", "per fidelitzar trolls de Reddit",
+	"per anunciar el nou logo minimalista", "per provar la paciència del community", "per robar idees de reels",
+	"per generar engagement nostàlgic", "per presentar-lo a la reunió del CEO", "per enviar-la a leads dubtosos",
+	"per motivar el teu equip de vendes", "per a la convenció anual de màrqueting", "per descobrir qui converteix més",
+	"per fer trending cada diumenge", "per regalar-la a prospectes enfadats", "per captivar gent amb TDAH",
+	"per qualificar-los amb estil", "per captar l’atenció dels poetes digitals", "per tranquil·litzar el públic objectiu",
+	"per netejar dades brutes", "per posicionar a Mart", "per llançar una campanya experimental",
+	"per seduir millennials nostàlgics", "per cridar l’atenció a Thanksgiving", "per decidir l’estratègia trimestral",
+	"per entregar-lo amb drama", "per fer-lo superheroi de crisis", "per fer veure que ets retroinnovador",
+	"per fer brainstorming mural", "per augmentar la tensió del CTA", "per fer-lo més clicable",
+	"per viralitzar el descompte", "per tornar als orígens", "per connectar professionals “en viu”",
+	"per generar likes críptics", "per revaloritzar l’humor corporatiu", "per captivar lectors zen",
+	"per demostrar compromís amb les dades", "per fer màrqueting al cel", "per captar audiències místicas",
+	"per aparèixer a TikTok", "per fer exposicions digitals", "per emocionar els inversors",
+	"per llançar una startup vikinga", "per atreure foodies digitals", "per fer vídeos virals amb diàlegs estranys",
+	"per cridar l’atenció dels més adormits"
+  ]
+]
+static var noms_empresa = [
+	[
+  "Super", "Mega", "Micro", "Ultra", "Eco", "Crypto", "Turbo", "Quantum", "Meta", "Pseudo",
+  "Retro", "Post", "Neo", "Anti", "Fake", "Giga", "Nano", "Inter", "Bio", "Zero",
+  "Extra", "Virtual", "Snack", "Happy", "Sad", "Zen", "Cool", "Tòxic", "Legal", "Espongiforme",
+  "Salvatge", "Orgànic", "Funky", "Màgic", "Viral", "Excessiu", "Invisible", "Mutant", "Colossal", "Flexible",
+  "Ambidextre", "Sostenible", "Paranoic", "Minúscul", "Barroc", "Disruptiu", "Patatós", "Hipster", "Anàrquic", "Asincrònic"
+],
+[
+  "Algoritme", "Cafè", "Píxel", "Tauró", "Bot", "Influencer", "Mem", "Unicorn", "Croqueta", "Gat",
+  "Dron", "Excel", "Server", "Data", "Spam", "Cloud", "Like", "Hashtag", "Bug", "Còmic",
+  "Emoji", "IoT", "GIF", "API", "Codi", "Startup", "Zombi", "NFT", "Avatar", "Tuit",
+  "Pingüí", "Sushibot", "Monstre", "Troll", "Cookie", "Robot", "Qüantum", "Patró", "Hashtag", "Filtro",
+  "Mockup", "Debug", "Click", "PixelArt", "Criptopeix", "Freelancer", "Landing", "Widget", "Captcha", "InfluZilla"
+],
+[
+  "S.A.", "Studio", "Corp", "Lab", "Agency", "Consulting", "Factory", "Universe", "Team", "Unlimited",
+  "Express", "Solutions", "del Futur", "del Segle XIX", "del Submón", "del Garatge", "del Bar", "del Tercer Pis", "de la Jungla", "del Codi",
+  "Galàctic", "S.L.", "Espacial", "Legalitzada", "Certified", "Randomitzada", "Beta", "de Colors", "Deluxe", "Reutilitzable",
+  "Segell", "Dreawoks", "Inc.", "Obsoleta", "Transcendental", "del Bunker", "del Backoffice", "Premium", "de Plàstic", "a la Planxa",
+  "Manual", "Autoexec", "del Mercat", "de la Crisi", "Amb Extra de Bug", "Amb Formatge", "En Vers", "En Flashback", "En Loop", "de Dimarts"
+]
+]
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	genera_llista_candidats()
+	genera_llista_tasques()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -83,7 +155,6 @@ static func genera_treballador():
 		"enginy": enginy,
 		"informatica": informatica,
 		"social": social
-		
 	}
 	#print( str(sexe) + " - " + str(nom) + " - " +str(lvl)+ " - " +str(ambicio)+ " - " +habilitat+ " - " +str(sou)+ " - " + str(disseny)+ " - " +str(enginy)+ " - " +str(informatica)+ " - " +str(social) )
 	return resposta
@@ -92,3 +163,25 @@ static func genera_llista_candidats() -> void:
 	for candidat in 4:
 		llista_candidats.append(genera_treballador())
 	#print(llista_candidats)
+	
+static func genera_tasca() -> Dictionary:
+	var nom_tasca = idees_creatives[0].pick_random() + " " + idees_creatives[1].pick_random() + " " + idees_creatives[2].pick_random()
+	var empresa = noms_empresa[0].pick_random() + noms_empresa[1].pick_random() + " " +noms_empresa[2].pick_random()
+	var durada = randi_range(5,30)
+	var dificultat = randi_range(Pantalla.maxim_treballadors/2 if Pantalla.maxim_treballadors/2>=1 else 1, Pantalla.maxim_treballadors*1.5)
+	var punts_necessaris = 50 * dificultat * durada
+	var recompensa = punts_necessaris * 1.5
+	var retorn = {
+		"nom": empresa,
+		"tasca": nom_tasca,
+		"dies_restants": durada,
+		"recompensa": recompensa,
+		"penyora": recompensa/2,
+		"feina": punts_necessaris
+	}
+	print(str(dificultat) + " - " + str(punts_necessaris))
+	return retorn
+	
+static func genera_llista_tasques() -> void:
+	for tasca in 4:
+		llista_tasques.append(genera_tasca())

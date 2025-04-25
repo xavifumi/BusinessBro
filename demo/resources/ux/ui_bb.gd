@@ -12,6 +12,8 @@ class_name UX
 @onready var menu_treballadors: PanelContainer = %MenuTreballadors
 @onready var llista_candidats: VBoxContainer = %LlistaCandidats
 @onready var feina_info: PanelContainer = %FeinaInfo
+@onready var menu_tasques: PanelContainer = %MenuTasques
+@onready var llista_tasques: VBoxContainer = %LlistaTasques
 
 @export var tween_intensity: float
 @export var tween_duration: float
@@ -19,10 +21,11 @@ class_name UX
 var button_es_anim := false
 var fitxa_treballador = preload("res://resources/ux/fitxa_treballador.tscn")
 var fitxa_informativa = preload("res://resources/ux/fitxa_informativa_treballadors.tscn")
+var fitxa_tasca = preload("res://resources/ux/fitxa_tasca.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	calaix_aplicacions.get_children()[1].button_down.connect(Pantalla._on_button_feina_pressed)
+	calaix_aplicacions.get_children()[1].button_down.connect(activa_menu_tasques)
 	calaix_aplicacions.get_children()[0].button_down.connect(activa_menu_personal)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -66,6 +69,7 @@ func activa_menu_personal():
 	var counter := 0
 	if BusinessEngine.llista_candidats.is_empty():
 		var fitxa_terballador_temp = fitxa_informativa.instantiate()
+		fitxa_informativa.get_node("Label").text = "No hi ha treballadors disponibles!"
 		llista_candidats.add_child(fitxa_terballador_temp)
 	else:
 		for estadistiques_temp in BusinessEngine.llista_candidats :
@@ -118,3 +122,40 @@ static func set_valor_maxim(node: ProgressBar, valor: int)-> void:
 
 static func actualitza_valor(node: ProgressBar, valor: int)-> void:
 	node.value = valor
+
+func _on_close_menu_tasques_pressed() -> void:
+	menu_tasques.hide()
+	for entrada in llista_candidats.get_children():
+		entrada.queue_free()
+
+func activa_menu_tasques():
+	menu_tasques.show()
+	var counter := 0
+	if BusinessEngine.llista_tasques.is_empty():
+		var fitxa_terballador_temp = fitxa_informativa.instantiate()
+		fitxa_informativa.get_node("Label").text = "No hi ha contractes disponibles!"
+		llista_tasques.add_child(fitxa_terballador_temp)
+	else:
+		for contractes_temp in BusinessEngine.llista_tasques :
+			var fitxa_terballador_temp = fitxa_tasca.instantiate()
+			#print(estadistiques_temp)
+			fitxa_terballador_temp.get_node("%labelNomEmpresa").text = contractes_temp.nom
+			fitxa_terballador_temp.get_node("%labelNomTasca").text = contractes_temp.tasca
+			fitxa_terballador_temp.get_node("%labelDurada").text = str(contractes_temp.dies_restants)
+			fitxa_terballador_temp.get_node("%labelPressu").text = str(contractes_temp.recompensa)
+			fitxa_terballador_temp.get_node("%labelPenyora").text = str(contractes_temp.penyora)
+			fitxa_terballador_temp.get_node("%buttonAcceptaTasca").pressed.connect(accepta_contracte.bind(contractes_temp, counter))
+			llista_tasques.add_child(fitxa_terballador_temp)
+			counter+=1
+
+func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
+	if Pantalla.tasca_actual.size() != 0:
+		activa_popup("Ja tens un contracte actiu! Acaba'l abans d'agafar-ne un altre!")
+	else:
+		Pantalla.tasca_actual = tasca_temp
+		BusinessEngine.llista_tasques.remove_at(index)
+		for entrada in llista_tasques.get_children():
+			entrada.queue_free()
+		activa_menu_tasques()
+		print(Pantalla.tasca_actual)
+		
