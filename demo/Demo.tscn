@@ -27,12 +27,18 @@ position = Vector2(543, 342)
 [node name="esbarjo" type="Node" parent="Oficina"]
 
 [node name="esbarjo" parent="Oficina/esbarjo" instance=ExtResource("6_rmddr")]
-position = Vector2(668, 343)
+position = Vector2(668, 161)
+
+[node name="esbarjo2" parent="Oficina/esbarjo" instance=ExtResource("6_rmddr")]
+position = Vector2(668, 340)
 
 [node name="treball" type="Node" parent="Oficina"]
 
 [node name="treball" parent="Oficina/treball" instance=ExtResource("7_hix65")]
 position = Vector2(473, 174)
+
+[node name="treball2" parent="Oficina/treball" instance=ExtResource("7_hix65")]
+position = Vector2(473, 350)
 
 [node name="Plantilla" type="Node" parent="."]
 unique_name_in_owner = true

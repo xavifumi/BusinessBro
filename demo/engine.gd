@@ -168,18 +168,19 @@ static func genera_tasca() -> Dictionary:
 	var nom_tasca = idees_creatives[0].pick_random() + " " + idees_creatives[1].pick_random() + " " + idees_creatives[2].pick_random()
 	var empresa = noms_empresa[0].pick_random() + noms_empresa[1].pick_random() + " " +noms_empresa[2].pick_random()
 	var durada = randi_range(5,30)
-	var dificultat = randi_range(Pantalla.maxim_treballadors/2 if Pantalla.maxim_treballadors/2>=1 else 1, Pantalla.maxim_treballadors*1.5)
-	var punts_necessaris = 50 * dificultat * durada
-	var recompensa = punts_necessaris * 1.5
+	var dificultat = randf_range(0.5, 1.5)
+	var punts_necessaris = 50 * dificultat * Pantalla.maxim_treballadors * durada
+	var recompensa = int(punts_necessaris * 1.5)
 	var retorn = {
 		"nom": empresa,
 		"tasca": nom_tasca,
 		"dies_restants": durada,
 		"recompensa": recompensa,
 		"penyora": recompensa/2,
+		"dificultat": dificultat,
 		"feina": punts_necessaris
 	}
-	print(str(dificultat) + " - " + str(punts_necessaris))
+	print(str(dificultat) + " - " +str(Pantalla.maxim_treballadors ) + " - "+ str(durada) + " - "+ str(punts_necessaris))
 	return retorn
 	
 static func genera_llista_tasques() -> void:

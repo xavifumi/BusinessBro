@@ -138,12 +138,13 @@ func activa_menu_tasques():
 	else:
 		for contractes_temp in BusinessEngine.llista_tasques :
 			var fitxa_terballador_temp = fitxa_tasca.instantiate()
-			#print(estadistiques_temp)
+			print(contractes_temp)
 			fitxa_terballador_temp.get_node("%labelNomEmpresa").text = contractes_temp.nom
 			fitxa_terballador_temp.get_node("%labelNomTasca").text = contractes_temp.tasca
 			fitxa_terballador_temp.get_node("%labelDurada").text = str(contractes_temp.dies_restants)
 			fitxa_terballador_temp.get_node("%labelPressu").text = str(contractes_temp.recompensa)
 			fitxa_terballador_temp.get_node("%labelPenyora").text = str(contractes_temp.penyora)
+			fitxa_terballador_temp.get_node("%labelDificultat").text = str("facil" if contractes_temp.dificultat <0.7 else "normal" if contractes_temp.dificultat <1.3 else "dificil")
 			fitxa_terballador_temp.get_node("%buttonAcceptaTasca").pressed.connect(accepta_contracte.bind(contractes_temp, counter))
 			llista_tasques.add_child(fitxa_terballador_temp)
 			counter+=1

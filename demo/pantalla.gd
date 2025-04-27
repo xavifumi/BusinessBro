@@ -4,7 +4,7 @@ class_name Pantalla extends Node2D
 static var posicions_descans = {}
 static var posicions_treball = {}
 static var llista_treballadors = []
-static var maxim_treballadors := 0
+static var maxim_treballadors := 2
 static var treballador_temp
 static var punt_nou_treballador : Vector2
 static var nivell := 1
@@ -35,7 +35,7 @@ var button_feina
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	diners = diners_inicials
-	maxim_treballadors = 2
+	#maxim_treballadors = 2
 	var temp_pos_treballador = get_node("Oficina/PuntInici").position
 	punt_nou_treballador = temp_pos_treballador
 	

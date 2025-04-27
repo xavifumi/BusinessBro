@@ -1,12 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqjpb6ktw44w4"]
+[gd_scene load_steps=8 format=3 uid="uid://cqjpb6ktw44w4"]
 
-[ext_resource type="Script" path="res://resources/ux/fitxa_treballador.gd" id="1_mqu2p"]
+[ext_resource type="Script" path="res://resources/ux/fitxa_tasca.gd" id="1_mq2bl"]
 [ext_resource type="Texture2D" uid="uid://frj425jwwnjm" path="res://resources/ux/generic_icons/Letter.png" id="3_elatg"]
 [ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="3_oi4fq"]
+[ext_resource type="Texture2D" uid="uid://blwtwiw6tucsx" path="res://resources/ux/Small (24x24) PNG/Clock.png" id="3_pmcmr"]
+[ext_resource type="Texture2D" uid="uid://csj2lg1spyad5" path="res://resources/ux/generic_icons/Cash2.png" id="4_uxbcy"]
+[ext_resource type="Texture2D" uid="uid://bxpkl252w2fv5" path="res://resources/ux/generic_icons/Skull.png" id="5_2lq4t"]
+[ext_resource type="Texture2D" uid="uid://bcj08e28ydwwe" path="res://resources/ux/generic_icons/Info.png" id="6_nl1f6"]
 
 [node name="Fitxa tasca" type="PanelContainer"]
 custom_minimum_size = Vector2(600, 0)
-script = ExtResource("1_mqu2p")
+script = ExtResource("1_mq2bl")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -58,7 +62,13 @@ theme_override_constants/separation = 25
 layout_mode = 2
 size_flags_horizontal = 0
 
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
+layout_mode = 2
+texture = ExtResource("3_pmcmr")
+expand_mode = 2
+
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_oi4fq")
 text = "Deadline:"
@@ -73,7 +83,13 @@ text = "15 dies"
 [node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
 layout_mode = 2
 
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer5"]
+layout_mode = 2
+texture = ExtResource("4_uxbcy")
+expand_mode = 2
+
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer5"]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_oi4fq")
 text = "Pressu:"
@@ -90,17 +106,46 @@ text = "750€"
 layout_mode = 2
 size_flags_horizontal = 8
 
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer6"]
+layout_mode = 2
+texture = ExtResource("5_2lq4t")
+expand_mode = 2
+
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer6"]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_oi4fq")
 text = "Penyora:"
 
 [node name="labelPenyora" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer6"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("3_oi4fq")
 theme_override_colors/font_color = Color(1, 0.3241, 0.258944, 1)
 text = "250€"
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer7"]
+layout_mode = 2
+texture = ExtResource("6_nl1f6")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer7"]
+visible = false
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "Penyora:"
+
+[node name="labelDificultat" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("3_oi4fq")
+text = "Dificil"
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
