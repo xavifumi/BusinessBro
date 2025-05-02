@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpbfprb56uk0u"]
+
+[ext_resource type="Script" path="res://resources/mobiliari/esbarjo.gd" id="1_ywp07"]
+[ext_resource type="Texture2D" uid="uid://clrx7dxu1k8pn" path="res://resources/oficina/resources/Office tiles/Little_Bits_office_objects.png" id="2_0lwhe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkoqg"]
+size = Vector2(39, 29)
+
+[node name="esbarjo" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_ywp07")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("2_0lwhe")
+region_enabled = true
+region_rect = Rect2(50.9418, 31.4149, 10.4167, 17.1969)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 18.5)
+shape = SubResource("RectangleShape2D_pkoqg")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

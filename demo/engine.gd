@@ -119,6 +119,31 @@ static var noms_empresa = [
 ]
 ]
 
+static var llista_material = {
+	"taula_treball" : {
+		"tipus": "treball",
+		"nom": "Taula de treball",
+		"descripcio" : "Una taula, per a que els teus treballadors s'estiguin una estona quiets. A veure si es concentren.",
+		"icona": "res://resources/oficina/resources/taula.png",
+		"preu":200,
+		"h": 64,
+		"w": 64,
+		"escena":"res://resources/mobiliari/llocTreball.tscn"
+	},
+	"cadira_escriptori" : {
+		"tipus": "descans",
+		"nom": "Cadira d'escriptori",
+		"descripcio" : "Una cadira. D'una botiga de nom suec. Tampoc es mereixen gaire més.",
+		"icona": "res://resources/oficina/resources/cadira.png",
+		"preu": 100,
+		"h": 64,
+		"w": 64,
+		"escena":"res://resources/mobiliari/llocTreball.tscn"
+	}
+}
+
+static var llista_locals = {}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

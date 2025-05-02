@@ -110,13 +110,6 @@ script = ExtResource("1_yrqwm")
 position = Vector2(1, 11)
 shape = SubResource("CapsuleShape2D_otts6")
 
-[node name="Hitbox" type="Area2D" parent="."]
-visible = false
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(47, 78)
-shape = SubResource("CapsuleShape2D_otts6")
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-48, -98)
 texture = ExtResource("1_1otmv")

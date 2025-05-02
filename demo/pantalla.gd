@@ -39,7 +39,7 @@ func _ready() -> void:
 	var temp_pos_treballador = get_node("Oficina/PuntInici").position
 	punt_nou_treballador = temp_pos_treballador
 	
-	for node in get_node("Oficina/esbarjo").get_children():
+	for node in get_node("Oficina/descans").get_children():
 		posicions_descans[node.global_position] = null
 
 	for node in get_node("Oficina/treball").get_children():

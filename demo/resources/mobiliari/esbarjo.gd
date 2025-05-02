@@ -1,5 +1,5 @@
 extends Area2D
-
+static var ocupat := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,6 +13,8 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	body.descansant = true
+	ocupat = true
 
 func _on_body_exited(body: Node2D) -> void:
 	body.descansant = false
+	ocupat = false

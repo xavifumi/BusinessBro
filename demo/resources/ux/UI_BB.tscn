@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bnx7d7x0olguq"]
+[gd_scene load_steps=24 format=3 uid="uid://bnx7d7x0olguq"]
 
 [ext_resource type="Texture2D" uid="uid://b730uiyp6cy23" path="res://resources/ux/UI/yellow/button_square_flat.png" id="1_qwasm"]
 [ext_resource type="Script" path="res://resources/ux/ui_bb.gd" id="1_rhcq0"]
@@ -39,6 +39,20 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.482353, 0.145098, 0.113725, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.733333)
+shadow_offset = Vector2(10, 10)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eikrp"]
+bg_color = Color(0.0941176, 0.517647, 0.858824, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0980392, 0.321569, 0.517647, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -348,6 +362,72 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 5
 
+[node name="MenuCompres" type="PanelContainer" parent="PantallaSencera"]
+unique_name_in_owner = true
+visible = false
+clip_contents = true
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_eikrp")
+
+[node name="MarginContainer" type="MarginContainer" parent="PantallaSencera/MenuCompres"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PantallaSencera/MenuCompres/MarginContainer"]
+layout_mode = 2
+
+[node name="Titol" type="MarginContainer" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="IconaMenu" type="TextureRect" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("9_ph4tl")
+expand_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+
+[node name="NomMenu" type="Label" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_jx2w3")
+text = "Compres
+"
+
+[node name="closeMenuCompres" type="TextureButton" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture_normal = ExtResource("7_ntg42")
+stretch_mode = 4
+
+[node name="TabContainer" type="TabContainer" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer"]
+layout_mode = 2
+current_tab = 0
+
+[node name="Material" type="VBoxContainer" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+metadata/_tab_index = 0
+
+[node name="Locals" type="VBoxContainer" parent="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 5
+metadata/_tab_index = 1
+
 [node name="AppDrawer" type="PanelContainer" parent="PantallaSencera"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -556,4 +636,5 @@ stretch_mode = 4
 
 [connection signal="pressed" from="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTreballadors" to="." method="_on_close_menu_treballadors_pressed"]
 [connection signal="pressed" from="PantallaSencera/MenuTasques/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTasques" to="." method="_on_close_menu_tasques_pressed"]
+[connection signal="pressed" from="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuCompres" to="." method="_on_close_menu_compres_pressed"]
 [connection signal="pressed" from="PopUp/MarginContainer/PopupCloseButton" to="." method="_on_popup_close_button_pressed"]

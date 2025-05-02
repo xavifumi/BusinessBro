@@ -14,6 +14,10 @@ class_name UX
 @onready var feina_info: PanelContainer = %FeinaInfo
 @onready var menu_tasques: PanelContainer = %MenuTasques
 @onready var llista_tasques: VBoxContainer = %LlistaTasques
+@onready var menu_compres: PanelContainer = %MenuCompres
+@onready var material: VBoxContainer = %Material
+@onready var locals: VBoxContainer = %Locals
+
 
 @export var tween_intensity: float
 @export var tween_duration: float
@@ -22,9 +26,11 @@ var button_es_anim := false
 var fitxa_treballador = preload("res://resources/ux/fitxa_treballador.tscn")
 var fitxa_informativa = preload("res://resources/ux/fitxa_informativa_treballadors.tscn")
 var fitxa_tasca = preload("res://resources/ux/fitxa_tasca.tscn")
+var fitxa_material = preload("res://resources/ux/fitxa_material.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	calaix_aplicacions.get_children()[2].button_down.connect(activa_menu_compres)
 	calaix_aplicacions.get_children()[1].button_down.connect(activa_menu_tasques)
 	calaix_aplicacions.get_children()[0].button_down.connect(activa_menu_personal)
 
@@ -160,3 +166,31 @@ func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 		activa_menu_tasques()
 		print(Pantalla.tasca_actual)
 		
+
+func activa_menu_compres():
+	menu_compres.show()
+	var counter := 0
+	if BusinessEngine.llista_material.is_empty():
+		var fitxa_terballador_temp = fitxa_informativa.instantiate()
+		fitxa_terballador_temp.get_node("Label").text = "No hi ha materials disponibles!"
+		material.add_child(fitxa_terballador_temp)
+	else:
+		for contractes_temp in BusinessEngine.llista_material :
+			var fitxa_terballador_temp = fitxa_material.instantiate()
+			var valors = BusinessEngine.llista_material[contractes_temp]
+			print(contractes_temp)
+			fitxa_terballador_temp.get_node("%labelNom").text = valors.nom
+			fitxa_terballador_temp.get_node("%imatge").texture = load(valors.icona)
+			fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
+			fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
+			fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(accepta_contracte.bind(contractes_temp, counter))
+			material.add_child(fitxa_terballador_temp)
+			counter+=1
+			
+	if BusinessEngine.llista_locals.is_empty():
+		var fitxa_terballador_temp = fitxa_informativa.instantiate()
+		fitxa_terballador_temp.get_node("Label").text = "No hi ha locals disponibles!"
+		locals.add_child(fitxa_terballador_temp)
+
+func _on_close_menu_compres_pressed() -> void:
+	menu_compres.hide()

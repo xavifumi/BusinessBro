@@ -24,12 +24,12 @@ position = Vector2(9, -73)
 [node name="PuntInici" type="Marker2D" parent="Oficina"]
 position = Vector2(543, 342)
 
-[node name="esbarjo" type="Node" parent="Oficina"]
+[node name="descans" type="Node" parent="Oficina"]
 
-[node name="esbarjo" parent="Oficina/esbarjo" instance=ExtResource("6_rmddr")]
+[node name="esbarjo" parent="Oficina/descans" instance=ExtResource("6_rmddr")]
 position = Vector2(668, 161)
 
-[node name="esbarjo2" parent="Oficina/esbarjo" instance=ExtResource("6_rmddr")]
+[node name="esbarjo2" parent="Oficina/descans" instance=ExtResource("6_rmddr")]
 position = Vector2(668, 340)
 
 [node name="treball" type="Node" parent="Oficina"]
