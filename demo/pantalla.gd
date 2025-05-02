@@ -1,8 +1,7 @@
 class_name Pantalla extends Node2D
 @onready var plantilla: Node = %Plantilla
 
-static var posicions_descans = {}
-static var posicions_treball = {}
+
 static var llista_treballadors = []
 static var maxim_treballadors := 2
 static var treballador_temp
@@ -38,14 +37,13 @@ func _ready() -> void:
 	#maxim_treballadors = 2
 	var temp_pos_treballador = get_node("Oficina/PuntInici").position
 	punt_nou_treballador = temp_pos_treballador
-	
 	for node in get_node("Oficina/descans").get_children():
-		posicions_descans[node.global_position] = null
-
+		BusinessEngine.posicions_descans[node.global_position] = "lliure" 
 	for node in get_node("Oficina/treball").get_children():
-		posicions_treball[node.global_position] = null
-	print("posicions treball: " + str(posicions_treball))
-	print("posicions esbarjo: " + str(posicions_descans))
+		BusinessEngine.posicions_treball[node.global_position] = "lliure" 
+	print("posicions treball: " + str(BusinessEngine.posicions_treball))
+	print("posicions esbarjo: " + str(BusinessEngine.posicions_descans))
+	print(" - ")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -58,6 +56,7 @@ func _process(_delta: float) -> void:
 	label_diners.text = str(diners) + "€"
 	if tasca_actual.size() != 0:
 		_feina_in_progress()
+
 	
 func _feina_in_progress()->void:
 	#var progres_feina = get_node("Oficina/treball/ProgressBar")
@@ -71,6 +70,7 @@ func _feina_in_progress()->void:
 				"informatica": 0
 			}
 			feina_total_acumulada = 0
+			get_node("%Confetti").dispara_confetti()
 			#progres_feina.value = feina_total_acumulada
 	else:
 		diners -= tasca_actual.penyora
@@ -84,8 +84,6 @@ func _feina_in_progress()->void:
 	
 static func _on_button_feina_pressed() -> void:
 	tasca_actual = tasca_exemple.duplicate()
-	print(tasca_actual)
-	print(tasca_actual.size())
 
 static func contracta_treballador(treballador_cont_temp: Dictionary, index: int) -> void:
 	llista_treballadors.append(treballador_cont_temp)

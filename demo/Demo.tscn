@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://pantalla.gd" id="1_5vbv4"]
 [ext_resource type="PackedScene" uid="uid://bnx7d7x0olguq" path="res://resources/ux/UI_BB.tscn" id="2_nlrnl"]
 [ext_resource type="PackedScene" uid="uid://2yjtaugoco0x" path="res://resources/calendari/TestCalendari.tscn" id="3_ue7x6"]
-[ext_resource type="Script" path="res://engine.gd" id="4_bqhpf"]
+[ext_resource type="PackedScene" uid="uid://wwuamji57p7u" path="res://resources/ux/Particules_Pantalla.tscn" id="4_lhj1s"]
 [ext_resource type="PackedScene" uid="uid://et473icat4wv" path="res://resources/oficina/oficina.tscn" id="4_rlfx0"]
 [ext_resource type="PackedScene" uid="uid://c485k6ubdatbb" path="res://resources/mobiliari/esbarjo.tscn" id="6_rmddr"]
 [ext_resource type="PackedScene" uid="uid://cbnh8g06ufw4" path="res://resources/mobiliari/treball.tscn" id="7_hix65"]
@@ -16,7 +16,8 @@ script = ExtResource("1_5vbv4")
 [node name="Calendari" parent="." instance=ExtResource("3_ue7x6")]
 
 [node name="BusinessEngine" type="Node" parent="."]
-script = ExtResource("4_bqhpf")
+
+[node name="GPUParticles2D" parent="BusinessEngine" instance=ExtResource("4_lhj1s")]
 
 [node name="Oficina" parent="." instance=ExtResource("4_rlfx0")]
 position = Vector2(9, -73)
@@ -41,4 +42,7 @@ position = Vector2(473, 174)
 position = Vector2(473, 350)
 
 [node name="Plantilla" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Confetti" parent="." instance=ExtResource("4_lhj1s")]
 unique_name_in_owner = true

@@ -14,3 +14,7 @@ config/name="Demo"
 run/main_scene="res://Demo.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GlobalEngine="*res://engine.gd"

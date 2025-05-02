@@ -12,6 +12,7 @@ var actual_speed := 300.0
 @export var acceleration := 300.0
 @export var deceleration := 5000.0
 @export var avoidance_strength := 500.0
+var posicio_desti = Vector2.INF
 
 static var atributs = {
 	"nom": "",
@@ -26,9 +27,9 @@ static var atributs = {
 }
 
 var energia_actual := 100
-static var descansant = false
-static var moviment := false
-static var treballant := false
+var descansant = false
+var moviment := false
+var treballant := false
 var tween_começat = false
 var last_delta = 0
 
@@ -93,7 +94,7 @@ func _process(delta: float) -> void:
 			estat_a_text="AVORRIT"
 		4:
 			estat_a_text="CAOS"
-	print_estat.text = str(estat_a_text)
+	print_estat.text = "treballant: " + str(treballant) + " -descansant: " + str(descansant) 
 	progress_energia.value = energia_actual
 	match estat:
 		States.TREBALLANT:
@@ -126,23 +127,30 @@ func treballa(delta: float) -> void:
 	#print("treballant: " + str(treballant) + " - descansant: " + str(descansant))
 	if Pantalla.tasca_actual.size() != 0:
 		if energia_actual > atributs["energia"]*0.1:
-			if (!treballant or moviment) and Pantalla.posicions_descans.size() != 0:
-				camina(Pantalla.posicions_treball.keys()[0], delta)
+			if !treballant and !moviment:
+				posicio_desti = BusinessEngine.assigna_posicio_treball()
+				moviment = true
+			if !treballant and moviment:
+				camina(posicio_desti, delta)
 			else:
 				espera()
 			if tasca.is_stopped() and (treballant or !moviment):
 				await get_tree().create_timer(1.0).timeout
 				animation_player.play("idle")
-				tasca.set_wait_time(randi_range(3, 6))
+				tasca.set_wait_time(randi_range(2, 5))
 				tasca.start()
 		else:
 			#treballant= false
-			mostra_emocio("feliç")
+			mostra_emocio("ofuscat")
 			estat = States.AVORRIT
+			treballant = false
+			BusinessEngine.posicions_treball[posicio_desti] = "lliure"
 	else:
 		#treballant= false
-		mostra_emocio("ofuscat")
+		mostra_emocio("feliç")
 		estat = States.ESPERANT
+		treballant = false
+		BusinessEngine.posicions_treball[posicio_desti] = "lliure"
 
 func fes_tasca()->void:
 	if treballant:
@@ -177,12 +185,11 @@ func espera() -> void:
 
 func avorreix(delta: float) -> void:
 	avorriment.start()
-	if !descansant:
-		if Pantalla.posicions_descans.size() == 0:
-			espera()
-		else:
-			#var coordenadas = str_to_var("Vector2" + Pantalla.posicions_descans.keys()[0]) as Vector2
-			camina(Pantalla.posicions_descans.keys()[0], delta)
+	if !descansant and !moviment:
+		posicio_desti = BusinessEngine.assigna_posicio_descans()
+		moviment = true
+	elif !descansant and moviment:
+		camina(posicio_desti, delta)
 	else:
 		if energia_actual < atributs["energia"]:
 			if tasca.is_stopped():

@@ -2,6 +2,8 @@ class_name BusinessEngine extends Node
 
 static var nivell_joc
 static var min_habilitat := 15
+static var posicions_descans = {}
+static var posicions_treball = {}
 static var llista_noms := [
 	[
 	"Jose", "Antonio", "Juan", "Manuel", "Francisco", "Luis", "Javier", "Miguel", "Carlos", "Angel",
@@ -181,13 +183,11 @@ static func genera_treballador():
 		"informatica": informatica,
 		"social": social
 	}
-	#print( str(sexe) + " - " + str(nom) + " - " +str(lvl)+ " - " +str(ambicio)+ " - " +habilitat+ " - " +str(sou)+ " - " + str(disseny)+ " - " +str(enginy)+ " - " +str(informatica)+ " - " +str(social) )
 	return resposta
 	
 static func genera_llista_candidats() -> void:
 	for candidat in 4:
 		llista_candidats.append(genera_treballador())
-	#print(llista_candidats)
 	
 static func genera_tasca() -> Dictionary:
 	var nom_tasca = idees_creatives[0].pick_random() + " " + idees_creatives[1].pick_random() + " " + idees_creatives[2].pick_random()
@@ -205,9 +205,24 @@ static func genera_tasca() -> Dictionary:
 		"dificultat": dificultat,
 		"feina": punts_necessaris
 	}
-	print(str(dificultat) + " - " +str(Pantalla.maxim_treballadors ) + " - "+ str(durada) + " - "+ str(punts_necessaris))
+	#print(str(dificultat) + " - " +str(Pantalla.maxim_treballadors ) + " - "+ str(durada) + " - "+ str(punts_necessaris))
 	return retorn
 	
 static func genera_llista_tasques() -> void:
 	for tasca in 4:
 		llista_tasques.append(genera_tasca())
+		
+
+static func assigna_posicio_treball() -> Vector2:
+	for pos in posicions_treball:
+		if posicions_treball[pos] == "lliure":
+			posicions_treball[pos] = "ocupat"
+			return pos
+	return Vector2.INF  # Indica que no hi ha llocs lliures
+	
+static func assigna_posicio_descans() -> Vector2:
+	for pos in posicions_descans:
+		if posicions_descans[pos] == "lliure":
+			posicions_descans[pos] = "ocupat"
+			return pos
+	return Vector2.INF 

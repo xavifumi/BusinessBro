@@ -1,5 +1,5 @@
-extends Area2D
-var ocupat := false
+extends Node2D
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -10,11 +10,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-
-func _on_body_entered(body: Node2D) -> void:
-	body.descansant = true
-	#ocupat = true
-
-func _on_body_exited(body: Node2D) -> void:
-	body.descansant = false
-	#ocupat = false
+func dispara_confetti():
+	for confetti in self.get_children():
+		confetti.emitting = true
