@@ -17,6 +17,7 @@ class_name UX
 @onready var menu_compres: PanelContainer = %MenuCompres
 @onready var material: VBoxContainer = %Material
 @onready var locals: VBoxContainer = %Locals
+var pantalla
 
 
 @export var tween_intensity: float
@@ -30,6 +31,7 @@ var fitxa_material = preload("res://resources/ux/fitxa_material.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	pantalla = get_node("/root/Pantalla")
 	calaix_aplicacions.get_children()[2].button_down.connect(activa_menu_compres)
 	calaix_aplicacions.get_children()[1].button_down.connect(activa_menu_tasques)
 	calaix_aplicacions.get_children()[0].button_down.connect(activa_menu_personal)
@@ -183,7 +185,7 @@ func activa_menu_compres():
 			fitxa_terballador_temp.get_node("%imatge").texture = load(valors.icona)
 			fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
 			fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
-			fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(accepta_contracte.bind(contractes_temp, counter))
+			fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.carregar_i_precol·locar.bind(valors))
 			material.add_child(fitxa_terballador_temp)
 			counter+=1
 			

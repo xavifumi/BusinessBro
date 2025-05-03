@@ -31,6 +31,11 @@ static var feina_total_acumulada = 0
 static var fitxatge_treballador = preload("res://resources/treballador/treballador.tscn")
 var button_feina 
 
+var objecte_instance : Node2D = null
+var mode_precol·locacio := false
+var node_oficina : Node = null
+var tipus_actual : String = ""
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	diners = diners_inicials
@@ -56,6 +61,12 @@ func _process(_delta: float) -> void:
 	label_diners.text = str(diners) + "€"
 	if tasca_actual.size() != 0:
 		_feina_in_progress()
+	
+	
+	if mode_precol·locacio and objecte_instance:
+		var mouse_pos = get_global_mouse_position()
+		var snapped_pos = Vector2i(round(mouse_pos.x / 64), round(mouse_pos.y / 64)) * 64
+		objecte_instance.global_position = snapped_pos
 
 	
 func _feina_in_progress()->void:
@@ -102,3 +113,66 @@ static func afegeix_treballador(ubicacio: Node) -> void:
 	fitxatge_treballador_temp.atributs["social"] = treballador_temp.social
 	fitxatge_treballador_temp.position = punt_nou_treballador
 	ubicacio.add_child(fitxatge_treballador_temp)
+
+
+func carregar_i_precol·locar(data: Dictionary) -> void:
+	var escena_path = data.get("escena", "")
+	tipus_actual = data.get("tipus", "descans")
+
+	if escena_path == "":
+		push_error("No s'ha especificat el camí de l'escena.")
+		return
+
+	var escena_precarregada = load(escena_path)
+	objecte_instance = escena_precarregada.instantiate()
+	objecte_instance.modulate.a = 0.5
+
+	node_oficina = $Oficina  # Instància existent de l’escena Oficina
+	print()
+	var target_node = tipus_actual == "treball" if node_oficina.get_node("treball") else node_oficina.get_node("descans")
+	target_node.add_child(objecte_instance)
+
+	mode_precol·locacio = true
+	set_process(true)
+
+
+func _input(event: InputEvent) -> void:
+	if not (mode_precol·locacio and event is InputEventMouseButton and event.pressed):
+		return
+
+	var mouse_pos = get_global_mouse_position()
+	var snapped_tile = Vector2i(round(mouse_pos.x / 64), round(mouse_pos.y / 64))
+	var snapped_pos = snapped_tile * 64
+
+	# Verificar si ja hi ha un objecte en aquesta posició
+	if (tipus_actual == "treball" and BusinessEngine.posicions_treball.has(snapped_tile)) or \
+		(tipus_actual == "descans" and BusinessEngine.posicions_descans.has(snapped_tile)):
+		print("Ja hi ha un objecte en aquesta posició!")
+		objecte_instance.queue_free()
+		objecte_instance = null
+		mode_precol·locacio = false
+		set_process(false)
+		return
+
+	# Verificar si la tile és construïble
+	var fons = node_oficina.get_node("fons") as TileMap
+	var tile_coords = fons.local_to_map(fons.to_local(snapped_pos))
+	var tile_data = fons.get_cell_tile_data(0, tile_coords)
+
+	if tile_data and tile_data.get_custom_data("construible"):
+		objecte_instance.modulate.a = 1.0
+		objecte_instance.global_position = snapped_pos
+		mode_precol·locacio = false
+		set_process(false)
+
+		# Registrar la posició
+		if tipus_actual == "treball":
+			BusinessEngine.posicions_treball[snapped_tile] = objecte_instance
+		else:
+			BusinessEngine.posicions_descans[snapped_tile] = objecte_instance
+	else:
+		print("No es pot construir en aquesta posició.")
+		objecte_instance.queue_free()
+		objecte_instance = null
+		mode_precol·locacio = false
+		set_process(false)
