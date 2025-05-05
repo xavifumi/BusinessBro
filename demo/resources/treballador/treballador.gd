@@ -124,33 +124,47 @@ func mostra_emocio(emocio: String)-> void:
 	#tween.tween_callback(emocions.queue_free)	
 
 func treballa(delta: float) -> void:
-	#print("treballant: " + str(treballant) + " - descansant: " + str(descansant))
+	print("posicio: " + str(position))
+
 	if Pantalla.tasca_actual.size() != 0:
-		if energia_actual > atributs["energia"]*0.1:
-			if !treballant and !moviment:
-				posicio_desti = BusinessEngine.assigna_posicio_treball()
-				moviment = true
-			if !treballant and moviment:
+		if energia_actual > atributs["energia"] * 0.1:
+			if not treballant and not moviment:
+				var nova_posicio = BusinessEngine.assigna_posicio_treball()
+				
+				if nova_posicio != Vector2.INF:
+					# Allibera la posició anterior si en té una d’assignada
+					if posicio_desti != Vector2.ZERO and posicio_desti in BusinessEngine.posicions_treball:
+						BusinessEngine.posicions_treball[posicio_desti] = "lliure"
+					
+					posicio_desti = nova_posicio
+					moviment = true
+					print("Assignada nova posició de treball: " + str(posicio_desti))
+				else:
+					print("Cap posició de treball disponible.")
+			
+			if not treballant and moviment:
 				camina(posicio_desti, delta)
 			else:
 				espera()
-			if tasca.is_stopped() and (treballant or !moviment):
+
+			if tasca.is_stopped() and (treballant or not moviment):
 				await get_tree().create_timer(1.0).timeout
 				animation_player.play("idle")
 				tasca.set_wait_time(randi_range(2, 5))
 				tasca.start()
 		else:
-			#treballant= false
 			mostra_emocio("ofuscat")
 			estat = States.AVORRIT
 			treballant = false
-			BusinessEngine.posicions_treball[posicio_desti] = "lliure"
+			if posicio_desti in BusinessEngine.posicions_treball:
+				BusinessEngine.posicions_treball[posicio_desti] = "lliure"
 	else:
-		#treballant= false
 		mostra_emocio("feliç")
 		estat = States.ESPERANT
 		treballant = false
-		BusinessEngine.posicions_treball[posicio_desti] = "lliure"
+		if posicio_desti in BusinessEngine.posicions_treball:
+			BusinessEngine.posicions_treball[posicio_desti] = "lliure"
+
 
 func fes_tasca()->void:
 	if treballant:

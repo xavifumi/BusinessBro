@@ -140,7 +140,7 @@ static var llista_material = {
 		"preu": 100,
 		"h": 64,
 		"w": 64,
-		"escena":"res://resources/mobiliari/llocTreball.tscn"
+		"escena":"res://resources/mobiliari/llocDescans.tscn"
 	}
 }
 

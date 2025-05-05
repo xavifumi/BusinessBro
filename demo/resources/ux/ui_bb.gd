@@ -133,7 +133,7 @@ static func actualitza_valor(node: ProgressBar, valor: int)-> void:
 
 func _on_close_menu_tasques_pressed() -> void:
 	menu_tasques.hide()
-	for entrada in llista_candidats.get_children():
+	for entrada in llista_tasques.get_children():
 		entrada.queue_free()
 
 func activa_menu_tasques():
@@ -163,10 +163,8 @@ func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 	else:
 		Pantalla.tasca_actual = tasca_temp
 		BusinessEngine.llista_tasques.remove_at(index)
-		for entrada in llista_tasques.get_children():
-			entrada.queue_free()
-		activa_menu_tasques()
-		print(Pantalla.tasca_actual)
+		_on_close_menu_tasques_pressed()
+		#print(Pantalla.tasca_actual)
 		
 
 func activa_menu_compres():
@@ -196,3 +194,5 @@ func activa_menu_compres():
 
 func _on_close_menu_compres_pressed() -> void:
 	menu_compres.hide()
+	for entrada in material.get_children():
+		entrada.queue_free()

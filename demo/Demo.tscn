@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://vem35m58na6p"]
+[gd_scene load_steps=8 format=3 uid="uid://vem35m58na6p"]
 
 [ext_resource type="Script" path="res://pantalla.gd" id="1_5vbv4"]
 [ext_resource type="PackedScene" uid="uid://bkcsjsk2ciff" path="res://addons/maaacks_menus_template/base/scenes/music_players/background_music_player.tscn" id="2_c2066"]
@@ -7,8 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://2yjtaugoco0x" path="res://resources/calendari/TestCalendari.tscn" id="3_ue7x6"]
 [ext_resource type="PackedScene" uid="uid://wwuamji57p7u" path="res://resources/ux/Particules_Pantalla.tscn" id="4_lhj1s"]
 [ext_resource type="PackedScene" uid="uid://et473icat4wv" path="res://resources/oficina/oficina.tscn" id="4_rlfx0"]
-[ext_resource type="PackedScene" uid="uid://c485k6ubdatbb" path="res://resources/mobiliari/esbarjo.tscn" id="6_rmddr"]
-[ext_resource type="PackedScene" uid="uid://cbnh8g06ufw4" path="res://resources/mobiliari/treball.tscn" id="7_hix65"]
 
 [node name="Pantalla" type="Node2D"]
 script = ExtResource("1_5vbv4")
@@ -32,23 +30,7 @@ position = Vector2(543, 342)
 
 [node name="descans" type="Node" parent="Oficina"]
 
-[node name="esbarjo" parent="Oficina/descans" instance=ExtResource("6_rmddr")]
-visible = false
-position = Vector2(668, 200)
-
-[node name="esbarjo2" parent="Oficina/descans" instance=ExtResource("6_rmddr")]
-visible = false
-position = Vector2(668, 340)
-
 [node name="treball" type="Node" parent="Oficina"]
-
-[node name="treball" parent="Oficina/treball" instance=ExtResource("7_hix65")]
-visible = false
-position = Vector2(473, 222)
-
-[node name="treball2" parent="Oficina/treball" instance=ExtResource("7_hix65")]
-visible = false
-position = Vector2(473, 350)
 
 [node name="Plantilla" type="Node" parent="."]
 unique_name_in_owner = true

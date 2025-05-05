@@ -42,10 +42,7 @@ func _ready() -> void:
 	#maxim_treballadors = 2
 	var temp_pos_treballador = get_node("Oficina/PuntInici").position
 	punt_nou_treballador = temp_pos_treballador
-	for node in get_node("Oficina/descans").get_children():
-		BusinessEngine.posicions_descans[node.global_position] = "lliure" 
-	for node in get_node("Oficina/treball").get_children():
-		BusinessEngine.posicions_treball[node.global_position] = "lliure" 
+	actualitza_llistes_posicions()
 	print("posicions treball: " + str(BusinessEngine.posicions_treball))
 	print("posicions esbarjo: " + str(BusinessEngine.posicions_descans))
 	print(" - ")
@@ -62,12 +59,16 @@ func _process(_delta: float) -> void:
 	if tasca_actual.size() != 0:
 		_feina_in_progress()
 	
-	
 	if mode_precol·locacio and objecte_instance:
 		var mouse_pos = get_global_mouse_position()
 		var snapped_pos = Vector2i(round(mouse_pos.x / 64), round(mouse_pos.y / 64)) * 64
 		objecte_instance.global_position = snapped_pos
 
+func actualitza_llistes_posicions():
+	for node in get_node("Oficina/descans").get_children():
+		BusinessEngine.posicions_descans[node.global_position] = "lliure" 
+	for node in get_node("Oficina/treball").get_children():
+		BusinessEngine.posicions_treball[node.global_position] = "lliure" 
 	
 func _feina_in_progress()->void:
 	#var progres_feina = get_node("Oficina/treball/ProgressBar")
@@ -116,24 +117,25 @@ static func afegeix_treballador(ubicacio: Node) -> void:
 
 
 func carregar_i_precol·locar(data: Dictionary) -> void:
+	print(data)
 	var escena_path = data.get("escena", "")
 	tipus_actual = data.get("tipus", "descans")
 
 	if escena_path == "":
 		push_error("No s'ha especificat el camí de l'escena.")
 		return
-
+	
 	var escena_precarregada = load(escena_path)
 	objecte_instance = escena_precarregada.instantiate()
 	objecte_instance.modulate.a = 0.5
 
 	node_oficina = $Oficina  # Instància existent de l’escena Oficina
-	print()
-	var target_node = tipus_actual == "treball" if node_oficina.get_node("treball") else node_oficina.get_node("descans")
+	var target_node = node_oficina.get_node("treball") if tipus_actual == "treball" else node_oficina.get_node("descans")
 	target_node.add_child(objecte_instance)
 
 	mode_precol·locacio = true
 	set_process(true)
+	get_node("Ux")._on_close_menu_compres_pressed()
 
 
 func _input(event: InputEvent) -> void:
@@ -155,9 +157,14 @@ func _input(event: InputEvent) -> void:
 		return
 
 	# Verificar si la tile és construïble
-	var fons = node_oficina.get_node("fons") as TileMap
-	var tile_coords = fons.local_to_map(fons.to_local(snapped_pos))
-	var tile_data = fons.get_cell_tile_data(0, tile_coords)
+	if not node_oficina.has_node("Fons"):
+		print("ERROR: No s'ha trobat el node 'fons' dins de node_oficina.")
+		return
+	var fons = node_oficina.get_node("Fons") as TileMapLayer
+	print(node_oficina)
+	print(fons)
+	var tile_coords = fons.local_to_map(fons.get_local_mouse_position())
+	var tile_data = fons.get_cell_tile_data(tile_coords)
 
 	if tile_data and tile_data.get_custom_data("construible"):
 		objecte_instance.modulate.a = 1.0
@@ -167,12 +174,15 @@ func _input(event: InputEvent) -> void:
 
 		# Registrar la posició
 		if tipus_actual == "treball":
-			BusinessEngine.posicions_treball[snapped_tile] = objecte_instance
+			BusinessEngine.posicions_treball[snapped_pos] = "lliure"#objecte_instance
 		else:
-			BusinessEngine.posicions_descans[snapped_tile] = objecte_instance
+			BusinessEngine.posicions_descans[snapped_pos] = "lliure"#objecte_instance
 	else:
 		print("No es pot construir en aquesta posició.")
 		objecte_instance.queue_free()
 		objecte_instance = null
 		mode_precol·locacio = false
 		set_process(false)
+	#actualitza_llistes_posicions()
+	print("posicions treball: " + str(BusinessEngine.posicions_treball))
+	print("posicions descans: " + str(BusinessEngine.posicions_descans))
