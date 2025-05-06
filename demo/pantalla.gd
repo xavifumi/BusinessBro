@@ -53,7 +53,6 @@ func _process(_delta: float) -> void:
 	var label_diners = get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid")
 	#var progres_feina = UX.feina_info
 	#progres_feina.max_value = tasca_actual["feina"] if tasca_actual.size() != 0 else 0
-	feina_total_acumulada = feina_acumulada["disseny"] + feina_acumulada["enginy"] + feina_acumulada["informatica"]
 	#progres_feina.value = feina_total_acumulada
 	label_diners.text = str(diners) + "€"
 	if tasca_actual.size() != 0:
@@ -71,7 +70,9 @@ func actualitza_llistes_posicions():
 		BusinessEngine.posicions_treball[node.global_position] = "lliure" 
 	
 func _feina_in_progress()->void:
-	print(tasca_actual)
+	feina_total_acumulada = feina_acumulada["disseny"] + feina_acumulada["enginy"] + feina_acumulada["informatica"]
+	print("tasca actual: " + str(tasca_actual))
+	print("feina acumulada: " + str(feina_total_acumulada))
 	if tasca_actual["dies_restants"] > 0:
 		if tasca_actual["feina"] <= feina_total_acumulada:
 			diners += tasca_actual["recompensa"]
@@ -117,7 +118,7 @@ static func afegeix_treballador(ubicacio: Node) -> void:
 
 
 func carregar_i_precol·locar(data: Dictionary) -> void:
-	print(data)
+	#print(data)
 	var escena_path = data.get("escena", "")
 	tipus_actual = data.get("tipus", "descans")
 

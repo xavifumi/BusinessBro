@@ -126,17 +126,17 @@ func mostra_emocio(emocio: String)-> void:
 	#tween.tween_callback(emocions.queue_free)	
 
 func treballa(delta: float) -> void:
-	print("TREBALLANT:" + str(position))
+	#print("TREBALLANT:" + str(position))
 	if Pantalla.tasca_actual.size() != 0:
-		print("1")
+		#print("1")
 		if energia_actual > atributs["energia"] * 0.1:
-			print("1.1")
+			#print("1.1")
 			if not treballant and not moviment:
-				print("1.1.1")
+				#print("1.1.1")
 				var nova_posicio = BusinessEngine.assigna_posicio_treball()
 				
 				if nova_posicio != Vector2.INF:
-					print("1.1.1.1")
+					#print("1.1.1.1")
 					# Allibera la posició anterior si en té una d’assignada
 					if posicio_desti != Vector2.ZERO and posicio_desti in BusinessEngine.posicions_treball:
 						BusinessEngine.posicions_treball[posicio_desti] = "lliure"
@@ -148,22 +148,22 @@ func treballa(delta: float) -> void:
 					print("Cap posició de treball disponible.")
 			
 			if not treballant and moviment:
-				print("1.1.2")
+				#print("1.1.2")
 				camina(posicio_desti, delta)
-			#else:
+			else:
 				#print("1.1.3")
-				#espera()
+				espera()
 				#animation_player.play("work")
 
 			if tasca.is_stopped() and (treballant or not moviment):
-				print("1.1.4")
+				#print("1.1.4")
 				animation_player.play("work")
 				await get_tree().create_timer(1.0).timeout
 				#animation_player.play("idle")
 				tasca.set_wait_time(randi_range(2, 5))
 				tasca.start()
 		else:
-			print("1.2")
+			#print("1.2")
 			if posicio_desti in BusinessEngine.posicions_treball:
 				BusinessEngine.posicions_treball[posicio_desti] = "lliure"
 			print("posicions treball: " + str(BusinessEngine.posicions_treball))
