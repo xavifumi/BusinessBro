@@ -1,0 +1,11 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://duyldufw2r0bd"]
+
+[ext_resource type="FontFile" uid="uid://bl8s5moeoot0u" path="res://resources/ux/Fonts/born2bsporty-fs.regular.otf" id="1_5jwem"]
+[ext_resource type="FontFile" uid="uid://bbxggfjvdkw4g" path="res://resources/ux/Fonts/7-12-serif.regular.ttf" id="2_7pul4"]
+
+[resource]
+Button/font_sizes/font_size = 22
+Button/fonts/font = ExtResource("2_7pul4")
+Label/font_sizes/font_size = 18
+Label/fonts/font = ExtResource("1_5jwem")
+RichTextLabel/fonts/normal_font = ExtResource("2_7pul4")

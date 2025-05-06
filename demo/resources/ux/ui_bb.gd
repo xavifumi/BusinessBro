@@ -51,7 +51,7 @@ func _process(_delta: float) -> void:
 		%FeinaInfoDescription.text = Pantalla.tasca_actual["nom"]  if Pantalla.tasca_actual.size() != 0 else ""
 		%FeinaInfoDies.text = str(Pantalla.tasca_actual["dies_restants"]) if Pantalla.tasca_actual.size() != 0 else ""
 		%FeinaInfoProgress.max_value = Pantalla.tasca_actual["feina"] if Pantalla.tasca_actual.size() != 0 else 0
-		%FeinaInfoProgress.value = Pantalla.feina_total_acumulada
+		%FeinaInfoProgress.value = Pantalla.feina_acumulada["disseny"] + Pantalla.feina_acumulada["enginy"] + Pantalla.feina_acumulada["informatica"]
 		
 
 func start_tween(object: Object, property: String, final_val:Variant, duration: float):
@@ -73,6 +73,8 @@ func btn_hovered(button: Button):
 		button_es_anim = false
 
 func activa_menu_personal():
+	menu_compres.hide()
+	menu_tasques.hide()
 	menu_treballadors.show()
 	var counter := 0
 	if BusinessEngine.llista_candidats.is_empty():
@@ -137,6 +139,8 @@ func _on_close_menu_tasques_pressed() -> void:
 		entrada.queue_free()
 
 func activa_menu_tasques():
+	menu_treballadors.hide()
+	menu_compres.hide()
 	menu_tasques.show()
 	var counter := 0
 	if BusinessEngine.llista_tasques.is_empty():
@@ -168,6 +172,8 @@ func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 		
 
 func activa_menu_compres():
+	menu_treballadors.hide()
+	menu_tasques.hide()
 	menu_compres.show()
 	var counter := 0
 	if BusinessEngine.llista_material.is_empty():
@@ -178,7 +184,7 @@ func activa_menu_compres():
 		for contractes_temp in BusinessEngine.llista_material :
 			var fitxa_terballador_temp = fitxa_material.instantiate()
 			var valors = BusinessEngine.llista_material[contractes_temp]
-			print(contractes_temp)
+			#print(contractes_temp)
 			fitxa_terballador_temp.get_node("%labelNom").text = valors.nom
 			fitxa_terballador_temp.get_node("%imatge").texture = load(valors.icona)
 			fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio

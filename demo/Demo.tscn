@@ -13,15 +13,12 @@ script = ExtResource("1_5vbv4")
 
 [node name="BackgroundMusicPlayer" parent="." instance=ExtResource("2_c2066")]
 stream = ExtResource("3_0i8vf")
+volume_db = -21.0
 bus = &"Master"
 
 [node name="Ux" parent="." instance=ExtResource("2_nlrnl")]
 
 [node name="Calendari" parent="." instance=ExtResource("3_ue7x6")]
-
-[node name="BusinessEngine" type="Node" parent="."]
-
-[node name="GPUParticles2D" parent="BusinessEngine" instance=ExtResource("4_lhj1s")]
 
 [node name="Oficina" parent="." instance=ExtResource("4_rlfx0")]
 

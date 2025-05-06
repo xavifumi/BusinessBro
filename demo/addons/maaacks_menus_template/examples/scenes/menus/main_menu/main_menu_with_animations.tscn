@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c63y6b25bs4bk"]
+[gd_scene load_steps=22 format=3 uid="uid://c63y6b25bs4bk"]
 
 [ext_resource type="PackedScene" uid="uid://c6k5nnpbypshi" path="res://addons/maaacks_menus_template/base/scenes/menus/main_menu/main_menu.tscn" id="1_0i2sc"]
 [ext_resource type="Script" path="res://addons/maaacks_menus_template/examples/scenes/menus/main_menu/main_menu_with_animations.gd" id="2_ncvk7"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://c1g50h2avck3w" path="res://addons/maaacks_menus_template/examples/scenes/credits/credits.tscn" id="4_lwsll"]
 [ext_resource type="AudioStream" uid="uid://dknae7hfmginj" path="res://resources/menus/theme for Library.wav" id="5_pvdbi"]
 [ext_resource type="Texture2D" uid="uid://b1cq8u00pkvrg" path="res://resources/menus/Made with insMind-ChatGPT Image 10 d’abr. del 2025, 19_50_27.png" id="6_mpakt"]
+[ext_resource type="Theme" uid="uid://duyldufw2r0bd" path="res://resources/ux/Text negreta_UX.tres" id="7_hikrp"]
+[ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="8_mxas7"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "Intro"
@@ -368,6 +370,7 @@ parameters/conditions/intro_done = false
 
 [node name="BackgroundMusicPlayer" parent="." index="3"]
 stream = ExtResource("5_pvdbi")
+volume_db = -21.0
 
 [node name="BackgroundTextureRect" parent="." index="4"]
 texture = ExtResource("6_mpakt")
@@ -381,10 +384,14 @@ offset_left = 735.0
 [node name="TitleContainer" parent="MenuContainer/TitleMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
 
+[node name="TitleLabel" parent="MenuContainer/TitleMargin/TitleContainer" index="0"]
+theme = ExtResource("7_hikrp")
+
 [node name="SubTitleContainer" parent="MenuContainer/SubTitleMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
 
 [node name="SubTitleLabel" parent="MenuContainer/SubTitleMargin/SubTitleContainer" index="0"]
+theme = ExtResource("8_mxas7")
 text = "Explota'ls sense por!"
 
 [node name="MenuButtonsContainer" parent="MenuContainer/MenuButtonsMargin" index="0"]
@@ -394,21 +401,26 @@ modulate = Color(1, 1, 1, 0)
 lock = true
 
 [node name="NewGameButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="0"]
+theme = ExtResource("7_hikrp")
 text = "Joc nou"
 
 [node name="ContinueGameButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="1"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+theme = ExtResource("7_hikrp")
 text = "Continue"
 
 [node name="OptionsButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="2"]
+theme = ExtResource("7_hikrp")
 text = "Opcions"
 
 [node name="CreditsButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="3"]
+theme = ExtResource("7_hikrp")
 text = "Compra Crypto"
 
 [node name="ExitButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="4"]
+theme = ExtResource("7_hikrp")
 text = "Sindicar-se"
 
 [connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/ContinueGameButton" to="." method="_on_continue_game_button_pressed"]

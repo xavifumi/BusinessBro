@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c38rdnxwrlxe1"]
 
 [ext_resource type="Script" path="res://resources/ux/fitxa_material.gd" id="1_laimy"]
-[ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Char 1/Character 1.png" id="2_xn41b"]
+[ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Character 1.png" id="2_xn41b"]
 [ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="3_1inpn"]
 [ext_resource type="Texture2D" uid="uid://dqg86md3i3tvx" path="res://resources/ux/generic_icons/Coin2.png" id="4_8jsij"]
 [ext_resource type="Texture2D" uid="uid://bb6dixs2bcdji" path="res://resources/ux/generic_icons/Cash.png" id="5_0dfw6"]

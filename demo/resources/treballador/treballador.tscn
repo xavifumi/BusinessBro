@@ -1,12 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://cgbepm64mxp57"]
+[gd_scene load_steps=17 format=3 uid="uid://cgbepm64mxp57"]
 
-[ext_resource type="Texture2D" uid="uid://c25qyxkmyfc5p" path="res://resources/character_maleAdventurer_sheet.png" id="1_1otmv"]
 [ext_resource type="Script" path="res://resources/treballador/treballador.gd" id="1_yrqwm"]
+[ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Character 1.png" id="2_sjpv1"]
 [ext_resource type="Texture2D" uid="uid://b27w2mpqxbsub" path="res://resources/pixel_style3.png" id="3_ux43y"]
 [ext_resource type="Texture2D" uid="uid://cu25idy7sdyjq" path="res://resources/palette.svg" id="4_77350"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_otts6"]
-radius = 25.0
+radius = 19.0
 height = 50.0
 
 [sub_resource type="Curve" id="Curve_2oehg"]
@@ -54,25 +54,38 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 4)]
 }
-
-[sub_resource type="Animation" id="Animation_47ug6"]
-resource_name = "idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2i(0, 0)]
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_47ug6"]
+resource_name = "idle"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.866667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1]
 }
 
 [sub_resource type="Animation" id="Animation_rr782"]
 resource_name = "walk"
-length = 0.8
+length = 0.6
 loop_mode = 1
 step = 0.8
 tracks/0/type = "value"
@@ -82,17 +95,36 @@ tracks/0/path = NodePath("Sprite2D:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector2i(0, 4), Vector2i(1, 4), Vector2i(2, 4), Vector2i(3, 4), Vector2i(4, 4), Vector2i(5, 4), Vector2i(6, 4), Vector2i(7, 4)]
+"values": [Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2), Vector2i(3, 2), Vector2i(4, 2), Vector2i(5, 2)]
+}
+
+[sub_resource type="Animation" id="Animation_g7cfe"]
+resource_name = "work"
+length = 1.4
+loop_mode = 1
+step = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.0002, 0.2, 0.4, 0.6, 0.8, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 6), Vector2i(0, 6), Vector2i(0, 10), Vector2i(1, 10), Vector2i(2, 10), Vector2i(3, 10), Vector2i(4, 10), Vector2i(5, 10), Vector2i(6, 10)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u5se3"]
 _data = {
 "RESET": SubResource("Animation_ne7m8"),
 "idle": SubResource("Animation_47ug6"),
-"walk": SubResource("Animation_rr782")
+"walk": SubResource("Animation_rr782"),
+"work": SubResource("Animation_g7cfe")
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0l81y"]
@@ -107,21 +139,22 @@ collision_layer = 3
 script = ExtResource("1_yrqwm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(47, 92)
+position = Vector2(35, 59)
 shape = SubResource("CapsuleShape2D_otts6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-2, -17)
-texture = ExtResource("1_1otmv")
+texture_filter = 1
+position = Vector2(-27, -16)
+scale = Vector2(2, 2)
+texture = ExtResource("2_sjpv1")
 centered = false
-hframes = 9
-vframes = 5
-frame = 36
+hframes = 12
+vframes = 22
 
 [node name="Emocions" type="Sprite2D" parent="Sprite2D"]
 unique_name_in_owner = true
 texture_filter = 1
-position = Vector2(47, 8)
+position = Vector2(29.5, 13)
 scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("3_ux43y")
 hframes = 5
@@ -131,7 +164,7 @@ region_rect = Rect2(0, 0, 16, 16)
 
 [node name="ParticulesTreball" type="GPUParticles2D" parent="Sprite2D"]
 unique_name_in_owner = true
-position = Vector2(52, 49)
+position = Vector2(31.5, 21)
 emitting = false
 amount = 4
 amount_ratio = 0.5
@@ -177,10 +210,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 2.002
 anchor_bottom = 3.104
-offset_left = 2.0
-offset_top = 111.0
-offset_right = -4.08
-offset_bottom = 11.84
+offset_left = -8.0
+offset_top = 83.0
+offset_right = -14.08
+offset_bottom = -16.16
 grow_horizontal = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_0l81y")
 show_percentage = false
@@ -190,3 +223,6 @@ visible = false
 layout_mode = 0
 offset_right = 94.0
 offset_bottom = 23.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true

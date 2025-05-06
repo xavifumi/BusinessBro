@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://d3sd8gyv7xt8q"]
 
 [ext_resource type="Script" path="res://resources/ux/fitxa_treballador.gd" id="1_8ueg4"]
-[ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Char 1/Character 1.png" id="2_igcje"]
+[ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Character 1.png" id="2_igcje"]
 [ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="3_p7w05"]
 [ext_resource type="Texture2D" uid="uid://dqg86md3i3tvx" path="res://resources/ux/generic_icons/Coin2.png" id="4_wspgs"]
 [ext_resource type="Texture2D" uid="uid://c6e12rm6hlmnx" path="res://resources/ux/generic_icons/Pencil.png" id="5_y2v01"]

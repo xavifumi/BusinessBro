@@ -6,6 +6,7 @@ class_name Treballador extends CharacterBody2D
 @onready var particules_treball: GPUParticles2D = %ParticulesTreball
 @onready var progress_energia: ProgressBar = %progressEnergia
 @onready var print_estat: Label = $Control/printEstat
+@onready var audio_player: AudioStreamPlayer = %AudioStreamPlayer
 
 @export var max_speed := 300.0
 var actual_speed := 300.0
@@ -57,6 +58,7 @@ var llista_emocions ={
 	"nuvol" : Vector2i(4,6),
 	"mal_humor" : Vector2i(5,6)
 }
+var audio_bombolles = load("res://resources/treballador/702996_bombolles.mp3")
 
 enum States {TREBALLANT, ESTUDIANT, ESPERANT, AVORRIT, CAOS}
 
@@ -66,7 +68,7 @@ var tasca: Timer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	animation_player.play("idle")
+	#animation_player.play("idle")
 	tasca = get_node("tasca")
 	tasca.one_shot = true
 	tasca.set_wait_time(5)
@@ -124,14 +126,17 @@ func mostra_emocio(emocio: String)-> void:
 	#tween.tween_callback(emocions.queue_free)	
 
 func treballa(delta: float) -> void:
-	print("posicio: " + str(position))
-
+	print("TREBALLANT:" + str(position))
 	if Pantalla.tasca_actual.size() != 0:
+		print("1")
 		if energia_actual > atributs["energia"] * 0.1:
+			print("1.1")
 			if not treballant and not moviment:
+				print("1.1.1")
 				var nova_posicio = BusinessEngine.assigna_posicio_treball()
 				
 				if nova_posicio != Vector2.INF:
+					print("1.1.1.1")
 					# Allibera la posició anterior si en té una d’assignada
 					if posicio_desti != Vector2.ZERO and posicio_desti in BusinessEngine.posicions_treball:
 						BusinessEngine.posicions_treball[posicio_desti] = "lliure"
@@ -143,22 +148,32 @@ func treballa(delta: float) -> void:
 					print("Cap posició de treball disponible.")
 			
 			if not treballant and moviment:
+				print("1.1.2")
 				camina(posicio_desti, delta)
-			else:
-				espera()
+			#else:
+				#print("1.1.3")
+				#espera()
+				#animation_player.play("work")
 
 			if tasca.is_stopped() and (treballant or not moviment):
+				print("1.1.4")
+				animation_player.play("work")
 				await get_tree().create_timer(1.0).timeout
-				animation_player.play("idle")
+				#animation_player.play("idle")
 				tasca.set_wait_time(randi_range(2, 5))
 				tasca.start()
 		else:
+			print("1.2")
+			if posicio_desti in BusinessEngine.posicions_treball:
+				BusinessEngine.posicions_treball[posicio_desti] = "lliure"
+			print("posicions treball: " + str(BusinessEngine.posicions_treball))
 			mostra_emocio("ofuscat")
 			estat = States.AVORRIT
 			treballant = false
-			if posicio_desti in BusinessEngine.posicions_treball:
-				BusinessEngine.posicions_treball[posicio_desti] = "lliure"
+			
+
 	else:
+		print("2")
 		mostra_emocio("feliç")
 		estat = States.ESPERANT
 		treballant = false
@@ -167,6 +182,7 @@ func treballa(delta: float) -> void:
 
 
 func fes_tasca()->void:
+	print("feina total acumulada: " + str(Pantalla.feina_acumulada))
 	if treballant:
 		var feina_actual : String
 		var stats := ["disseny","enginy","informatica"]
@@ -182,6 +198,8 @@ func fes_tasca()->void:
 		energia_actual -= punts_feina_actuals/3 #/ 10
 		Pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
 		particules_treball.emitting = true
+		audio_player.stream = audio_bombolles
+		audio_player.play()
 		await get_tree().create_timer(1.0).timeout 
 		particules_treball.emitting = false
 	if descansant:
@@ -206,8 +224,8 @@ func avorreix(delta: float) -> void:
 		camina(posicio_desti, delta)
 	else:
 		if energia_actual < atributs["energia"]:
+			animation_player.play("idle")
 			if tasca.is_stopped():
-				animation_player.play("idle")
 				tasca.set_wait_time(randi_range(1, 1))
 				tasca.start()
 			energia_actual += 0.01
@@ -221,13 +239,15 @@ func caos() -> void:
 
 
 func camina(desti: Vector2, delta)->void:
+	var rot= rad_to_deg((global_position-desti).angle())
 	if global_position != desti:
 		moviment = true
+		get_node("Sprite2D").flip_h = true if rot >= -90 and rot <= 90 else false
 		animation_player.play("walk")
 		global_position = global_position.move_toward(desti, delta*max_speed)
 	else:
 		moviment = false
-		animation_player.play("idle")
+		#animation_player.play("idle")
 
 func calculate_avoidance_force() -> Vector2:
 	var avoidance_force := Vector2.ZERO

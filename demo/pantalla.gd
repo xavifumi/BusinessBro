@@ -27,7 +27,7 @@ static var feina_acumulada = {
 	"informatica": 0
 }
 
-static var feina_total_acumulada = 0
+var feina_total_acumulada = 0
 static var fitxatge_treballador = preload("res://resources/treballador/treballador.tscn")
 var button_feina 
 
@@ -71,7 +71,7 @@ func actualitza_llistes_posicions():
 		BusinessEngine.posicions_treball[node.global_position] = "lliure" 
 	
 func _feina_in_progress()->void:
-	#var progres_feina = get_node("Oficina/treball/ProgressBar")
+	print(tasca_actual)
 	if tasca_actual["dies_restants"] > 0:
 		if tasca_actual["feina"] <= feina_total_acumulada:
 			diners += tasca_actual["recompensa"]
@@ -144,7 +144,7 @@ func _input(event: InputEvent) -> void:
 
 	var mouse_pos = get_global_mouse_position()
 	var snapped_tile = Vector2i(round(mouse_pos.x / 64), round(mouse_pos.y / 64))
-	var snapped_pos = snapped_tile * 64
+	var snapped_pos = Vector2(snapped_tile * 64)
 
 	# Verificar si ja hi ha un objecte en aquesta posició
 	if (tipus_actual == "treball" and BusinessEngine.posicions_treball.has(snapped_tile)) or \
@@ -161,8 +161,6 @@ func _input(event: InputEvent) -> void:
 		print("ERROR: No s'ha trobat el node 'fons' dins de node_oficina.")
 		return
 	var fons = node_oficina.get_node("Fons") as TileMapLayer
-	print(node_oficina)
-	print(fons)
 	var tile_coords = fons.local_to_map(fons.get_local_mouse_position())
 	var tile_data = fons.get_cell_tile_data(tile_coords)
 
