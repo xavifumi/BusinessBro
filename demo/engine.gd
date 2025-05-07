@@ -47,6 +47,27 @@ static var llista_habilitats = [
 	"desgrava", "becari", "sindicalista", "ionquiDeLaFeina", "fillDeRic", "trepa", "lider", "sabelotodo", "massaSociable", "expert" 
 ]
 
+static var llista_imatges_personatge = [
+	"res://resources/treballador/imatges_treballadors/Character 1.png", 
+	"res://resources/treballador/imatges_treballadors/Character 2.png", 
+	"res://resources/treballador/imatges_treballadors/Character 3.png", 
+	"res://resources/treballador/imatges_treballadors/Character 4.png", 
+	"res://resources/treballador/imatges_treballadors/Character 5.png", 
+	"res://resources/treballador/imatges_treballadors/Character 6.png", 
+	"res://resources/treballador/imatges_treballadors/Character 7.png", 
+	"res://resources/treballador/imatges_treballadors/Character 8.png", 
+	"res://resources/treballador/imatges_treballadors/Character 9.png", 
+	"res://resources/treballador/imatges_treballadors/Character 10.png", 
+	"res://resources/treballador/imatges_treballadors/Character 11.png", 
+	"res://resources/treballador/imatges_treballadors/Character 12.png", 
+	"res://resources/treballador/imatges_treballadors/Character 13.png", 
+	"res://resources/treballador/imatges_treballadors/Character 14.png", 
+	"res://resources/treballador/imatges_treballadors/Character 15.png", 
+	"res://resources/treballador/imatges_treballadors/Character 16.png", 
+	"res://resources/treballador/imatges_treballadors/Character 17.png", 
+	"res://resources/treballador/imatges_treballadors/Character 18.png"
+]
+
 static var llista_candidats = []
 static var llista_tasques = []
 static var idees_creatives = [
@@ -165,12 +186,14 @@ static func genera_treballador():
 	var ambicio = randi_range(-10, 10)
 	var habilitat = "no" if randi_range(0,1)==1 else llista_habilitats.pick_random()
 	var sou_mig = (16576*(1+0.05*lvl))+ 100*(lvl-1)
-	var sou = (sou_mig+(sou_mig*(ambicio/100))) * ((randi_range(50,75)/100) if habilitat=="becari" else 1)
+	var sou = (sou_mig+(sou_mig*(ambicio/100))) * ((randf_range(50.0,75.0)/100.0) if habilitat=="becari" else 1)
 	var mitja_habilitats = 100 + (lvl - 1)*10 + ambicio
 	var disseny = randi_range(min_habilitat, mitja_habilitats - min_habilitat)
 	var enginy = randi_range(min_habilitat, mitja_habilitats - disseny - min_habilitat)
 	var informatica = randi_range(min_habilitat, mitja_habilitats - disseny - enginy - min_habilitat)
-	var social = mitja_habilitats - disseny - enginy - informatica
+	var social = mitja_habilitats - disseny - enginy - informatica if mitja_habilitats - disseny - enginy - informatica > 0 else 0
+	var imatge = llista_imatges_personatge.pick_random()
+	
 	var resposta = {
 		"sexe": sexe,
 		"nom" : nom,
@@ -181,8 +204,10 @@ static func genera_treballador():
 		"disseny": disseny,
 		"enginy": enginy,
 		"informatica": informatica,
-		"social": social
+		"social": social,
+		"imatge": imatge
 	}
+	print(resposta)
 	return resposta
 	
 static func genera_llista_candidats() -> void:

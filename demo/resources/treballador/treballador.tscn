@@ -143,6 +143,7 @@ position = Vector2(35, 59)
 shape = SubResource("CapsuleShape2D_otts6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 texture_filter = 1
 position = Vector2(-27, -16)
 scale = Vector2(2, 2)
