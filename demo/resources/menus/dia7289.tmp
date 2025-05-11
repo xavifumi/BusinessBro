@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bggi6brq24jam"]
+[gd_scene load_steps=7 format=3 uid="uid://bggi6brq24jam"]
 
 [ext_resource type="Script" path="res://resources/menus/dialogue.gd" id="2_nle6i"]
 [ext_resource type="Texture2D" uid="uid://cgqnl23hdxi0n" path="res://resources/dialegs/1746946914129.jpg" id="2_r2fjk"]
-[ext_resource type="Theme" uid="uid://duyldufw2r0bd" path="res://resources/ux/Text negreta_UX.tres" id="4_frudx"]
 [ext_resource type="AudioStream" uid="uid://kxqyo6fqab4k" path="res://resources/sons/talking_synth.ogg" id="7_411f2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qgmlq"]
-bg_color = Color(0, 0, 0, 0.721569)
+bg_color = Color(0, 0, 0, 0.490196)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -18,15 +17,17 @@ action = &"advance_text"
 [sub_resource type="Shortcut" id="Shortcut_1kyk3"]
 events = [SubResource("InputEventAction_u4ywf")]
 
-[node name="Dialogue" type="CanvasLayer"]
+[node name="Dialogue" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("2_nle6i")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("7_411f2")
-volume_db = -9.0
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -67,19 +68,27 @@ theme_override_constants/margin_bottom = 20
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-theme = ExtResource("4_frudx")
 bbcode_enabled = true
 text = "Hello World"
 fit_content = true
 
-[node name="NextButton" type="Button" parent="PanelContainer/MarginContainer"]
+[node name="NextButton" type="Button" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(75, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/icon_normal_color = Color(0.948031, 0.733289, 0, 1)
-theme_override_colors/icon_hover_color = Color(0.693128, 0.558263, 0.220151, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -187.0
+offset_top = -126.0
+offset_right = -26.0
+offset_bottom = -19.0
+grow_horizontal = 0
+grow_vertical = 0
 shortcut = SubResource("Shortcut_1kyk3")
 text = "Next"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_411f2")

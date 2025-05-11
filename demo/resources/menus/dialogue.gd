@@ -1,23 +1,14 @@
-extends Control
+extends CanvasLayer
 
 var bodies := {
-	"sophia": preload("res://assets/sophia.png"),
-	"pink": preload("res://assets/pink.png")
-}
-
-var expressions := {
-	"happy": preload("res://assets/emotion_happy.png"),
-	"regular": preload("res://assets/emotion_regular.png"),
-	"sad": preload("res://assets/emotion_sad.png"),
+	"base": preload("res://resources/dialegs/1746946914129.jpg")
 }
 
 var voices := {
-	"sophia": preload("res://assets/talking_synth.ogg"),
-	"pink": preload("res://assets/talking_synth_alternate.ogg")
+	"base": preload("res://resources/sons/talking_synth.ogg"),
 }
 
 @onready var body: TextureRect = %Body
-@onready var expression: TextureRect = %Expression
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 @onready var next_button: Button = %NextButton
 @onready var audio_stream_player: AudioStreamPlayer = %AudioStreamPlayer
@@ -26,44 +17,40 @@ var voices := {
 var dialogue_items: Array[Dictionary] = [
 
 	{
-		"expression": expressions["regular"],
-		"text": "I've been learning about [wave]arrays and dictionaries[/wave] lately.",
-		"character": "sophia",
+		"text": "Hey Bro! \nBenvingut al món dels taurons de Wall Street!",
+		"character": "base",
+	},
+		{
+		"text": "Bé, no som a Wall Street, però gràcies a la tecnologia podem ser d'on volguem, sóm esperits lliures, nòmades digitals... vull dir que no ens cal tributar al lloc on vivim...",
+		"character": "base",
+	},
+		{
+		"text": "L'important és que tens [wave][rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0]DINERS[/rainbow][/wave] i has pres la decisió correcta: Guanyar-ne més.",
+		"character": "base",
 	},
 	{
-		"expression": expressions["regular"],
-		"text": "Oh, nice. How has it been going?",
-		"character": "pink",
+		"text": "Però no pateixis, no és tan dificil com sembla, a baix de la pantalla tens tot el que necessites per triomfar: eines per a que uns altres treballin per tu.",
+		"character": "base",
 	},
 	{
-		"expression": expressions["sad"],
-		"text": "Well... it's a little [shake]complicated[/shake]!",
-		"character": "sophia",
+		"text": "Com pots veure hi ha tres botons, un per a contractar terballadors, un per a acceptar projectes i un altre per a comprar el material que necessiten els teus [s]micos[/s] treballadors per a produir beneficis.",
+		"character": "base",
 	},
 	{
-		"expression": expressions["sad"],
-		"text": "Oh!",
-		"character": "pink",
+		"text": "L'únic que has de recordar és que els diners que t'hem deixat, [pulse freq=1.0 color=#ffffff40 ease=-2.0][b]ens els has de tornar d'aqui 6 mesos exactament.[/b][/pulse] El dia 1 de juliol.",
+		"character": "base",
 	},
 	{
-		"expression": expressions["regular"],
-		"text": "It sure takes time to click at first.",
-		"character": "pink",
+		"text": "[shake rate=20.0 level=5 connected=1] JAJAJAJAJAJAJA[/shake] Que si no els pots tornar dius? Que graciós que ets.",
+		"character": "base",
 	},
-	{
-		"expression": expressions["happy"],
-		"text": "If you keep at it, eventually, you'll get the hang of it!",
-		"character": "pink",
+		{
+		"text": "Millor que no t'hi trobis. De veritat",
+		"character": "base",
 	},
-	{
-		"expression": expressions["regular"],
-		"text": "Mhhh... I see. I'll keep at it, then.",
-		"character": "sophia",
-	},
-	{
-		"expression": expressions["happy"],
-		"text": "Thanks for the encouragement. Time to [tornado freq=3.0][rainbow val=1.0]LEARN!!![/rainbow][/tornado]",
-		"character": "sophia",
+		{
+		"text": "Doncs, apa, sort amb la teva empresa,  Bro!",
+		"character": "base",
 	},
 ]
 
@@ -81,7 +68,6 @@ func _process(delta: float) -> void:
 func show_text() -> void:
 	var current_item := dialogue_items[current_item_index]
 	body.texture = bodies[current_item.character]
-	expression.texture = current_item.expression
 	rich_text_label.text = current_item.text
 	rich_text_label.visible_ratio = 0.0
 	audio_stream_player.stream = voices[current_item.character]
@@ -102,7 +88,7 @@ func show_text() -> void:
 func advance() -> void:
 	current_item_index += 1
 	if current_item_index == dialogue_items.size():
-		get_tree().quit()
+		queue_free()
 	else:
 		show_text()
 		
