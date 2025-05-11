@@ -200,7 +200,7 @@ static func genera_treballador():
 		"nivell": lvl,
 		"ambicio": ambicio,
 		"habilitat": habilitat,
-		"sou": sou,
+		"sou": snappedf(sou, 0.01),
 		"disseny": disseny,
 		"enginy": enginy,
 		"informatica": informatica,
@@ -217,7 +217,7 @@ static func genera_llista_candidats() -> void:
 static func genera_tasca() -> Dictionary:
 	var nom_tasca = idees_creatives[0].pick_random() + " " + idees_creatives[1].pick_random() + " " + idees_creatives[2].pick_random()
 	var empresa = noms_empresa[0].pick_random() + noms_empresa[1].pick_random() + " " +noms_empresa[2].pick_random()
-	var durada = randi_range(5,30)
+	var durada = randi_range(5,15)
 	var dificultat = randf_range(0.5, 1.5)
 	var punts_necessaris = 50 * dificultat * Pantalla.maxim_treballadors * durada
 	var recompensa = int(punts_necessaris * 1.5)

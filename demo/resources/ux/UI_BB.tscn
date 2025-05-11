@@ -122,7 +122,15 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("5_jx2w3")
 theme_override_colors/font_color = Color(0.329386, 0.584566, 0.0497552, 1)
-text = "1.000.000 $"
+text = "1.000.000"
+vertical_alignment = 1
+
+[node name="€" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("5_jx2w3")
+theme_override_colors/font_color = Color(0.329386, 0.584566, 0.0497552, 1)
+text = "€"
 vertical_alignment = 1
 
 [node name="Calendari" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer"]

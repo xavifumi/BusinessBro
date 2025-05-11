@@ -4,11 +4,15 @@ class_name Pantalla extends Node2D
 var label 
 static var llista_treballadors = []
 static var maxim_treballadors := 2
+static var lloguer := 75
 static var treballador_temp
 static var punt_nou_treballador : Vector2
 static var nivell := 1
 static var diners := 0
 var diners_inicials := 30000
+static var beneficis_any := 0 
+static var beneficis_trimestre := 0
+static var despeses := 0
 static var tenim_tasca := true
 static var tasca_exemple = {
 	"nom": "Pla de Marketing",
@@ -30,12 +34,15 @@ static var feina_acumulada = {
 var feina_total_acumulada : float
 static var fitxatge_treballador = preload("res://resources/treballador/treballador.tscn")
 var so_error = "res://resources/oficina/resources/327738__distillerystudio__error_01.wav"
+var so_compra = "res://resources/oficina/resources/180894__jobro__cash-register-opening.wav"
+var so_celebra = "res://resources/oficina/resources/651642__krizin__crowd-cheer-2.wav"
 var button_feina 
 
 var objecte_instance : Node2D = null
 var mode_precol·locacio := false
 var node_oficina : Node = null
 var tipus_actual : String = ""
+static var confetti
 
 func _ready() -> void:
 	set_process(true) # Activem el process des del principi
@@ -44,6 +51,8 @@ func _ready() -> void:
 	var temp_pos_treballador = get_node("Oficina/PuntInici").position
 	punt_nou_treballador = temp_pos_treballador
 	actualitza_llistes_posicions()
+	var label_diners = get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid")
+	label_diners.text = str(diners)
 
 func _process(_delta: float) -> void:
 	_actualitza_ui()
@@ -52,8 +61,7 @@ func _process(_delta: float) -> void:
 		_actualitza_precol·locacio()
 
 func _actualitza_ui() -> void:
-	var label_diners = get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid")
-	label_diners.text = str(diners) + "€"
+
 	label.text = str(feina_acumulada)
 
 func _gestiona_feina() -> void:
@@ -109,6 +117,7 @@ func _feina_in_progress()->void:
 	if tasca_actual["dies_restants"] > 0:
 		if tasca_actual["feina"] <= feina_total_acumulada:
 			diners += tasca_actual["recompensa"]
+			Pantalla.beneficis_trimestre += tasca_actual["recompensa"]
 			tasca_actual = {}
 			feina_acumulada = {
 				"disseny": 0,
@@ -117,6 +126,8 @@ func _feina_in_progress()->void:
 			}
 			feina_total_acumulada = 0
 			get_node("%Confetti").dispara_confetti()
+			get_node("%FXPlayer").stream = load(so_celebra)
+			get_node("%FXPlayer").play()
 	else:
 		diners -= tasca_actual.penyora
 		tasca_actual = {}
@@ -157,6 +168,7 @@ func carregar_i_precol·locar(data: Dictionary) -> void:
 	
 	var escena_precarregada = load(escena_path)
 	objecte_instance = escena_precarregada.instantiate()
+	objecte_instance.preu = data.preu
 	objecte_instance.modulate.a = 0.5
 
 	node_oficina = $Oficina
@@ -183,6 +195,10 @@ func _input(event: InputEvent) -> void:
 			if _es_posicio_valida(snapped_pos):
 				objecte_instance.modulate = Color(1, 1, 1, 1.0)
 				objecte_instance.global_position = snapped_pos
+				get_node("Ux").anima_label(get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"), diners, diners - objecte_instance.preu)
+				diners -= objecte_instance.preu
+				get_node("FXPlayer").stream = load(so_compra)
+				get_node("FXPlayer").play()
 				mode_precol·locacio = false
 
 				if tipus_actual == "treball":
@@ -191,5 +207,4 @@ func _input(event: InputEvent) -> void:
 					BusinessEngine.posicions_descans[snapped_pos] = "lliure"
 			else:
 				get_node("FXPlayer").stream = load(so_error)
-				get_node("FXPlayer").volume_db = -6
 				get_node("FXPlayer").play()

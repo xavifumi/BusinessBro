@@ -18,6 +18,7 @@ class_name UX
 @onready var material: VBoxContainer = %Material
 @onready var locals: VBoxContainer = %Locals
 var pantalla
+var fxplayer
 
 
 @export var tween_intensity: float
@@ -28,10 +29,12 @@ var fitxa_treballador = preload("res://resources/ux/fitxa_treballador.tscn")
 var fitxa_informativa = preload("res://resources/ux/fitxa_informativa_treballadors.tscn")
 var fitxa_tasca = preload("res://resources/ux/fitxa_tasca.tscn")
 var fitxa_material = preload("res://resources/ux/fitxa_material.tscn")
+var so_compra = "res://resources/oficina/resources/180894__jobro__cash-register-opening.wav"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pantalla = get_node("/root/Pantalla")
+	pantalla = get_parent()
+	fxplayer = pantalla.get_node("%FXPlayer")
 	calaix_aplicacions.get_children()[2].button_down.connect(activa_menu_compres)
 	calaix_aplicacions.get_children()[1].button_down.connect(activa_menu_tasques)
 	calaix_aplicacions.get_children()[0].button_down.connect(activa_menu_personal)
@@ -84,7 +87,15 @@ func activa_menu_personal():
 	else:
 		for estadistiques_temp in BusinessEngine.llista_candidats :
 			var fitxa_terballador_temp = fitxa_treballador.instantiate()
-			#print(estadistiques_temp)
+			var old_atlas = fitxa_terballador_temp.get_node("%imatgeTreballador").texture as AtlasTexture
+			var new_image := load(estadistiques_temp.imatge)
+
+			var new_atlas := AtlasTexture.new()
+			new_atlas.atlas = new_image
+			new_atlas.region = old_atlas.region
+			new_atlas.margin = old_atlas.margin
+			new_atlas.filter_clip = old_atlas.filter_clip
+			fitxa_terballador_temp.get_node("%imatgeTreballador").texture = new_atlas
 			fitxa_terballador_temp.get_node("%labelNom").text = estadistiques_temp.nom
 			fitxa_terballador_temp.get_node("%labelNivell").text = str(estadistiques_temp.nivell)
 			fitxa_terballador_temp.get_node("%labelSou").text = str(estadistiques_temp.sou)
@@ -106,6 +117,9 @@ func contracta_treballador(treballador_temp: Dictionary, index: int) -> void:
 		Pantalla.llista_treballadors.append(treballador_temp)
 		Pantalla.treballador_temp = treballador_temp
 		Pantalla.afegeix_treballador($%Plantilla)
+		fxplayer.stream = load(so_compra)
+		fxplayer.play()
+		
 		BusinessEngine.llista_candidats.remove_at(index)
 		for entrada in llista_candidats.get_children():
 			entrada.queue_free()
@@ -202,3 +216,10 @@ func _on_close_menu_compres_pressed() -> void:
 	menu_compres.hide()
 	for entrada in material.get_children():
 		entrada.queue_free()
+
+func anima_label(label: Label, start_val: int, end_val: int, duration: float = 1.5):
+	var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	tween.tween_method(_update_label.bind(label), start_val, end_val, duration)
+
+func _update_label(value: float, label: Label):
+	label.text = str(round(value))

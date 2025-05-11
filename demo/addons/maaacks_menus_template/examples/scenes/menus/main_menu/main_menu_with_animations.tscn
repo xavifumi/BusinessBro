@@ -370,7 +370,7 @@ parameters/conditions/intro_done = false
 
 [node name="BackgroundMusicPlayer" parent="." index="3"]
 stream = ExtResource("5_pvdbi")
-volume_db = -21.0
+volume_db = -12.0
 
 [node name="BackgroundTextureRect" parent="." index="4"]
 texture = ExtResource("6_mpakt")

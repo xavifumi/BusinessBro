@@ -75,10 +75,15 @@ func _next_day():
 	if day > days_in_months[month]:
 		day = 1
 		month += 1
+		paga_nomines()
+		#impostos
+		if month % 3 == 0:
+			paga_impostos()
 		# Passar al següent any
 		if month > 12:
 			month = 1
 			year += 1
+			paga_renda()
 	mes_en_text = mesos_in_any[month-1]
 	update_calendari()
 	print("Data actual: %02d/%02d/%d" % [day, month, year])
@@ -87,3 +92,20 @@ func update_calendari() -> void:
 	display_any.text = str(year)
 	display_mes.text = str(mesos_in_any[month-1])
 	display_dia.text = str(day)
+
+func paga_nomines() -> void:
+	var nomines = 0
+	for treballadors in get_node("Pantalla/Plantilla").get_children():
+		nomines += treballadors.sou
+	Pantalla.diners -= nomines
+	Pantalla.diners -= Pantalla.lloguer
+	Pantalla.despeses += (nomines + Pantalla.lloguer)
+	
+func paga_impostos() -> void:
+	get_node("Ux").anima_label(get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"), Pantalla.diners, Pantalla.beneficis_trimestre * 0.21)
+	Pantalla.diners -= Pantalla.beneficis_trimestre * 0.21
+	Pantalla.beneficis_any += Pantalla.beneficis_trimestre
+	Pantalla.beneficis_trimestre = 0
+	
+func paga_renda() -> void:
+	Pantalla.diners -= (Pantalla.beneficis_trimestre - Pantalla.despeses) * 0.25

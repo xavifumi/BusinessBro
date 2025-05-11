@@ -133,11 +133,29 @@ func treballa(delta: float) -> void:
 		if posicio_desti in BusinessEngine.posicions_treball:
 			BusinessEngine.posicions_treball[posicio_desti] = "lliure"
 
+func tria_aleatori(dic: Dictionary) -> String:
+	var total = 0
+	for valor in dic.values():
+		total += valor
+	
+	var rand = randi_range(1, total)
+	var acumulat = 0
+
+	for clau in dic.keys():
+		acumulat += dic[clau]
+		if rand <= acumulat:
+			return clau
+	return dic.keys()[0]
+
 func fes_tasca() -> void:
 	if treballant:
 		var feina_actual : String
-		var stats := ["disseny","enginy","informatica"]
-		feina_actual = stats[randi() % stats.size()]
+		var stats := {
+			"disseny": atributs["disseny"],
+			"enginy": atributs["enginy"],
+			"informatica": atributs["informatica"]
+			}
+		feina_actual = tria_aleatori(stats)
 		match feina_actual:
 			"disseny":
 				particules_treball.texture = load("res://resources/palette.svg")
@@ -165,7 +183,13 @@ func estudia() -> void:
 	pass
 
 func espera() -> void:
-	animation_player.play("idle")
+	var confetti = get_node("/root/Pantalla/Confetti")
+	if confetti.get_node("verd").is_emitting():
+		var delay = randf_range(0.0, 1.5)
+		await get_tree().create_timer(delay).timeout
+		animation_player.play("celebra")
+	else:
+		animation_player.play("idle")
 	if Pantalla.tasca_actual.size() != 0:
 		estat = States.TREBALLANT
 
