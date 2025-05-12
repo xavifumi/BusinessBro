@@ -29,6 +29,7 @@ var fitxa_treballador = preload("res://resources/ux/fitxa_treballador.tscn")
 var fitxa_informativa = preload("res://resources/ux/fitxa_informativa_treballadors.tscn")
 var fitxa_tasca = preload("res://resources/ux/fitxa_tasca.tscn")
 var fitxa_material = preload("res://resources/ux/fitxa_material.tscn")
+var fitxa_local = preload("res://resources/ux/fitxa_local.tscn")
 var so_compra = "res://resources/oficina/resources/180894__jobro__cash-register-opening.wav"
 
 # Called when the node enters the scene tree for the first time.
@@ -76,36 +77,37 @@ func btn_hovered(button: Button):
 		button_es_anim = false
 
 func activa_menu_personal():
-	menu_compres.hide()
-	menu_tasques.hide()
-	menu_treballadors.show()
-	var counter := 0
-	if BusinessEngine.llista_candidats.is_empty():
-		var fitxa_terballador_temp = fitxa_informativa.instantiate()
-		fitxa_informativa.get_node("Label").text = "No hi ha treballadors disponibles!"
-		llista_candidats.add_child(fitxa_terballador_temp)
-	else:
-		for estadistiques_temp in BusinessEngine.llista_candidats :
-			var fitxa_terballador_temp = fitxa_treballador.instantiate()
-			var old_atlas = fitxa_terballador_temp.get_node("%imatgeTreballador").texture as AtlasTexture
-			var new_image := load(estadistiques_temp.imatge)
-
-			var new_atlas := AtlasTexture.new()
-			new_atlas.atlas = new_image
-			new_atlas.region = old_atlas.region
-			new_atlas.margin = old_atlas.margin
-			new_atlas.filter_clip = old_atlas.filter_clip
-			fitxa_terballador_temp.get_node("%imatgeTreballador").texture = new_atlas
-			fitxa_terballador_temp.get_node("%labelNom").text = estadistiques_temp.nom
-			fitxa_terballador_temp.get_node("%labelNivell").text = str(estadistiques_temp.nivell)
-			fitxa_terballador_temp.get_node("%labelSou").text = str(estadistiques_temp.sou)
-			fitxa_terballador_temp.get_node("%labelDisseny").text = str(estadistiques_temp.disseny)
-			fitxa_terballador_temp.get_node("%labelEnginy").text = str(estadistiques_temp.enginy)
-			fitxa_terballador_temp.get_node("%labelInformatica").text = str(estadistiques_temp.informatica)
-			fitxa_terballador_temp.get_node("%labelSocial").text = str(estadistiques_temp.social)
-			fitxa_terballador_temp.get_node("%buttonContracta").pressed.connect(contracta_treballador.bind(estadistiques_temp, counter))
+	if !menu_treballadors.is_visible_in_tree():
+		_on_close_menu_compres_pressed()
+		_on_close_menu_tasques_pressed()
+		menu_treballadors.show()
+		var counter := 0
+		if BusinessEngine.llista_candidats.is_empty():
+			var fitxa_terballador_temp = fitxa_informativa.instantiate()
+			fitxa_informativa.get_node("Label").text = "No hi ha treballadors disponibles!"
 			llista_candidats.add_child(fitxa_terballador_temp)
-			counter+=1
+		else:
+			for estadistiques_temp in BusinessEngine.llista_candidats :
+				var fitxa_terballador_temp = fitxa_treballador.instantiate()
+				var old_atlas = fitxa_terballador_temp.get_node("%imatgeTreballador").texture as AtlasTexture
+				var new_image := load(estadistiques_temp.imatge)
+
+				var new_atlas := AtlasTexture.new()
+				new_atlas.atlas = new_image
+				new_atlas.region = old_atlas.region
+				new_atlas.margin = old_atlas.margin
+				new_atlas.filter_clip = old_atlas.filter_clip
+				fitxa_terballador_temp.get_node("%imatgeTreballador").texture = new_atlas
+				fitxa_terballador_temp.get_node("%labelNom").text = estadistiques_temp.nom
+				fitxa_terballador_temp.get_node("%labelNivell").text = str(estadistiques_temp.nivell)
+				fitxa_terballador_temp.get_node("%labelSou").text = str(estadistiques_temp.sou)
+				fitxa_terballador_temp.get_node("%labelDisseny").text = str(estadistiques_temp.disseny)
+				fitxa_terballador_temp.get_node("%labelEnginy").text = str(estadistiques_temp.enginy)
+				fitxa_terballador_temp.get_node("%labelInformatica").text = str(estadistiques_temp.informatica)
+				fitxa_terballador_temp.get_node("%labelSocial").text = str(estadistiques_temp.social)
+				fitxa_terballador_temp.get_node("%buttonContracta").pressed.connect(contracta_treballador.bind(estadistiques_temp, counter))
+				llista_candidats.add_child(fitxa_terballador_temp)
+				counter+=1
 
 func _on_close_menu_treballadors_pressed() -> void:
 	menu_treballadors.hide()
@@ -153,27 +155,28 @@ func _on_close_menu_tasques_pressed() -> void:
 		entrada.queue_free()
 
 func activa_menu_tasques():
-	menu_treballadors.hide()
-	menu_compres.hide()
-	menu_tasques.show()
-	var counter := 0
-	if BusinessEngine.llista_tasques.is_empty():
-		var fitxa_terballador_temp = fitxa_informativa.instantiate()
-		fitxa_informativa.get_node("Label").text = "No hi ha contractes disponibles!"
-		llista_tasques.add_child(fitxa_terballador_temp)
-	else:
-		for contractes_temp in BusinessEngine.llista_tasques :
-			var fitxa_terballador_temp = fitxa_tasca.instantiate()
-			print(contractes_temp)
-			fitxa_terballador_temp.get_node("%labelNomEmpresa").text = contractes_temp.nom
-			fitxa_terballador_temp.get_node("%labelNomTasca").text = contractes_temp.tasca
-			fitxa_terballador_temp.get_node("%labelDurada").text = str(contractes_temp.dies_restants)
-			fitxa_terballador_temp.get_node("%labelPressu").text = str(contractes_temp.recompensa)
-			fitxa_terballador_temp.get_node("%labelPenyora").text = str(contractes_temp.penyora)
-			fitxa_terballador_temp.get_node("%labelDificultat").text = str("facil" if contractes_temp.dificultat <0.7 else "normal" if contractes_temp.dificultat <1.3 else "dificil")
-			fitxa_terballador_temp.get_node("%buttonAcceptaTasca").pressed.connect(accepta_contracte.bind(contractes_temp, counter))
+	if !menu_tasques.is_visible_in_tree():
+		_on_close_menu_treballadors_pressed()
+		_on_close_menu_compres_pressed()
+		menu_tasques.show()
+		var counter := 0
+		if BusinessEngine.llista_tasques.is_empty():
+			var fitxa_terballador_temp = fitxa_informativa.instantiate()
+			fitxa_informativa.get_node("Label").text = "No hi ha contractes disponibles!"
 			llista_tasques.add_child(fitxa_terballador_temp)
-			counter+=1
+		else:
+			for contractes_temp in BusinessEngine.llista_tasques :
+				var fitxa_terballador_temp = fitxa_tasca.instantiate()
+				print(contractes_temp)
+				fitxa_terballador_temp.get_node("%labelNomEmpresa").text = contractes_temp.nom
+				fitxa_terballador_temp.get_node("%labelNomTasca").text = contractes_temp.tasca
+				fitxa_terballador_temp.get_node("%labelDurada").text = str(contractes_temp.dies_restants)
+				fitxa_terballador_temp.get_node("%labelPressu").text = str(contractes_temp.recompensa)
+				fitxa_terballador_temp.get_node("%labelPenyora").text = str(contractes_temp.penyora)
+				fitxa_terballador_temp.get_node("%labelDificultat").text = str("facil" if contractes_temp.dificultat <0.7 else "normal" if contractes_temp.dificultat <1.3 else "dificil")
+				fitxa_terballador_temp.get_node("%buttonAcceptaTasca").pressed.connect(accepta_contracte.bind(contractes_temp, counter))
+				llista_tasques.add_child(fitxa_terballador_temp)
+				counter+=1
 
 func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 	if Pantalla.tasca_actual.size() != 0:
@@ -186,35 +189,53 @@ func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 		
 
 func activa_menu_compres():
-	menu_treballadors.hide()
-	menu_tasques.hide()
-	menu_compres.show()
-	var counter := 0
-	if BusinessEngine.llista_material.is_empty():
-		var fitxa_terballador_temp = fitxa_informativa.instantiate()
-		fitxa_terballador_temp.get_node("Label").text = "No hi ha materials disponibles!"
-		material.add_child(fitxa_terballador_temp)
-	else:
-		for contractes_temp in BusinessEngine.llista_material :
-			var fitxa_terballador_temp = fitxa_material.instantiate()
-			var valors = BusinessEngine.llista_material[contractes_temp]
-			#print(contractes_temp)
-			fitxa_terballador_temp.get_node("%labelNom").text = valors.nom
-			fitxa_terballador_temp.get_node("%imatge").texture = load(valors.icona)
-			fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
-			fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
-			fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.carregar_i_precol·locar.bind(valors))
+	if not menu_compres.is_visible_in_tree():
+		_on_close_menu_treballadors_pressed()
+		_on_close_menu_tasques_pressed()
+		menu_compres.show()
+		
+		if BusinessEngine.llista_material.is_empty():
+			var fitxa_terballador_temp = fitxa_informativa.instantiate()
+			fitxa_terballador_temp.get_node("Label").text = "No hi ha materials disponibles!"
 			material.add_child(fitxa_terballador_temp)
-			counter+=1
+		else:
+			var counter := 0
+			for contractes_temp in BusinessEngine.llista_material :
+				var fitxa_terballador_temp = fitxa_material.instantiate()
+				var valors = BusinessEngine.llista_material[contractes_temp]
+				#print(contractes_temp)
+				fitxa_terballador_temp.get_node("%labelNom").text = valors.nom
+				fitxa_terballador_temp.get_node("%imatge").texture = load(valors.icona)
+				fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
+				fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
+				fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.carregar_i_precol·locar.bind(valors))
+				material.add_child(fitxa_terballador_temp)
+				counter+=1
 			
-	if BusinessEngine.llista_locals.is_empty():
-		var fitxa_terballador_temp = fitxa_informativa.instantiate()
-		fitxa_terballador_temp.get_node("Label").text = "No hi ha locals disponibles!"
-		locals.add_child(fitxa_terballador_temp)
+		if BusinessEngine.llista_locals.is_empty():
+			var fitxa_terballador_temp = fitxa_informativa.instantiate()
+			fitxa_terballador_temp.get_node("Label").text = "No hi ha locals disponibles!"
+			locals.add_child(fitxa_terballador_temp)
+		else:
+			var counter := 0
+			for contractes_temp in BusinessEngine.llista_locals :
+				var fitxa_terballador_temp = fitxa_local.instantiate()
+				var valors = BusinessEngine.llista_locals[contractes_temp]
+				#print(contractes_temp)
+				fitxa_terballador_temp.get_node("%labelNom").text = contractes_temp
+				fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
+				fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
+				fitxa_terballador_temp.get_node("%labelCapacitat").text = str(valors.treballadors)
+				fitxa_terballador_temp.get_node("%labelMaterial").text = str(valors.material)
+				fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.remplaça_local.bind(get_node("/root/Pantalla/Oficina").get_child(0), valors))
+				locals.add_child(fitxa_terballador_temp)
+				counter+=1
 
 func _on_close_menu_compres_pressed() -> void:
 	menu_compres.hide()
 	for entrada in material.get_children():
+		entrada.queue_free()
+	for entrada in locals.get_children():
 		entrada.queue_free()
 
 func anima_label(label: Label, start_val: int, end_val: int, duration: float = 1.5):

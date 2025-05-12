@@ -66,6 +66,7 @@ func _ready() -> void:
 	progress_energia.max_value = atributs["energia"]
 	sprite_2d.texture = load(imatge)
 	pantalla = get_node("/root/Pantalla")
+	animation_player.play("apareix")
 
 func _process(delta: float) -> void:
 	last_delta = delta
@@ -189,7 +190,7 @@ func espera() -> void:
 		await get_tree().create_timer(delay).timeout
 		animation_player.play("celebra")
 	else:
-		animation_player.play("idle")
+		animation_player.queue("idle")
 	if Pantalla.tasca_actual.size() != 0:
 		estat = States.TREBALLANT
 

@@ -1,16 +1,29 @@
-[gd_scene load_steps=8 format=3 uid="uid://bggi6brq24jam"]
+[gd_scene load_steps=15 format=3 uid="uid://bggi6brq24jam"]
 
 [ext_resource type="Script" path="res://resources/menus/dialogue.gd" id="2_nle6i"]
 [ext_resource type="Texture2D" uid="uid://cgqnl23hdxi0n" path="res://resources/dialegs/1746946914129.jpg" id="2_r2fjk"]
 [ext_resource type="Theme" uid="uid://duyldufw2r0bd" path="res://resources/ux/Text negreta_UX.tres" id="4_frudx"]
+[ext_resource type="Texture2D" uid="uid://eqnx8gncn523" path="res://resources/ux/UI/yellow/button_rectangle_depth_line.png" id="5_bxevm"]
+[ext_resource type="FontFile" uid="uid://bl8s5moeoot0u" path="res://resources/ux/Fonts/born2bsporty-fs.regular.otf" id="5_wtubt"]
+[ext_resource type="Texture2D" uid="uid://7tb3chodtiqj" path="res://resources/ux/UI/yellow/button_rectangle_flat.png" id="6_ck68i"]
 [ext_resource type="AudioStream" uid="uid://kxqyo6fqab4k" path="res://resources/sons/talking_synth.ogg" id="7_411f2"]
+[ext_resource type="Texture2D" uid="uid://dv2e71wt33g1k" path="res://resources/ux/UI/yellow/button_rectangle_gradient.png" id="7_yir8e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qgmlq"]
 bg_color = Color(0, 0, 0, 0.721569)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qsue7"]
+texture = ExtResource("5_bxevm")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m7uxh"]
+texture = ExtResource("7_yir8e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bcig8"]
+texture = ExtResource("6_ck68i")
 
 [sub_resource type="InputEventAction" id="InputEventAction_u4ywf"]
 action = &"advance_text"
@@ -78,8 +91,14 @@ custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/icon_normal_color = Color(0.948031, 0.733289, 0, 1)
-theme_override_colors/icon_hover_color = Color(0.693128, 0.558263, 0.220151, 1)
+theme_override_fonts/font = ExtResource("5_wtubt")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_qsue7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_m7uxh")
+theme_override_styles/normal = SubResource("StyleBoxTexture_bcig8")
 shortcut = SubResource("Shortcut_1kyk3")
 text = "Next"

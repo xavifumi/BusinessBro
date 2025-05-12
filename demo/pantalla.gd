@@ -46,7 +46,7 @@ static var confetti
 
 func _ready() -> void:
 	set_process(true) # Activem el process des del principi
-	label = get_node("Label")
+	#label = get_node("Label")
 	diners = diners_inicials
 	var temp_pos_treballador = get_node("Oficina/PuntInici").position
 	punt_nou_treballador = temp_pos_treballador
@@ -61,8 +61,8 @@ func _process(_delta: float) -> void:
 		_actualitza_precol·locacio()
 
 func _actualitza_ui() -> void:
-
-	label.text = str(feina_acumulada)
+	pass
+	#label.text = str(feina_acumulada)
 
 func _gestiona_feina() -> void:
 	if tasca_actual.size() != 0:
@@ -90,16 +90,15 @@ func _es_posicio_valida(pos: Vector2) -> bool:
 		print("Posició ocupada: ", pos)
 		return false
 
-	if not node_oficina.has_node("Fons"):
+	if not node_oficina.get_child(0).has_node("Fons"):
 		return false
 
-	var fons = node_oficina.get_node("Fons") as TileMapLayer
+	var fons = node_oficina.get_child(0).get_node("Fons") as TileMapLayer
 	var local_pos = fons.to_local(pos)
 	var tile_coords = fons.local_to_map(local_pos)
 	var tile_data = fons.get_cell_tile_data(tile_coords)
 
 	return tile_data and tile_data.get_custom_data("construible")
-
 
 
 func actualitza_llistes_posicions():
@@ -208,3 +207,28 @@ func _input(event: InputEvent) -> void:
 			else:
 				get_node("FXPlayer").stream = load(so_error)
 				get_node("FXPlayer").play()
+
+
+func remplaça_local(original_node: Node2D, data: Dictionary):
+	var steam = preload("res://resources/oficina/332602__vckhaze__smoke-bomb.wav")
+	var parent = original_node.get_parent()
+	var index = original_node.get_index()
+	var new_scene_path: String = data.escena
+	var transform := original_node.transform # per 2D pots usar global_position, rotation, scale
+	
+	original_node.queue_free()
+
+	var new_scene = load(new_scene_path).instantiate()
+	parent.add_child(new_scene)
+	parent.move_child(new_scene, index)
+
+	# Si vols mantenir la posició, rotació, etc.
+	new_scene.global_position = transform.origin
+	new_scene.rotation = original_node.rotation
+	new_scene.scale = original_node.scale
+	get_node("Ux")._on_close_menu_compres_pressed()
+	get_node("Ux").anima_label(get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"), diners, diners - data.preu)
+	diners -= data.preu*4
+	get_node("%FXPlayer").stream = steam
+	get_node("%FXPlayer").play()
+	

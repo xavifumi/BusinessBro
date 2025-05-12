@@ -165,7 +165,37 @@ static var llista_material = {
 	}
 }
 
-static var llista_locals = {}
+static var llista_locals = {
+	"Parquing de casa la iaia": {
+		"descripcio": "",
+		"treballadors": 2,
+		"material": 3,
+		"preu": 130,
+		"escena":"res://resources/oficina/local00.tscn"
+	},
+	"Viver d'empreses": {
+		"descripcio": "",
+		"treballadors": 4,
+		"material": 6,
+		"preu": 350,
+		"escena":"res://resources/oficina/local01.tscn"
+	},
+	"Coworking": {
+		"descripcio": "",
+		"treballadors": 6,
+		"material": 9,
+		"preu": 800,
+		"escena":"res://resources/oficina/local02.tscn"
+	},
+	"Local cutre": {
+		"descripcio": "",
+		"treballadors": 10,
+		"material": 15,
+		"preu": 1800,
+		"escena":"res://resources/oficina/local03.tscn"
+	}
+}
+
 
 
 # Called when the node enters the scene tree for the first time.

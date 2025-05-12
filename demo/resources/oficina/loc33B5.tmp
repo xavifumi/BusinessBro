@@ -1,10 +1,12 @@
-[gd_scene load_steps=5 format=4 uid="uid://et473icat4wv"]
+[gd_scene load_steps=9 format=4 uid="uid://b4jvk4463374d"]
 
-[ext_resource type="TileSet" uid="uid://c4ngqo3xu1lu1" path="res://resources/oficina/terres_oficina.tres" id="1_2iw03"]
-[ext_resource type="Texture2D" uid="uid://cx34fsvj0ade3" path="res://resources/oficina/resources/Office tiles/Little_Bits_office_walls.png" id="2_gpofq"]
+[ext_resource type="TileSet" uid="uid://c4ngqo3xu1lu1" path="res://resources/oficina/terres_oficina.tres" id="1_u8v74"]
+[ext_resource type="Script" path="res://resources/oficina/local.gd" id="1_uah78"]
+[ext_resource type="Texture2D" uid="uid://cx34fsvj0ade3" path="res://resources/oficina/resources/Office tiles/Little_Bits_office_walls.png" id="2_geg6l"]
+[ext_resource type="Texture2D" uid="uid://dhaej4ty38egv" path="res://resources/oficina/Explosions.png" id="4_0i0t6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m1sff"]
-texture = ExtResource("2_gpofq")
+texture = ExtResource("2_geg6l")
 1:0/0 = 0
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(1.8125, 1.125, 8, 1.125, 8, 8, 2.0625, 8)
 2:0/0 = 0
@@ -95,18 +97,34 @@ texture = ExtResource("2_gpofq")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_m1sff")
 
-[node name="Oficina" type="Node2D"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kgubf"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, -98, 0)
 
-[node name="Overlay" type="TileMapLayer" parent="."]
-collision_enabled = false
+[sub_resource type="AtlasTexture" id="AtlasTexture_3m44b"]
+atlas = ExtResource("4_0i0t6")
+region = Rect2(0, 0, 192, 192)
+
+[node name="Local" type="Node2D"]
+script = ExtResource("1_uah78")
 
 [node name="Fons" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
 scale = Vector2(4, 4)
-tile_map_data = PackedByteArray("AAAHAAMAAAAFAAAAAAAHAAQAAAAFAAIAAAAHAAUAAAAGAAIAAAAHAAYAAAAGAAAAAAAIAAMAAAAGAAAAAAAIAAQAAAAFAAAAAAAIAAUAAAAFAAIAAAAIAAYAAAAFAAAAAAAJAAMAAAAFAAAAAAAJAAQAAAAGAAAAAAAJAAUAAAAFAAIAAAAJAAYAAAAFAAIAAAAKAAMAAAAFAAIAAAAKAAQAAAAGAAEAAAAKAAUAAAAGAAIAAAAKAAYAAAAGAAAAAAA=")
-tile_set = ExtResource("1_2iw03")
+tile_map_data = PackedByteArray("AAAHAAMAAAAHAAAAAAAHAAQAAAAHAAEAAAAHAAUAAAAIAAIAAAAIAAMAAAAIAAAAAAAIAAQAAAAIAAEAAAAIAAUAAAAIAAIAAAAJAAMAAAAJAAAAAAAJAAQAAAAJAAEAAAAJAAUAAAAJAAIAAAA=")
+tile_set = ExtResource("1_u8v74")
 collision_enabled = false
 
 [node name="Parets" type="TileMapLayer" parent="."]
 scale = Vector2(4, 4)
-tile_map_data = PackedByteArray("AAAGAAEAAAABAAAAAAAGAAIAAAABAAEAAAAGAAMAAAABAAEAAAAGAAQAAAABAAEAAAAGAAUAAAABAAEAAAAGAAYAAAABAAEAAAAGAAcAAAABAAMAAAAHAAEAAAACAAAAAAAHAAIAAAACAAEAAAAHAAcAAAACAAMAAAAIAAEAAAACAAAAAAAIAAIAAAACAAEAAAAIAAcAAAACAAMAAAAJAAEAAAACAAAAAAAJAAIAAAACAAEAAAAJAAcAAAACAAMAAAAKAAEAAAACAAAAAAAKAAIAAAACAAEAAAAKAAcAAAACAAMAAAALAAEAAAAEAAAAAAALAAIAAAAEAAEAAAALAAMAAAAEAAEAAAALAAQAAAAEAAEAAAALAAUAAAAEAAEAAAALAAYAAAAEAAEAAAALAAcAAAAEAAMAAAA=")
+tile_map_data = PackedByteArray("AAAGAAEAAAABAAAAAAAGAAIAAAABAAEAAAAGAAMAAAABAAEAAAAGAAQAAAABAAEAAAAGAAUAAAABAAEAAAAGAAYAAAABAAMAAAAHAAEAAAACAAAAAAAHAAIAAAACAAEAAAAHAAYAAAACAAMAAAAIAAEAAAACAAAAAAAIAAIAAAACAAEAAAAIAAYAAAACAAMAAAAJAAEAAAACAAAAAAAJAAIAAAACAAEAAAAJAAYAAAACAAMAAAAKAAEAAAAEAAAAAAAKAAIAAAAEAAEAAAAKAAMAAAAEAAEAAAAKAAQAAAAEAAEAAAAKAAUAAAAEAAEAAAAKAAYAAAAEAAMAAAA=")
 tile_set = SubResource("TileSet_8nys6")
+
+[node name="Detalls" type="TileMapLayer" parent="."]
+collision_enabled = false
+
+[node name="ParticulesFons" type="GPUParticles2D" parent="."]
+position = Vector2(548, 284)
+process_material = SubResource("ParticleProcessMaterial_kgubf")
+texture = SubResource("AtlasTexture_3m44b")
