@@ -98,6 +98,7 @@ sources/0 = SubResource("TileSetAtlasSource_m1sff")
 [node name="Empty" type="Node2D"]
 
 [node name="Fons" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
 scale = Vector2(4, 4)
 tile_set = ExtResource("1_ht72m")
 collision_enabled = false

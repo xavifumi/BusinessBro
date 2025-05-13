@@ -237,7 +237,7 @@ static func genera_treballador():
 		"social": social,
 		"imatge": imatge
 	}
-	print(resposta)
+	#print(resposta)
 	return resposta
 	
 static func genera_llista_candidats() -> void:

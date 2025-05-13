@@ -6,3 +6,4 @@
 Label/font_sizes/font_size = 20
 Label/fonts/font = ExtResource("1_17f8p")
 RichTextLabel/fonts/normal_font = ExtResource("1_17f8p")
+TooltipLabel/fonts/font = ExtResource("1_17f8p")

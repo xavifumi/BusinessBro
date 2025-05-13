@@ -646,6 +646,8 @@ size_flags_vertical = 4
 texture_normal = ExtResource("13_c3wmj")
 stretch_mode = 4
 
+[node name="PopupPanel" type="PopupPanel" parent="."]
+
 [connection signal="pressed" from="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTreballadors" to="." method="_on_close_menu_treballadors_pressed"]
 [connection signal="pressed" from="PantallaSencera/MenuTasques/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTasques" to="." method="_on_close_menu_tasques_pressed"]
 [connection signal="pressed" from="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuCompres" to="." method="_on_close_menu_compres_pressed"]

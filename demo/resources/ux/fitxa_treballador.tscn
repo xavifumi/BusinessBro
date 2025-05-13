@@ -84,11 +84,15 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/sou/HBoxContainer"]
 layout_mode = 2
+tooltip_text = "Sou"
+theme = ExtResource("2_bl4tq")
 texture = ExtResource("2_bnr5t")
 
 [node name="labelSou" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/sou/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "sou"
+mouse_filter = 0
 theme = ExtResource("2_bl4tq")
 text = "30.000€"
 
@@ -101,48 +105,64 @@ columns = 8
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Disseny"
+theme = ExtResource("2_bl4tq")
 texture = ExtResource("3_1liqr")
 
 [node name="labelDisseny" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
+tooltip_text = "Disseny"
+mouse_filter = 1
 theme = ExtResource("2_bl4tq")
 text = "100"
 
 [node name="TextureRect2" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Enginy"
+theme = ExtResource("2_bl4tq")
 texture = ExtResource("4_h8s7t")
 
 [node name="labelEnginy" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
+tooltip_text = "Enginy"
+mouse_filter = 1
 theme = ExtResource("2_bl4tq")
 text = "100"
 
 [node name="TextureRect3" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Informàtica"
+theme = ExtResource("2_bl4tq")
 texture = ExtResource("5_y1ctj")
 
 [node name="labelInformatica" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
+tooltip_text = "Informàtica"
+mouse_filter = 1
 theme = ExtResource("2_bl4tq")
 text = "100"
 
 [node name="TextureRect4" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Social"
+theme = ExtResource("2_bl4tq")
 texture = ExtResource("6_x6d8h")
 
 [node name="labelSocial" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
+tooltip_text = "Social"
+mouse_filter = 0
 theme = ExtResource("2_bl4tq")
 text = "100"
 

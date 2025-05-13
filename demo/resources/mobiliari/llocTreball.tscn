@@ -4,14 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://clrx7dxu1k8pn" path="res://resources/oficina/resources/Office tiles/Little_Bits_office_objects.png" id="2_6peo5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ls25b"]
-size = Vector2(51.5, 21.5)
+size = Vector2(64, 64)
 
 [node name="treball" type="Area2D" groups=["llocsDeTreball"]]
 collision_mask = 2
 script = ExtResource("1_p3s36")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(31, 55.25)
+position = Vector2(32, 32)
 shape = SubResource("RectangleShape2D_ls25b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

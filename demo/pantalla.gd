@@ -42,23 +42,39 @@ var objecte_instance : Node2D = null
 var mode_precol·locacio := false
 var node_oficina : Node = null
 var tipus_actual : String = ""
+var objecte_arrossegat: Node2D = null
+var mode_reubicacio := false
+var posicio_original: Vector2 = Vector2.ZERO
 static var confetti
 
 func _ready() -> void:
-	set_process(true) # Activem el process des del principi
-	#label = get_node("Label")
+	set_process(true)
 	diners = diners_inicials
-	var temp_pos_treballador = get_node("Oficina/PuntInici").position
-	punt_nou_treballador = temp_pos_treballador
+	punt_nou_treballador = get_node("Oficina/PuntInici").position
 	actualitza_llistes_posicions()
-	var label_diners = get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid")
-	label_diners.text = str(diners)
+	get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid").text = str(diners)
+
+	# Connecta senyals d'arrossegables
+	for node in get_tree().get_nodes_in_group("arrossegables"):
+		if node.has_signal("reubicar_solicitat"):
+			node.connect("reubicar_solicitat", Callable(self, "_on_reubicar_solicitat"))
+			print("Connectat senyal des de:", node.name)
+
 
 func _process(_delta: float) -> void:
 	_actualitza_ui()
 	_gestiona_feina()
+
 	if mode_precol·locacio:
 		_actualitza_precol·locacio()
+	elif mode_reubicacio and objecte_arrossegat:
+		var snapped_tile = get_mouse_snapped_position()
+		var snapped_pos = Vector2(snapped_tile * 64)
+		objecte_arrossegat.global_position = snapped_pos
+
+		var es_valid = _es_posicio_valida(snapped_pos)
+		objecte_arrossegat.modulate = Color(1, 1, 1, 0.5) if es_valid else Color(1, 0, 0, 0.5)
+
 
 func _actualitza_ui() -> void:
 	pass
@@ -154,6 +170,8 @@ static func afegeix_treballador(ubicacio: Node) -> void:
 	fitxatge_treballador_temp.atributs["informatica"] = treballador_temp.informatica
 	fitxatge_treballador_temp.atributs["social"] = treballador_temp.social
 	fitxatge_treballador_temp.imatge = treballador_temp.imatge
+	fitxatge_treballador_temp.add_to_group("arrossegables")
+	#fitxatge_treballador_temp.connect("reubicar_solicitat", Callable(self, "_on_reubicar_solicitat"))
 	fitxatge_treballador_temp.position = punt_nou_treballador + Vector2(randi_range(-20,20), randi_range(-20,20))
 	ubicacio.add_child(fitxatge_treballador_temp)
 
@@ -169,6 +187,9 @@ func carregar_i_precol·locar(data: Dictionary) -> void:
 	objecte_instance = escena_precarregada.instantiate()
 	objecte_instance.preu = data.preu
 	objecte_instance.modulate.a = 0.5
+	objecte_instance.add_to_group("arrossegables")
+	objecte_instance.add_to_group(objecte_instance.tipus)
+	objecte_instance.connect("reubicar_solicitat", Callable(self, "_on_reubicar_solicitat"))
 
 	node_oficina = $Oficina
 	var target_node = node_oficina.get_node("treball") if tipus_actual == "treball" else node_oficina.get_node("descans")
@@ -178,35 +199,74 @@ func carregar_i_precol·locar(data: Dictionary) -> void:
 	get_node("Ux")._on_close_menu_compres_pressed()
 
 func _input(event: InputEvent) -> void:
-	if not mode_precol·locacio or objecte_instance == null:
-		return
-
 	if event is InputEventMouseButton:
-		var snapped_pos = Vector2(get_mouse_snapped_position() * 64)
+		var mouse_pressed: bool = event.pressed
+		var button: MouseButton = event.button_index
 
-		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-			objecte_instance.queue_free()
-			objecte_instance = null
-			mode_precol·locacio = false
-			return
+		# --- Precol·locació ---
+		if mode_precol·locacio and objecte_instance != null:
+			var snapped_pos: Vector2 = get_mouse_snapped_position() * 64
 
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if _es_posicio_valida(snapped_pos):
-				objecte_instance.modulate = Color(1, 1, 1, 1.0)
-				objecte_instance.global_position = snapped_pos
-				get_node("Ux").anima_label(get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"), diners, diners - objecte_instance.preu)
-				diners -= objecte_instance.preu
-				get_node("FXPlayer").stream = load(so_compra)
-				get_node("FXPlayer").play()
+			if button == MOUSE_BUTTON_RIGHT and mouse_pressed:
+				objecte_instance.queue_free()
+				objecte_instance = null
 				mode_precol·locacio = false
+				return
 
-				if tipus_actual == "treball":
-					BusinessEngine.posicions_treball[snapped_pos] = "lliure"
+			if button == MOUSE_BUTTON_LEFT and mouse_pressed:
+				if _es_posicio_valida(snapped_pos):
+					objecte_instance.global_position = snapped_pos
+					objecte_instance.modulate = Color(1, 1, 1, 1.0)
+					get_node("Ux").anima_label(
+						get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"),
+						diners, diners - objecte_instance.preu
+					)
+					diners -= objecte_instance.preu
+					get_node("FXPlayer").stream = load(so_compra)
+					get_node("FXPlayer").play()
+					mode_precol·locacio = false
+
+					if tipus_actual == "treball":
+						BusinessEngine.posicions_treball[snapped_pos] = "lliure"
+					else:
+						BusinessEngine.posicions_descans[snapped_pos] = "lliure"
 				else:
+					get_node("FXPlayer").stream = load(so_error)
+					get_node("FXPlayer").play()
+				return
+
+		# --- Confirmar nova posició amb clic esquerre ---
+		elif button == MOUSE_BUTTON_LEFT and mouse_pressed and mode_reubicacio and objecte_arrossegat:
+			var snapped_pos: Vector2 = get_mouse_snapped_position() * 64
+			if _es_posicio_valida(snapped_pos):
+				objecte_arrossegat.global_position = snapped_pos
+				objecte_arrossegat.modulate.a = 1.0
+				mode_reubicacio = false
+
+				# Actualitzar llistes
+				if objecte_arrossegat.is_in_group("treball"):
+					BusinessEngine.posicions_treball.erase(posicio_original)
+					BusinessEngine.posicions_treball[snapped_pos] = "lliure"
+				elif objecte_arrossegat.is_in_group("descans"):
+					BusinessEngine.posicions_descans.erase(posicio_original)
 					BusinessEngine.posicions_descans[snapped_pos] = "lliure"
 			else:
 				get_node("FXPlayer").stream = load(so_error)
 				get_node("FXPlayer").play()
+
+		# --- Cancel·lar reubicació amb clic dret ---
+		elif button == MOUSE_BUTTON_RIGHT and mouse_pressed and mode_reubicacio:
+			objecte_arrossegat.global_position = posicio_original
+			objecte_arrossegat.modulate.a = 1.0
+			mode_reubicacio = false
+			objecte_arrossegat = null
+
+	# --- Moure l'objecte reubicat amb el ratolí mentre està en mode reubicació ---
+	elif event is InputEventMouseMotion and mode_reubicacio and objecte_arrossegat:
+		var snapped_pos: Vector2 = get_mouse_snapped_position() * 64
+		objecte_arrossegat.global_position = snapped_pos
+
+
 
 
 func remplaça_local(original_node: Node2D, data: Dictionary):
@@ -231,4 +291,17 @@ func remplaça_local(original_node: Node2D, data: Dictionary):
 	diners -= data.preu*4
 	get_node("%FXPlayer").stream = steam
 	get_node("%FXPlayer").play()
-	
+
+
+func _on_reubicar_solicitat(node: Node2D) -> void:
+	objecte_arrossegat = node
+	posicio_original = node.global_position
+	mode_reubicacio = true
+	objecte_arrossegat.modulate.a = 0.5
+
+	# Alliberar posició original
+	var pos_orig = Vector2(round(posicio_original.x / 64), round(posicio_original.y / 64)) * 64
+	if node.is_in_group("treball"):
+		BusinessEngine.posicions_treball.erase(pos_orig)
+	elif node.is_in_group("descans"):
+		BusinessEngine.posicions_descans.erase(pos_orig)

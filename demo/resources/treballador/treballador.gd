@@ -51,6 +51,7 @@ var estat: States = States.ESPERANT
 var avorriment: Timer
 var tasca: Timer
 var pantalla
+signal reubicar_solicitat(node)
 
 func _ready() -> void:
 	tasca = get_node("tasca")
@@ -67,6 +68,9 @@ func _ready() -> void:
 	sprite_2d.texture = load(imatge)
 	pantalla = get_node("/root/Pantalla")
 	animation_player.play("apareix")
+	add_to_group("arrossegables")
+	connect("reubicar_solicitat", Callable(self, "_on_reubicar_solicitat"))
+	self.input_pickable = true
 
 func _process(delta: float) -> void:
 	last_delta = delta
@@ -250,3 +254,8 @@ func calculate_avoidance_force() -> Vector2:
 			var force := direction_away_from_obstacle * avoidance_strength * intensity
 			avoidance_force += force
 	return avoidance_force
+
+func _input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		print("Clic detectat sobre treballador!")
+		# Aquí pots trucar Precolocar o emetre un senyal
