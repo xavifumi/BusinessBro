@@ -7,6 +7,7 @@ class_name FitxaTreballador extends PanelContainer
 @onready var label_enginy: Label = %labelEnginy
 @onready var label_informatica: Label = %labelInformatica
 @onready var label_social: Label = %labelSocial
+@onready var imatge_treballador: TextureRect = %imatgeTreballador
 @onready var button_contracta: TextureButton = %buttonContracta
 
 
@@ -18,5 +19,3 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
-
-	

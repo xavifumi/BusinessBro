@@ -1,7 +1,7 @@
 extends Node2D
 const MAX_PARTICLES := 500
 
-@onready var fons: TileMapLayer = %Fons
+#@onready var fons: TileMapLayer = %Fons
 @onready var particules_fons: GPUParticles2D = %ParticulesFons
 
 # Called when the node enters the scene tree for the first time.

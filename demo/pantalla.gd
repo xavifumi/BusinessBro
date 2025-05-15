@@ -3,6 +3,7 @@ class_name Pantalla extends Node2D
 
 var label 
 static var llista_treballadors = []
+var debug_tiles: Array = []  
 static var maxim_treballadors := 2
 static var lloguer := 75
 static var treballador_temp
@@ -127,8 +128,8 @@ func actualitza_llistes_posicions():
 
 	
 func _feina_in_progress()->void:
-	print("tasca actual: " + str(tasca_actual))
-	print("feina acumulada: " + str(feina_total_acumulada))
+	#print("tasca actual: " + str(tasca_actual))
+	#print("feina acumulada: " + str(feina_total_acumulada))
 	if tasca_actual["dies_restants"] > 0:
 		if tasca_actual["feina"] <= feina_total_acumulada:
 			diners += tasca_actual["recompensa"]
@@ -160,7 +161,7 @@ static func contracta_treballador(treballador_cont_temp: Dictionary, index: int)
 	llista_treballadors.append(treballador_cont_temp)
 	BusinessEngine.llista_candidats.remove_at(index)
 
-static func afegeix_treballador(ubicacio: Node) -> void:
+func afegeix_treballador(ubicacio: Node) -> void:
 	var fitxatge_treballador_temp = fitxatge_treballador.instantiate()
 	fitxatge_treballador_temp.atributs["nom"] = treballador_temp.nom
 	fitxatge_treballador_temp.atributs["nivell"] = treballador_temp.nivell
@@ -172,7 +173,9 @@ static func afegeix_treballador(ubicacio: Node) -> void:
 	fitxatge_treballador_temp.imatge = treballador_temp.imatge
 	fitxatge_treballador_temp.add_to_group("arrossegables")
 	#fitxatge_treballador_temp.connect("reubicar_solicitat", Callable(self, "_on_reubicar_solicitat"))
-	fitxatge_treballador_temp.position = punt_nou_treballador + Vector2(randi_range(-20,20), randi_range(-20,20))
+	#fitxatge_treballador_temp.position = punt_nou_treballador + Vector2(randi_range(-20,20), randi_range(-20,20))
+	print(get_posicions_construibles_disponibles())
+	fitxatge_treballador_temp.position = get_posicions_construibles_disponibles().pick_random()
 	ubicacio.add_child(fitxatge_treballador_temp)
 
 func carregar_i_precol·locar(data: Dictionary) -> void:
@@ -205,12 +208,14 @@ func _input(event: InputEvent) -> void:
 
 		# --- Precol·locació ---
 		if mode_precol·locacio and objecte_instance != null:
+			mostra_tiles_disponibles()
 			var snapped_pos: Vector2 = get_mouse_snapped_position() * 64
 
 			if button == MOUSE_BUTTON_RIGHT and mouse_pressed:
 				objecte_instance.queue_free()
 				objecte_instance = null
 				mode_precol·locacio = false
+				neteja_tiles_debug()
 				return
 
 			if button == MOUSE_BUTTON_LEFT and mouse_pressed:
@@ -233,6 +238,7 @@ func _input(event: InputEvent) -> void:
 				else:
 					get_node("FXPlayer").stream = load(so_error)
 					get_node("FXPlayer").play()
+					neteja_tiles_debug()
 				return
 
 		# --- Confirmar nova posició amb clic esquerre ---
@@ -274,7 +280,7 @@ func remplaça_local(original_node: Node2D, data: Dictionary):
 	var parent = original_node.get_parent()
 	var index = original_node.get_index()
 	var new_scene_path: String = data.escena
-	var transform := original_node.transform # per 2D pots usar global_position, rotation, scale
+	transform = original_node.transform # per 2D pots usar global_position, rotation, scale
 	
 	original_node.queue_free()
 
@@ -291,6 +297,7 @@ func remplaça_local(original_node: Node2D, data: Dictionary):
 	diners -= data.preu*4
 	get_node("%FXPlayer").stream = steam
 	get_node("%FXPlayer").play()
+	#mostra_tiles_disponibles()
 
 
 func _on_reubicar_solicitat(node: Node2D) -> void:
@@ -305,3 +312,52 @@ func _on_reubicar_solicitat(node: Node2D) -> void:
 		BusinessEngine.posicions_treball.erase(pos_orig)
 	elif node.is_in_group("descans"):
 		BusinessEngine.posicions_descans.erase(pos_orig)
+	
+
+func get_posicions_construibles_disponibles() -> Array:
+	var posicions_disponibles := []
+	var node_oficina = get_tree().root.get_node("Pantalla/Oficina")
+	
+	# Agafem el node TileMap que conté els tiles
+	if not node_oficina.get_child(0).has_node("Fons"):
+		return posicions_disponibles
+	
+	var fons = node_oficina.get_child(0).get_node("Fons") as TileMapLayer
+
+	# Recorrem tots els tiles ocupats
+	for coords in fons.get_used_cells():
+		var tile_data = fons.get_cell_tile_data(coords)
+		if not tile_data:
+			continue
+
+		if tile_data.get_custom_data("construible"):
+			var global_pos = fons.to_global(Vector2i(coords) * fons.tile_set.tile_size)
+			global_pos = Vector2(floor(global_pos.x), floor(global_pos.y))
+
+			if BusinessEngine.posicions_treball.has(global_pos) or BusinessEngine.posicions_descans.has(global_pos):
+				continue
+
+			posicions_disponibles.append(global_pos)
+
+
+	return posicions_disponibles
+
+#Debbuging de colocacio erronia
+func mostra_tiles_disponibles():
+	neteja_tiles_debug()  # Esborra si ja n’hi havia
+
+	var posicions = get_posicions_construibles_disponibles()
+	node_oficina = $Oficina
+	for pos in posicions:
+		var debug_rect := ColorRect.new()
+		debug_rect.color = Color(0, 1, 0, 0.3)
+		debug_rect.size = Vector2(64, 64)
+		debug_rect.position = pos
+		node_oficina.add_child(debug_rect)
+		debug_tiles.append(debug_rect)  # El guardem
+
+func neteja_tiles_debug():
+	for rect in debug_tiles:
+		if is_instance_valid(rect):
+			rect.queue_free()
+	debug_tiles.clear()

@@ -17,8 +17,10 @@ class_name UX
 @onready var menu_compres: PanelContainer = %MenuCompres
 @onready var material: VBoxContainer = %Material
 @onready var locals: VBoxContainer = %Locals
+@onready var display_treballador: FitxaTreballador = %DisplayTreballador
 var pantalla
 var fxplayer
+var treballadors_per_generar = []
 
 
 @export var tween_intensity: float
@@ -48,9 +50,13 @@ func _process(_delta: float) -> void:
 	for button in calaix_aplicacions.get_children():
 		btn_hovered(button)
 	if Pantalla.tasca_actual.size() != 0:
-		%FeinaInfo.show()
+		var tween = create_tween()
+		tween.tween_property(%FeinaInfo, "position:y", 575, tween_duration)
+		#%FeinaInfo.show()
 	else :
-		%FeinaInfo.hide()
+		var tween = create_tween()
+		tween.tween_property(%FeinaInfo, "position:y", 655, tween_duration)
+		#%FeinaInfo.hide()
 	if %FeinaInfo.is_visible_in_tree():
 		%FeinaInfoDescription.text = Pantalla.tasca_actual["nom"]  if Pantalla.tasca_actual.size() != 0 else ""
 		%FeinaInfoDies.text = str(Pantalla.tasca_actual["dies_restants"]) if Pantalla.tasca_actual.size() != 0 else ""
@@ -113,22 +119,29 @@ func _on_close_menu_treballadors_pressed() -> void:
 	menu_treballadors.hide()
 	for entrada in llista_candidats.get_children():
 		entrada.queue_free()
+	for treballador in treballadors_per_generar :
+		genera_treballador(treballador)
+		await get_tree().create_timer(randf_range(0.5,1.0)).timeout
 
 func contracta_treballador(treballador_temp: Dictionary, index: int) -> void:
 	if Pantalla.llista_treballadors.size() < Pantalla.maxim_treballadors:
 		Pantalla.llista_treballadors.append(treballador_temp)
-		Pantalla.treballador_temp = treballador_temp
-		Pantalla.afegeix_treballador($%Plantilla)
-		fxplayer.stream = load(so_compra)
-		fxplayer.play()
-		
+		treballadors_per_generar.append(treballador_temp)
+
 		BusinessEngine.llista_candidats.remove_at(index)
+		menu_treballadors.hide()
 		for entrada in llista_candidats.get_children():
 			entrada.queue_free()
 		activa_menu_personal()
 	else:
 		activa_popup("Ja tens el màxim de treballadors permesos en aquesta oficina!
 Prova a traslladar-te a una nova.")
+
+func genera_treballador(treballador_temp: Dictionary) -> void:
+	pantalla.treballador_temp = treballador_temp
+	pantalla.afegeix_treballador($%Plantilla)
+	fxplayer.stream = load(so_compra)
+	fxplayer.play()
 
 func _on_popup_close_button_pressed() -> void:
 	get_node("%PopUp").hide()
@@ -244,3 +257,31 @@ func anima_label(label: Label, start_val: int, end_val: int, duration: float = 1
 
 func _update_label(value: float, label: Label):
 	label.text = str(round(value))
+	
+func anima_entrada_display(dades: Node):
+	print("senyal rebuda: " + str(dades.atributs))
+	display_treballador.label_nom.text = dades.atributs.nom
+	display_treballador.label_nivell.text = str(dades.atributs.nivell)
+	display_treballador.label_sou.text = str(dades.atributs.sou)
+	display_treballador.label_disseny.text = str(dades.atributs.disseny)
+	display_treballador.label_enginy.text = str(dades.atributs.enginy)
+	display_treballador.label_informatica.text = str(dades.atributs.informatica)
+	display_treballador.label_social.text = str(dades.atributs.social)
+	var old_atlas = display_treballador.imatge_treballador.texture as AtlasTexture
+	var regio_atlas = old_atlas.region
+	var new_image = load(dades.imatge)
+	var new_atlas := AtlasTexture.new()
+	new_atlas.atlas = new_image
+	new_atlas.region = old_atlas.region
+	new_atlas.margin = old_atlas.margin
+	new_atlas.filter_clip = old_atlas.filter_clip
+	display_treballador.imatge_treballador.texture = new_atlas
+
+	
+	var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	tween.tween_property(display_treballador, "position:y", 496, 1.0)
+
+func anima_sortida_display():
+	var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	tween.tween_property(display_treballador, "position:y", 655, 1.0)
+	

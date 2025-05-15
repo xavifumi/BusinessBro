@@ -8,6 +8,8 @@ class_name Treballador extends CharacterBody2D
 @onready var print_estat: Label = $Control/printEstat
 @onready var audio_player: AudioStreamPlayer = %AudioStreamPlayer
 @onready var sprite_2d: Sprite2D = %Sprite2D
+@onready var Ux := get_tree().root.get_node("Pantalla/Ux")
+
 
 @export var max_speed := 300.0
 var actual_speed := 300.0
@@ -16,7 +18,7 @@ var actual_speed := 300.0
 @export var avoidance_strength := 500.0
 var posicio_desti = Vector2.INF
 
-static var atributs = {
+var atributs = {
 	"nom": "",
 	"nivell": 1,
 	"sou": 15000,
@@ -27,7 +29,7 @@ static var atributs = {
 	"motivacio": 1,
 	"energia": 100
 }
-static var imatge = "res://resources/treballador/imatges_treballadors/Character 1.png"
+var imatge = "res://resources/treballador/imatges_treballadors/Character 1.png"
 
 var energia_actual := 100
 var descansant = false
@@ -52,6 +54,7 @@ var avorriment: Timer
 var tasca: Timer
 var pantalla
 signal reubicar_solicitat(node)
+signal activar_display(diccionari)
 
 func _ready() -> void:
 	tasca = get_node("tasca")
@@ -69,7 +72,9 @@ func _ready() -> void:
 	pantalla = get_node("/root/Pantalla")
 	animation_player.play("apareix")
 	add_to_group("arrossegables")
-	connect("reubicar_solicitat", Callable(self, "_on_reubicar_solicitat"))
+	#Ux = get_node("/root/Pantalla/Ux")
+	#connect("activar_display", Callable(Ux, "anima_entrada_display").bind(self))
+
 	self.input_pickable = true
 
 func _process(delta: float) -> void:
@@ -256,6 +261,14 @@ func calculate_avoidance_force() -> Vector2:
 	return avoidance_force
 
 func _input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-		print("Clic detectat sobre treballador!")
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		#emit_signal("activar_display", self)
+		print("posicio display: " + str(Ux.display_treballador.position.y))
+		print(str(atributs))
+		if Ux.display_treballador.label_nom.text == atributs.nom and Ux.display_treballador.position.y == 496:
+			# Si ja està mostrant aquest treballador, amaga
+			Ux.anima_sortida_display()
+		else:
+			# Sinó, mostra aquest treballador
+			Ux.anima_entrada_display(self)
 		# Aquí pots trucar Precolocar o emetre un senyal
