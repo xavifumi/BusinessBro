@@ -5,6 +5,7 @@ static var year: int = 2021
 static var month: int = 1  # Gener
 static var mes_en_text: String = "gener"
 static var day: int = 1
+var global_engine 
 @onready var display_any: Label = $UI/VBoxContainer/displayAny
 @onready var display_mes: Label = $UI/VBoxContainer/HBoxContainer/displayMes
 @onready var display_dia: Label = $UI/VBoxContainer/HBoxContainer/displayDia
@@ -60,6 +61,7 @@ func _ready():
 			timer.wait_time = 5.0
 			timer.start()
 	)
+	global_engine = get_tree().root.get_node("GlobalEngine")
 
 func is_leap_year(y: int) -> bool:
 	return (y % 4 == 0 and y % 100 != 0) or (y % 400 == 0)
@@ -68,6 +70,9 @@ func _next_day():
 	day += 1
 	if Pantalla.tasca_actual.size() != 0:
 		Pantalla.tasca_actual["dies_restants"] -= 1
+	if day % 7 == 0:
+		global_engine.genera_llista_candidats()
+		global_engine.genera_llista_tasques()
 	# Comprovar si febrer ha de tenir 29 dies
 	if month == 2:
 		days_in_months[2] = 29 if is_leap_year(year) else 28

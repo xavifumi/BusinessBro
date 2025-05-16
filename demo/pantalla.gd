@@ -71,10 +71,14 @@ func _process(_delta: float) -> void:
 	elif mode_reubicacio and objecte_arrossegat:
 		var snapped_tile = get_mouse_snapped_position()
 		var snapped_pos = Vector2(snapped_tile * 64)
-		objecte_arrossegat.global_position = snapped_pos
 
-		var es_valid = _es_posicio_valida(snapped_pos)
-		objecte_arrossegat.modulate = Color(1, 1, 1, 0.5) if es_valid else Color(1, 0, 0, 0.5)
+		if is_instance_valid(objecte_arrossegat):
+			objecte_arrossegat.global_position = snapped_pos
+
+			var es_valid = _es_posicio_valida(snapped_pos)
+			objecte_arrossegat.modulate = Color(1, 1, 1, 0.5) if es_valid else Color(1, 0, 0, 0.5)
+	else:
+		return
 
 
 func _actualitza_ui() -> void:
@@ -141,6 +145,7 @@ func _feina_in_progress()->void:
 				"informatica": 0
 			}
 			feina_total_acumulada = 0
+			get_node("Ux/FeinaAcabada").show()
 			get_node("%Confetti").dispara_confetti()
 			get_node("%FXPlayer").stream = load(so_celebra)
 			get_node("%FXPlayer").play()
@@ -153,6 +158,7 @@ func _feina_in_progress()->void:
 				"informatica": 0
 			}
 		feina_total_acumulada = 0
+		get_node("Ux/FeinaNoAcabada").show()
 	
 static func _on_button_feina_pressed() -> void:
 	tasca_actual = tasca_exemple.duplicate()
@@ -160,6 +166,7 @@ static func _on_button_feina_pressed() -> void:
 static func contracta_treballador(treballador_cont_temp: Dictionary, index: int) -> void:
 	llista_treballadors.append(treballador_cont_temp)
 	BusinessEngine.llista_candidats.remove_at(index)
+	print(llista_treballadors)
 
 func afegeix_treballador(ubicacio: Node) -> void:
 	var fitxatge_treballador_temp = fitxatge_treballador.instantiate()
@@ -174,7 +181,6 @@ func afegeix_treballador(ubicacio: Node) -> void:
 	fitxatge_treballador_temp.add_to_group("arrossegables")
 	#fitxatge_treballador_temp.connect("reubicar_solicitat", Callable(self, "_on_reubicar_solicitat"))
 	#fitxatge_treballador_temp.position = punt_nou_treballador + Vector2(randi_range(-20,20), randi_range(-20,20))
-	print(get_posicions_construibles_disponibles())
 	fitxatge_treballador_temp.position = get_posicions_construibles_disponibles().pick_random()
 	ubicacio.add_child(fitxatge_treballador_temp)
 
@@ -208,15 +214,17 @@ func _input(event: InputEvent) -> void:
 
 		# --- Precol·locació ---
 		if mode_precol·locacio and objecte_instance != null:
-			mostra_tiles_disponibles()
+			#mostra_tiles_disponibles()
 			var snapped_pos: Vector2 = get_mouse_snapped_position() * 64
 
 			if button == MOUSE_BUTTON_RIGHT and mouse_pressed:
-				objecte_instance.queue_free()
-				objecte_instance = null
+				if objecte_instance:
+					objecte_instance.queue_free()
+					objecte_instance = null
 				mode_precol·locacio = false
 				neteja_tiles_debug()
 				return
+
 
 			if button == MOUSE_BUTTON_LEFT and mouse_pressed:
 				if _es_posicio_valida(snapped_pos):
@@ -270,7 +278,8 @@ func _input(event: InputEvent) -> void:
 	# --- Moure l'objecte reubicat amb el ratolí mentre està en mode reubicació ---
 	elif event is InputEventMouseMotion and mode_reubicacio and objecte_arrossegat:
 		var snapped_pos: Vector2 = get_mouse_snapped_position() * 64
-		objecte_arrossegat.global_position = snapped_pos
+		if is_instance_valid(objecte_arrossegat):
+			objecte_arrossegat.global_position = snapped_pos
 
 
 

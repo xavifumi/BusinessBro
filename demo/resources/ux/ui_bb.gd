@@ -122,9 +122,15 @@ func _on_close_menu_treballadors_pressed() -> void:
 	for treballador in treballadors_per_generar :
 		genera_treballador(treballador)
 		await get_tree().create_timer(randf_range(0.5,1.0)).timeout
+	treballadors_per_generar = []
 
 func contracta_treballador(treballador_temp: Dictionary, index: int) -> void:
-	if Pantalla.llista_treballadors.size() < Pantalla.maxim_treballadors:
+	var	node_oficina = pantalla.get_node("Oficina")
+	if node_oficina.has_node("Empty"):
+		#get_node("Ux")._on_close_menu_treballadors_pressed()
+		activa_popup("Abans de contractar ningú necessites un local.")
+		return
+	elif Pantalla.llista_treballadors.size() < Pantalla.maxim_treballadors:
 		Pantalla.llista_treballadors.append(treballador_temp)
 		treballadors_per_generar.append(treballador_temp)
 
@@ -192,6 +198,10 @@ func activa_menu_tasques():
 				counter+=1
 
 func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
+	var	node_oficina = pantalla.get_node("Oficina")
+	if node_oficina.has_node("Empty"):
+		activa_popup("Abans d'acceptar un contracte necessites un local.")
+		return
 	if Pantalla.tasca_actual.size() != 0:
 		activa_popup("Ja tens un contracte actiu! Acaba'l abans d'agafar-ne un altre!")
 	else:
@@ -285,3 +295,11 @@ func anima_sortida_display():
 	var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	tween.tween_property(display_treballador, "position:y", 655, 1.0)
 	
+
+
+func _on_feina_no_acabada_close_button_pressed() -> void:
+	get_node("%FeinaNoAcabada").hide() # Replace with function body.
+
+
+func _on_feina_acabada_close_button_pressed() -> void:
+	get_node("%FeinaAcabada").hide()

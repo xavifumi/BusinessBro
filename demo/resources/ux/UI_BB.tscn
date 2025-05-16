@@ -1,9 +1,10 @@
-[gd_scene load_steps=28 format=3 uid="uid://bnx7d7x0olguq"]
+[gd_scene load_steps=32 format=3 uid="uid://bnx7d7x0olguq"]
 
 [ext_resource type="Texture2D" uid="uid://b730uiyp6cy23" path="res://resources/ux/UI/yellow/button_square_flat.png" id="1_qwasm"]
 [ext_resource type="Script" path="res://resources/ux/ui_bb.gd" id="1_rhcq0"]
 [ext_resource type="Texture2D" uid="uid://csj2lg1spyad5" path="res://resources/ux/generic_icons/Cash2.png" id="2_ju4w6"]
 [ext_resource type="Texture2D" uid="uid://bpv15yqfej8fk" path="res://resources/ux/UI/yellow/arrow_basic_e_small.png" id="2_kuiqx"]
+[ext_resource type="Texture2D" uid="uid://eqnx8gncn523" path="res://resources/ux/UI/yellow/button_rectangle_depth_line.png" id="2_qk8x0"]
 [ext_resource type="Texture2D" uid="uid://bd4labemwcfrc" path="res://resources/ux/generic_icons/Battery.png" id="3_8qwt1"]
 [ext_resource type="Texture2D" uid="uid://c0wixt2eavejf" path="res://resources/ux/generic_icons/Team.png" id="4_au4hh"]
 [ext_resource type="Theme" uid="uid://duyldufw2r0bd" path="res://resources/ux/Text negreta_UX.tres" id="4_gj6jl"]
@@ -18,9 +19,17 @@
 [ext_resource type="Texture2D" uid="uid://g8rjcngf6wkm" path="res://resources/ux/generic_icons/ShoppingCart.png" id="12_58rwf"]
 [ext_resource type="Texture2D" uid="uid://cupcjxdf65om1" path="res://resources/ux/UI/yellow/icon_cross.png" id="13_c3wmj"]
 [ext_resource type="PackedScene" uid="uid://bge8b8yfh2tas" path="res://resources/ux/display_treballador.tscn" id="17_axwpg"]
+[ext_resource type="StyleBox" uid="uid://diielliot4nuh" path="res://resources/menus/Panell_informatiu_textura.tres" id="18_ucavl"]
+[ext_resource type="FontFile" uid="uid://bl8s5moeoot0u" path="res://resources/ux/Fonts/born2bsporty-fs.regular.otf" id="20_507v7"]
+[ext_resource type="Texture2D" uid="uid://3ilcrd1lmks" path="res://resources/ux/UI/yellow/star.png" id="21_2jyb0"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csvx7"]
-bg_color = Color(1, 1, 1, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tfi3i"]
+texture = ExtResource("2_qk8x0")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 11.0
+texture_margin_bottom = 15.0
+region_rect = Rect2(1, 1, 192, 64)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xto7w"]
 bg_color = Color(0.317647, 0.760784, 0.160784, 1)
@@ -92,6 +101,110 @@ script = ExtResource("1_rhcq0")
 tween_intensity = 1.5
 tween_duration = 0.2
 
+[node name="ContorlTemps" type="PanelContainer" parent="."]
+visible = false
+offset_left = 410.0
+offset_top = 44.0
+offset_right = 749.0
+offset_bottom = 178.0
+theme_override_styles/panel = ExtResource("18_ucavl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContorlTemps"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ContorlTemps/VBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Button1" type="Control" parent="ContorlTemps/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="TextureButton" type="TextureButton" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button1"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 0
+offset_top = 1.0
+offset_right = 19.0
+offset_bottom = 22.0
+texture_normal = ExtResource("2_kuiqx")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button1"]
+layout_mode = 0
+offset_right = 17.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button2" type="Control" parent="ContorlTemps/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="TextureButton" type="TextureButton" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button2"]
+modulate = Color(1, 0.658824, 0.756863, 1)
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 0
+offset_top = 1.0
+offset_right = 19.0
+offset_bottom = 22.0
+texture_normal = ExtResource("2_kuiqx")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button2"]
+layout_mode = 0
+offset_right = 17.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button3" type="Control" parent="ContorlTemps/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="TextureButton" type="TextureButton" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button3"]
+modulate = Color(1, 0.396078, 0.25098, 1)
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 0
+offset_top = 1.0
+offset_right = 19.0
+offset_bottom = 22.0
+texture_normal = ExtResource("2_kuiqx")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button3"]
+layout_mode = 0
+offset_right = 17.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ContorlTemps/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Pagament impostos:
+març, juny, setembre, desembre"
+
 [node name="PantallaSencera" type="VBoxContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
@@ -100,10 +213,10 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanellSuperior" type="PanelContainer" parent="PantallaSencera"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 size_flags_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_csvx7")
+theme_override_styles/panel = SubResource("StyleBoxTexture_tfi3i")
 
 [node name="MarginContainer" type="MarginContainer" parent="PantallaSencera/PanellSuperior"]
 layout_mode = 2
@@ -170,80 +283,6 @@ layout_mode = 2
 theme = ExtResource("4_gj6jl")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "2025"
-
-[node name="Button1" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button1"]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 0
-offset_top = 1.0
-offset_right = 19.0
-offset_bottom = 22.0
-texture_normal = ExtResource("2_kuiqx")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button1"]
-layout_mode = 0
-offset_right = 17.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 12
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button2" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button2"]
-modulate = Color(1, 0.658824, 0.756863, 1)
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 0
-offset_top = 1.0
-offset_right = 19.0
-offset_bottom = 22.0
-texture_normal = ExtResource("2_kuiqx")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button2"]
-layout_mode = 0
-offset_right = 17.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 12
-text = "2"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button3" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button3"]
-modulate = Color(1, 0.396078, 0.25098, 1)
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 0
-offset_top = 1.0
-offset_right = 19.0
-offset_bottom = 22.0
-texture_normal = ExtResource("2_kuiqx")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer/Button3"]
-layout_mode = 0
-offset_right = 17.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 12
-text = "4"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PantallaSencera/PanellSuperior/MarginContainer"]
 layout_mode = 2
@@ -539,8 +578,10 @@ text = " Compres"
 
 [node name="DisplayTreballador" parent="." instance=ExtResource("17_axwpg")]
 unique_name_in_owner = true
+visible = false
 offset_top = 655.0
 offset_bottom = 793.0
+theme_override_styles/panel = ExtResource("18_ucavl")
 
 [node name="FeinaInfo" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -653,9 +694,244 @@ size_flags_vertical = 4
 texture_normal = ExtResource("13_c3wmj")
 stretch_mode = 4
 
-[node name="PopupPanel" type="PopupPanel" parent="."]
+[node name="FeinaAcabada" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(200, 150)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.0
+offset_top = -75.0
+offset_right = 242.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = ExtResource("18_ucavl")
+
+[node name="MarginContainer2" type="MarginContainer" parent="FeinaAcabada"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FeinaAcabada/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PopUpLabel" type="Label" parent="FeinaAcabada/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("5_jx2w3")
+theme_override_colors/font_color = Color(0.317647, 0.760784, 0.160784, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("20_507v7")
+theme_override_font_sizes/font_size = 50
+text = "Feina Entregada!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="HBoxContainer" parent="FeinaAcabada/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="FeinaAcabada/MarginContainer2/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("21_2jyb0")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="FeinaAcabada/MarginContainer2/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("21_2jyb0")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="FeinaAcabada/MarginContainer2/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("21_2jyb0")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="TextureRect4" type="TextureRect" parent="FeinaAcabada/MarginContainer2/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("21_2jyb0")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FeinaAcabada/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -5
+
+[node name="PopUpLabel3" type="Label" parent="FeinaAcabada/MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("4_gj6jl")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("20_507v7")
+theme_override_font_sizes/font_size = 24
+text = "FAMA: +1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PopUpLabel2" type="Label" parent="FeinaAcabada/MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("4_gj6jl")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("20_507v7")
+theme_override_font_sizes/font_size = 24
+text = "EXP: 5000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="FeinaAcabada"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="FeinaAcabadaCloseButton" type="TextureButton" parent="FeinaAcabada/MarginContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_c3wmj")
+stretch_mode = 4
+
+[node name="FeinaNoAcabada" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(200, 150)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.0
+offset_top = -75.0
+offset_right = 242.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = ExtResource("18_ucavl")
+
+[node name="MarginContainer2" type="MarginContainer" parent="FeinaNoAcabada"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FeinaNoAcabada/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PopUpLabel" type="Label" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("5_jx2w3")
+theme_override_colors/font_color = Color(0.76, 0.1596, 0.1596, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("20_507v7")
+theme_override_font_sizes/font_size = 50
+text = "Epic Fail!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="HBoxContainer" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("21_2jyb0")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("21_2jyb0")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("21_2jyb0")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="TextureRect4" type="TextureRect" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("21_2jyb0")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -5
+
+[node name="PopUpLabel3" type="Label" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("4_gj6jl")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("20_507v7")
+theme_override_font_sizes/font_size = 24
+text = "FAMA: +1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PopUpLabel2" type="Label" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("4_gj6jl")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("20_507v7")
+theme_override_font_sizes/font_size = 24
+text = "MULTA: 5000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="FeinaNoAcabada"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="FeinaNoAcabadaCloseButton" type="TextureButton" parent="FeinaNoAcabada/MarginContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_c3wmj")
+stretch_mode = 4
 
 [connection signal="pressed" from="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTreballadors" to="." method="_on_close_menu_treballadors_pressed"]
 [connection signal="pressed" from="PantallaSencera/MenuTasques/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTasques" to="." method="_on_close_menu_tasques_pressed"]
 [connection signal="pressed" from="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuCompres" to="." method="_on_close_menu_compres_pressed"]
 [connection signal="pressed" from="PopUp/MarginContainer/PopupCloseButton" to="." method="_on_popup_close_button_pressed"]
+[connection signal="pressed" from="FeinaAcabada/MarginContainer/FeinaAcabadaCloseButton" to="." method="_on_feina_acabada_close_button_pressed"]
+[connection signal="pressed" from="FeinaNoAcabada/MarginContainer/FeinaNoAcabadaCloseButton" to="." method="_on_feina_no_acabada_close_button_pressed"]

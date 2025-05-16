@@ -241,6 +241,7 @@ static func genera_treballador():
 	return resposta
 	
 static func genera_llista_candidats() -> void:
+	llista_candidats = []
 	for candidat in 4:
 		llista_candidats.append(genera_treballador())
 	
@@ -264,6 +265,7 @@ static func genera_tasca() -> Dictionary:
 	return retorn
 	
 static func genera_llista_tasques() -> void:
+	llista_tasques = []
 	for tasca in 4:
 		llista_tasques.append(genera_tasca())
 		
