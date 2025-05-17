@@ -80,10 +80,10 @@ func _next_day():
 	if day > days_in_months[month]:
 		day = 1
 		month += 1
-		paga_nomines()
-		#impostos
+		#paga_nomines()
 		if month % 3 == 0:
-			paga_impostos()
+			pass
+			#paga_impostos()
 		# Passar al següent any
 		if month > 12:
 			month = 1
@@ -100,8 +100,8 @@ func update_calendari() -> void:
 
 func paga_nomines() -> void:
 	var nomines = 0
-	for treballadors in get_node("Pantalla/Plantilla").get_children():
-		nomines += treballadors.sou
+	for treballadors in get_tree().root.get_node("Pantalla/Oficina/Plantilla").get_children():
+		nomines += treballadors.atributs["sou"]
 	Pantalla.diners -= nomines
 	Pantalla.diners -= Pantalla.lloguer
 	Pantalla.despeses += (nomines + Pantalla.lloguer)

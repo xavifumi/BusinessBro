@@ -224,15 +224,20 @@ func activa_menu_compres():
 		else:
 			var counter := 0
 			for contractes_temp in BusinessEngine.llista_material :
-				var fitxa_terballador_temp = fitxa_material.instantiate()
 				var valors = BusinessEngine.llista_material[contractes_temp]
-				#print(contractes_temp)
-				fitxa_terballador_temp.get_node("%labelNom").text = valors.nom
-				fitxa_terballador_temp.get_node("%imatge").texture = load(valors.icona)
-				fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
-				fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
-				fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.carregar_i_precol·locar.bind(valors))
-				material.add_child(fitxa_terballador_temp)
+				if valors.nivell <= pantalla.nivell:
+					var fitxa_terballador_temp = fitxa_material.instantiate()
+					#print(contractes_temp)
+					fitxa_terballador_temp.get_node("%labelNom").text = valors.nom
+					fitxa_terballador_temp.get_node("%imatge").texture = load(valors.icona)
+					fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
+					fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
+					fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.carregar_i_precol·locar.bind(valors))
+					material.add_child(fitxa_terballador_temp)
+				else:
+					var fitxa_terballador_temp = fitxa_informativa.instantiate()
+					fitxa_terballador_temp.get_node("label"). text = valors.nom + " disponible a partir del nivell " + str(valors.nivell)
+					material.add_child(fitxa_terballador_temp)
 				counter+=1
 			
 		if BusinessEngine.llista_locals.is_empty():
@@ -242,16 +247,21 @@ func activa_menu_compres():
 		else:
 			var counter := 0
 			for contractes_temp in BusinessEngine.llista_locals :
-				var fitxa_terballador_temp = fitxa_local.instantiate()
 				var valors = BusinessEngine.llista_locals[contractes_temp]
-				#print(contractes_temp)
-				fitxa_terballador_temp.get_node("%labelNom").text = contractes_temp
-				fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
-				fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
-				fitxa_terballador_temp.get_node("%labelCapacitat").text = str(valors.treballadors)
-				fitxa_terballador_temp.get_node("%labelMaterial").text = str(valors.material)
-				fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.remplaça_local.bind(get_node("/root/Pantalla/Oficina").get_child(0), valors))
-				locals.add_child(fitxa_terballador_temp)
+				if valors.nivell <= pantalla.nivell:
+					var fitxa_terballador_temp = fitxa_local.instantiate()
+					#print(contractes_temp)
+					fitxa_terballador_temp.get_node("%labelNom").text = contractes_temp
+					fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
+					fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
+					fitxa_terballador_temp.get_node("%labelCapacitat").text = str(valors.treballadors)
+					fitxa_terballador_temp.get_node("%labelMaterial").text = str(valors.material)
+					fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.remplaça_local.bind(get_node("/root/Pantalla/Oficina").get_child(0), valors))
+					locals.add_child(fitxa_terballador_temp)
+				else:
+					var fitxa_terballador_temp = fitxa_informativa.instantiate()
+					fitxa_terballador_temp.get_node("Label"). text = contractes_temp + " disponible a partir del nivell " + str(valors.nivell)
+					locals.add_child(fitxa_terballador_temp)
 				counter+=1
 
 func _on_close_menu_compres_pressed() -> void:
@@ -296,6 +306,18 @@ func anima_sortida_display():
 	tween.tween_property(display_treballador, "position:y", 655, 1.0)
 	
 
+func on_feina_acabada_mostra(estrelles: int, fama: int, exp: int) -> void:
+	get_node("%FeinaAcabada/MarginContainer2/VBoxContainer/felicitacioLabel").text = BusinessEngine.felicitacions[0].pick_random() + " " + BusinessEngine.felicitacions[1].pick_random()
+	for punts in estrelles:
+		get_node("%FeinaAcabada/MarginContainer2/VBoxContainer/contenidorEstrelles").get_child(punts).texture = load("res://resources/ux/UI/yellow/star.png")
+	get_node("%FeinaAcabada/MarginContainer2/VBoxContainer/VBoxContainer/labelFama").text = "FAMA: " + str(fama)
+	get_node("%FeinaAcabada/MarginContainer2/VBoxContainer/VBoxContainer/labelExp").text = "EXP: " + str(exp)
+	get_node("%FeinaAcabada").show()
+
+func on_feina_no_acabada_mostra(fama: int, multa: int) -> void:
+	get_node("%FeinaNoAcabada/MarginContainer2/VBoxContainer/VBoxContainer/PopUpLabel3").text = "FAMA: " + str(fama)
+	get_node("%FeinaNoAcabada/MarginContainer2/VBoxContainer/VBoxContainer/PopUpLabel2").text = "MULTA: " + str(multa)
+	get_node("%FeinaNoAcabada").show()
 
 func _on_feina_no_acabada_close_button_pressed() -> void:
 	get_node("%FeinaNoAcabada").hide() # Replace with function body.

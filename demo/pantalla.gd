@@ -9,6 +9,8 @@ static var lloguer := 75
 static var treballador_temp
 static var punt_nou_treballador : Vector2
 static var nivell := 1
+static var fama = 0
+static var exp = 0
 static var diners := 0
 var diners_inicials := 30000
 static var beneficis_any := 0 
@@ -130,7 +132,17 @@ func actualitza_llistes_posicions():
 		var pos = Vector2i(round(node.global_position.x / 64), round(node.global_position.y / 64)) * 64
 		BusinessEngine.posicions_treball[pos] = "lliure"
 
-	
+
+func find_largest_dict_val(dict):
+	var max_val = -999999
+	var max_var
+	for i in dict:
+		var val =  dict[i]
+		if val > max_val:
+			max_val = val
+			max_var = i
+	return max_var
+
 func _feina_in_progress()->void:
 	#print("tasca actual: " + str(tasca_actual))
 	#print("feina acumulada: " + str(feina_total_acumulada))
@@ -138,6 +150,17 @@ func _feina_in_progress()->void:
 		if tasca_actual["feina"] <= feina_total_acumulada:
 			diners += tasca_actual["recompensa"]
 			Pantalla.beneficis_trimestre += tasca_actual["recompensa"]
+			var estrelles = 1
+			var fama = 1
+			if tasca_actual["dies_restants"] >= tasca_actual["durada"]/3:
+				estrelles += 1
+			if tasca_actual["dificultat"] > 0.7:
+				estrelles += 1
+			if tasca_actual["dificultat"] > 1.3:
+				estrelles += 1
+			if find_largest_dict_val(feina_acumulada) == tasca_actual["stat_important"]:
+				fama += feina_acumulada["stat_important"]/100 if feina_acumulada["stat_important"] > 100 else 1
+			get_node("Ux").on_feina_acabada_mostra(estrelles, fama, feina_total_acumulada)
 			tasca_actual = {}
 			feina_acumulada = {
 				"disseny": 0,
@@ -145,11 +168,13 @@ func _feina_in_progress()->void:
 				"informatica": 0
 			}
 			feina_total_acumulada = 0
-			get_node("Ux/FeinaAcabada").show()
+			#get_node("Ux/FeinaAcabada").show()
 			get_node("%Confetti").dispara_confetti()
 			get_node("%FXPlayer").stream = load(so_celebra)
 			get_node("%FXPlayer").play()
 	else:
+		var fama = 1
+		get_node("Ux").on_feina_no_acabada_mostra(fama, tasca_actual.penyora)
 		diners -= tasca_actual.penyora
 		tasca_actual = {}
 		feina_acumulada = {
@@ -158,7 +183,6 @@ func _feina_in_progress()->void:
 				"informatica": 0
 			}
 		feina_total_acumulada = 0
-		get_node("Ux/FeinaNoAcabada").show()
 	
 static func _on_button_feina_pressed() -> void:
 	tasca_actual = tasca_exemple.duplicate()

@@ -151,6 +151,7 @@ static var llista_material = {
 		"preu":200,
 		"h": 64,
 		"w": 64,
+		"nivell": 1,
 		"escena":"res://resources/mobiliari/llocTreball.tscn"
 	},
 	"cadira_escriptori" : {
@@ -161,6 +162,7 @@ static var llista_material = {
 		"preu": 100,
 		"h": 64,
 		"w": 64,
+		"nivell": 1,
 		"escena":"res://resources/mobiliari/llocDescans.tscn"
 	}
 }
@@ -171,6 +173,7 @@ static var llista_locals = {
 		"treballadors": 2,
 		"material": 3,
 		"preu": 130,
+		"nivell": 1,
 		"escena":"res://resources/oficina/local00.tscn"
 	},
 	"Viver d'empreses": {
@@ -178,6 +181,7 @@ static var llista_locals = {
 		"treballadors": 4,
 		"material": 6,
 		"preu": 350,
+		"nivell": 2,
 		"escena":"res://resources/oficina/local01.tscn"
 	},
 	"Coworking": {
@@ -185,6 +189,7 @@ static var llista_locals = {
 		"treballadors": 6,
 		"material": 9,
 		"preu": 800,
+		"nivell":3,
 		"escena":"res://resources/oficina/local02.tscn"
 	},
 	"Local cutre": {
@@ -192,9 +197,38 @@ static var llista_locals = {
 		"treballadors": 10,
 		"material": 15,
 		"preu": 1800,
+		"nivell":4,
 		"escena":"res://resources/oficina/local03.tscn"
 	}
 }
+
+static var felicitacions = [
+	[ # Llista de felicitacions
+		"Molt bé,\n",
+		"Felicitats,\n",
+		"Ho has petat,\n",
+		"Ets un crac,\n",
+		"Brutal,\n",
+		"Vas fort,\n",
+		"Quin nivell,\n",
+		"Jugues en una altra\nlliga,",
+		"Ets un visionari,\n",
+		"Ni el Warren Buffett,\n"
+	],
+	[ # Llista d'apel·latius 'quilles' o barriobajeros
+		"Bro!",
+		"Màquina!",
+		"Monstre!",
+		"Tità!",
+		"Animal!",
+		"Lendakari del capital!",
+		"Rei del blockchain!",
+		"Killah!",
+		"Ninja del mercat!",
+		"Cripto-bèstia!"
+	]
+]
+
 
 
 
@@ -252,14 +286,17 @@ static func genera_tasca() -> Dictionary:
 	var dificultat = randf_range(0.5, 1.5)
 	var punts_necessaris = 50 * dificultat * Pantalla.maxim_treballadors * durada
 	var recompensa = int(punts_necessaris * 1.5)
+	var stat = ["disseny", "enginy", "informatica"].pick_random()
 	var retorn = {
 		"nom": empresa,
 		"tasca": nom_tasca,
+		"durada":durada,
 		"dies_restants": durada,
 		"recompensa": recompensa,
 		"penyora": recompensa/2,
 		"dificultat": dificultat,
-		"feina": punts_necessaris
+		"feina": punts_necessaris,
+		"stat_important": stat
 	}
 	#print(str(dificultat) + " - " +str(Pantalla.maxim_treballadors ) + " - "+ str(durada) + " - "+ str(punts_necessaris))
 	return retorn

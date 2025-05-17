@@ -32,6 +32,7 @@ var atributs = {
 var imatge = "res://resources/treballador/imatges_treballadors/Character 1.png"
 
 var energia_actual := 100
+var exp = 0
 var descansant = false
 var moviment := false
 var treballant := false
@@ -82,6 +83,7 @@ func _process(delta: float) -> void:
 	var estat_a_text = States.keys()[estat]
 	print_estat.text = "treballant: " + str(treballant) + " -descansant: " + str(descansant)
 	progress_energia.value = energia_actual
+	regula_nivell()
 
 	match estat:
 		States.TREBALLANT:
@@ -94,6 +96,13 @@ func _process(delta: float) -> void:
 			avorreix(delta)
 		States.CAOS:
 			caos()
+
+func regula_nivell() -> void:
+	if exp > atributs.nivell * 1000:
+		atributs.nivell += 1
+		var stats := ["disseny", "enginy", "informatica"]
+		var millora = stats.pick_random()
+		atributs[millora] += exp/100
 
 func mostra_emocio(emocio: String) -> void:
 	tween_começat = true
@@ -177,6 +186,7 @@ func fes_tasca() -> void:
 		energia_actual -= punts_feina_actuals / 3
 		pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
 		pantalla.feina_total_acumulada += punts_feina_actuals
+		exp += punts_feina_actuals
 		#Pantalla.feina_total_acumulada += punts_feina_actuals
 		particules_treball.emitting = true
 		audio_player.stream = audio_bombolles
