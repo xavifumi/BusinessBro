@@ -26,12 +26,13 @@ var atributs = {
 	"enginy": 100,
 	"informatica": 100,
 	"social": 0,
-	"motivacio": 1,
+	"motivacio": 1.0,
 	"energia": 100
 }
 var imatge = "res://resources/treballador/imatges_treballadors/Character 1.png"
 
 var energia_actual := 100
+var motivacio_actual := 1.0
 var exp = 0
 var descansant = false
 var moviment := false
@@ -273,12 +274,15 @@ func calculate_avoidance_force() -> Vector2:
 func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		#emit_signal("activar_display", self)
-		print("posicio display: " + str(Ux.display_treballador.position.y))
-		print(str(atributs))
-		if Ux.display_treballador.label_nom.text == atributs.nom and Ux.display_treballador.position.y == 496:
+		if Ux.display_treballador.label_nom.text == atributs.nom and Ux.display_treballador.is_visible():
 			# Si ja està mostrant aquest treballador, amaga
 			Ux.anima_sortida_display()
 		else:
 			# Sinó, mostra aquest treballador
 			Ux.anima_entrada_display(self)
 		# Aquí pots trucar Precolocar o emetre un senyal
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "acomiada" :
+		print("Fi animacio")

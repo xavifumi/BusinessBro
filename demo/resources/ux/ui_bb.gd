@@ -21,6 +21,7 @@ class_name UX
 var pantalla
 var fxplayer
 var treballadors_per_generar = []
+var generant_treballadors = false
 
 
 @export var tween_intensity: float
@@ -83,7 +84,7 @@ func btn_hovered(button: Button):
 		button_es_anim = false
 
 func activa_menu_personal():
-	if !menu_treballadors.is_visible_in_tree():
+	if !menu_treballadors.is_visible_in_tree() and !generant_treballadors:
 		_on_close_menu_compres_pressed()
 		_on_close_menu_tasques_pressed()
 		menu_treballadors.show()
@@ -116,6 +117,7 @@ func activa_menu_personal():
 				counter+=1
 
 func _on_close_menu_treballadors_pressed() -> void:
+	generant_treballadors = true
 	menu_treballadors.hide()
 	for entrada in llista_candidats.get_children():
 		entrada.queue_free()
@@ -123,6 +125,7 @@ func _on_close_menu_treballadors_pressed() -> void:
 		genera_treballador(treballador)
 		await get_tree().create_timer(randf_range(0.5,1.0)).timeout
 	treballadors_per_generar = []
+	generant_treballadors = false
 
 func contracta_treballador(treballador_temp: Dictionary, index: int) -> void:
 	var	node_oficina = pantalla.get_node("Oficina")
@@ -174,7 +177,7 @@ func _on_close_menu_tasques_pressed() -> void:
 		entrada.queue_free()
 
 func activa_menu_tasques():
-	if !menu_tasques.is_visible_in_tree():
+	if !menu_tasques.is_visible_in_tree() and !generant_treballadors:
 		_on_close_menu_treballadors_pressed()
 		_on_close_menu_compres_pressed()
 		menu_tasques.show()
@@ -212,7 +215,7 @@ func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 		
 
 func activa_menu_compres():
-	if not menu_compres.is_visible_in_tree():
+	if not menu_compres.is_visible_in_tree() and !generant_treballadors:
 		_on_close_menu_treballadors_pressed()
 		_on_close_menu_tasques_pressed()
 		menu_compres.show()
@@ -278,7 +281,7 @@ func anima_label(label: Label, start_val: int, end_val: int, duration: float = 1
 func _update_label(value: float, label: Label):
 	label.text = str(round(value))
 	
-func anima_entrada_display(dades: Node):
+func anima_entrada_display(dades: Treballador):
 	print("senyal rebuda: " + str(dades.atributs))
 	display_treballador.label_nom.text = dades.atributs.nom
 	display_treballador.label_nivell.text = str(dades.atributs.nivell)
@@ -296,14 +299,17 @@ func anima_entrada_display(dades: Node):
 	new_atlas.margin = old_atlas.margin
 	new_atlas.filter_clip = old_atlas.filter_clip
 	display_treballador.imatge_treballador.texture = new_atlas
-
+	display_treballador.treballador = dades
+	display_treballador.show()
 	
 	var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-	tween.tween_property(display_treballador, "position:y", 496, 1.0)
+	tween.tween_property(display_treballador, "position:y", 460, 1.0)
 
 func anima_sortida_display():
 	var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	tween.tween_property(display_treballador, "position:y", 655, 1.0)
+	await tween.finished
+	display_treballador.hide()
 	
 
 func on_feina_acabada_mostra(estrelles: int, fama: int, exp: int) -> void:

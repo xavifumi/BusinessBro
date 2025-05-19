@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bge8b8yfh2tas"]
+[gd_scene load_steps=27 format=3 uid="uid://bge8b8yfh2tas"]
 
 [ext_resource type="Texture2D" uid="uid://eqnx8gncn523" path="res://resources/ux/UI/yellow/button_rectangle_depth_line.png" id="1_nyugu"]
 [ext_resource type="Script" path="res://resources/ux/fitxa_treballador.gd" id="1_t6iyc"]
@@ -6,12 +6,20 @@
 [ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="3_541fe"]
 [ext_resource type="Texture2D" uid="uid://dqg86md3i3tvx" path="res://resources/ux/generic_icons/Coin2.png" id="4_58iyo"]
 [ext_resource type="Texture2D" uid="uid://c6e12rm6hlmnx" path="res://resources/ux/generic_icons/Pencil.png" id="5_itw6f"]
+[ext_resource type="Texture2D" uid="uid://bx17vl2tjxb6q" path="res://resources/ux/Small (24x24) PNG/Green/Plus Yellow_Green.png" id="6_s3e26"]
 [ext_resource type="Texture2D" uid="uid://dcyb5dqyqs43y" path="res://resources/ux/generic_icons/Wrench2.png" id="6_vef11"]
 [ext_resource type="Texture2D" uid="uid://cqti8gas3plhi" path="res://resources/ux/generic_icons/Monitor.png" id="7_bc47o"]
 [ext_resource type="Texture2D" uid="uid://c0wixt2eavejf" path="res://resources/ux/generic_icons/Team.png" id="8_ev5gx"]
 [ext_resource type="Texture2D" uid="uid://bb6dixs2bcdji" path="res://resources/ux/generic_icons/Cash.png" id="9_hfbb8"]
 [ext_resource type="Texture2D" uid="uid://d1opaxodcxwbx" path="res://resources/ux/generic_icons/Book.png" id="10_7tx2v"]
+[ext_resource type="Texture2D" uid="uid://cnbd3oresvxag" path="res://resources/ux/Small (24x24) PNG/Purple/Heart_Purple.png" id="11_o6vxb"]
+[ext_resource type="Texture2D" uid="uid://e53w4ogdj0by" path="res://resources/ux/Small (24x24) PNG/Red/Warning_Red.png" id="11_rrgew"]
 [ext_resource type="Texture2D" uid="uid://csev6ldclblbi" path="res://resources/ux/generic_icons/Exit.png" id="12_3kuf1"]
+[ext_resource type="Texture2D" uid="uid://dsoe1beag6h53" path="res://resources/ux/Small (24x24) PNG/Pink/Writing_Pink.png" id="12_ybp56"]
+[ext_resource type="Texture2D" uid="uid://cb5k7klbtv5f0" path="res://resources/ux/UI/07.png" id="17_q8r3q"]
+[ext_resource type="Texture2D" uid="uid://cupcjxdf65om1" path="res://resources/ux/UI/yellow/icon_cross.png" id="17_rv6l3"]
+[ext_resource type="Texture2D" uid="uid://bd4labemwcfrc" path="res://resources/ux/generic_icons/Battery.png" id="18_660ab"]
+[ext_resource type="Texture2D" uid="uid://b6vv0fdc06nk0" path="res://resources/ux/generic_icons/Sleep.png" id="19_e3r3u"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ffd1d"]
 texture = ExtResource("1_nyugu")
@@ -22,12 +30,25 @@ texture_margin_bottom = 12.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iq3pk"]
 atlas = ExtResource("2_hvtbj")
-region = Rect2(0, 0, 64, 64)
+region = Rect2(15.4031, 0, 31.5445, 64)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xe60w"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr03m"]
+atlas = ExtResource("17_q8r3q")
+region = Rect2(54.8587, 251.582, 3.40926, 24.8277)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aepyb"]
+atlas = ExtResource("18_660ab")
+region = Rect2(1.79522, 0, 11.3471, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hovow"]
+atlas = ExtResource("17_q8r3q")
+region = Rect2(134.791, 251.582, 3.41138, 24.8277)
+
 [node name="DisplayTreballador" type="PanelContainer"]
+texture_filter = 1
 offset_right = 456.0
 offset_bottom = 128.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_ffd1d")
@@ -48,18 +69,21 @@ layout_mode = 2
 
 [node name="imatgeTreballador" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
+texture_filter = 1
 clip_contents = true
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(64, 96)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 6
 texture = SubResource("AtlasTexture_iq3pk")
 expand_mode = 1
+stretch_mode = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme = ExtResource("3_541fe")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -67,50 +91,57 @@ text = "lvl:"
 
 [node name="labelNivell" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
+texture_filter = 1
 layout_mode = 2
 theme = ExtResource("3_541fe")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "1"
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+[node name="PanellCentral" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanellCentral"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer"]
 layout_mode = 2
 
-[node name="labelNom" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="labelNom" type="Label" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_541fe")
 text = "Nom treballador"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxSou" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
-[node name="sou" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="sou" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxSou"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_xe60w")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/sou"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxSou/sou"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/sou/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxSou/sou/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 tooltip_text = "Sou"
 theme = ExtResource("3_541fe")
 texture = ExtResource("4_58iyo")
 
-[node name="labelSou" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/sou/HBoxContainer"]
+[node name="labelSou" type="Label" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxSou/sou/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "sou"
@@ -118,20 +149,29 @@ mouse_filter = 0
 theme = ExtResource("3_541fe")
 text = "30.000€"
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="AugmentaSouButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxSou/sou/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 3
+size_flags_vertical = 4
+tooltip_text = "Apujar sou"
+texture_normal = ExtResource("6_s3e26")
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 columns = 8
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/GridContainer"]
+texture_filter = 1
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 tooltip_text = "Disseny"
 theme = ExtResource("3_541fe")
 texture = ExtResource("5_itw6f")
 
-[node name="labelDisseny" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="labelDisseny" type="Label" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
@@ -140,14 +180,15 @@ mouse_filter = 1
 theme = ExtResource("3_541fe")
 text = "100"
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/GridContainer"]
+texture_filter = 1
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 tooltip_text = "Enginy"
 theme = ExtResource("3_541fe")
 texture = ExtResource("6_vef11")
 
-[node name="labelEnginy" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="labelEnginy" type="Label" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
@@ -156,14 +197,15 @@ mouse_filter = 1
 theme = ExtResource("3_541fe")
 text = "100"
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/GridContainer"]
+texture_filter = 1
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 tooltip_text = "Informàtica"
 theme = ExtResource("3_541fe")
 texture = ExtResource("7_bc47o")
 
-[node name="labelInformatica" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="labelInformatica" type="Label" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
@@ -172,14 +214,15 @@ mouse_filter = 1
 theme = ExtResource("3_541fe")
 text = "100"
 
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/GridContainer"]
+texture_filter = 1
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 tooltip_text = "Social"
 theme = ExtResource("3_541fe")
 texture = ExtResource("8_ev5gx")
 
-[node name="labelSocial" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="labelSocial" type="Label" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
@@ -188,7 +231,38 @@ mouse_filter = 0
 theme = ExtResource("3_541fe")
 text = "100"
 
+[node name="HBoxAccions" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="MotivaButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Motivar"
+texture_normal = ExtResource("11_o6vxb")
+stretch_mode = 0
+
+[node name="EstudiaButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions"]
+texture_filter = 1
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "Formació"
+texture_normal = ExtResource("12_ybp56")
+stretch_mode = 0
+
+[node name="AcomiadaButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions"]
+texture_filter = 1
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "Acomiadar"
+texture_normal = ExtResource("11_rrgew")
+stretch_mode = 0
+
 [node name="CenterContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -216,3 +290,82 @@ layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("12_3kuf1")
 stretch_mode = 4
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 5
+
+[node name="PopupCloseButton" type="TextureButton" parent="MarginContainer/HBoxContainer/VBoxContainer2/MarginContainer2"]
+texture_filter = 1
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("17_rv6l3")
+stretch_mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Motivació"
+
+[node name="MotivacioProgressBar" type="TextureProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer2"]
+texture_filter = 1
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+value = 100.0
+fill_mode = 3
+nine_patch_stretch = true
+texture_progress = SubResource("AtlasTexture_wr03m")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer2"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_aepyb")
+stretch_mode = 4
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Cansament"
+
+[node name="CansamentProgressBar" type="TextureProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer3"]
+texture_filter = 1
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+value = 100.0
+fill_mode = 3
+nine_patch_stretch = true
+texture_under = SubResource("AtlasTexture_hovow")
+texture_progress = SubResource("AtlasTexture_wr03m")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer3"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("19_e3r3u")
+expand_mode = 1
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/MotivaButton" to="." method="_on_motiva_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/EstudiaButton" to="." method="_on_estudia_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/AcomiadaButton" to="." method="_on_acomiada_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/MarginContainer2/PopupCloseButton" to="." method="_on_popup_close_button_pressed"]

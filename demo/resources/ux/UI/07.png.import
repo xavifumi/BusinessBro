@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c25qyxkmyfc5p"
-path="res://.godot/imported/character_maleAdventurer_sheet.png-76f73801de169e28fc686bd45dfe7c59.ctex"
+uid="uid://cb5k7klbtv5f0"
+path="res://.godot/imported/07.png-9674cc60eaa849c8c965cf5792166c0d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/character_maleAdventurer_sheet.png"
-dest_files=["res://.godot/imported/character_maleAdventurer_sheet.png-76f73801de169e28fc686bd45dfe7c59.ctex"]
+source_file="res://resources/ux/UI/07.png"
+dest_files=["res://.godot/imported/07.png-9674cc60eaa849c8c965cf5792166c0d.ctex"]
 
 [params]
 

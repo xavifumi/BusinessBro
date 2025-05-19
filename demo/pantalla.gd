@@ -39,6 +39,7 @@ static var fitxatge_treballador = preload("res://resources/treballador/treballad
 var so_error = "res://resources/oficina/resources/327738__distillerystudio__error_01.wav"
 var so_compra = "res://resources/oficina/resources/180894__jobro__cash-register-opening.wav"
 var so_celebra = "res://resources/oficina/resources/651642__krizin__crowd-cheer-2.wav"
+var so_no_celebra = "res://resources/sons/362206__taranp__horn_fail_wahwah_1.wav"
 var button_feina 
 
 var objecte_instance : Node2D = null
@@ -159,7 +160,7 @@ func _feina_in_progress()->void:
 			if tasca_actual["dificultat"] > 1.3:
 				estrelles += 1
 			if find_largest_dict_val(feina_acumulada) == tasca_actual["stat_important"]:
-				fama += feina_acumulada["stat_important"]/100 if feina_acumulada["stat_important"] > 100 else 1
+				fama += feina_acumulada[tasca_actual["stat_important"]]/100 if feina_acumulada[tasca_actual["stat_important"]] > 100 else 1
 			get_node("Ux").on_feina_acabada_mostra(estrelles, fama, feina_total_acumulada)
 			tasca_actual = {}
 			feina_acumulada = {
@@ -183,6 +184,11 @@ func _feina_in_progress()->void:
 				"informatica": 0
 			}
 		feina_total_acumulada = 0
+		get_node("%FXPlayer").stream = load(so_no_celebra)
+		get_node("%FXPlayer").volume_db = 0
+		get_node("%FXPlayer").play()
+		await get_node("%FXPlayer").finished
+		get_node("%FXPlayer").volume_db = -12
 	
 static func _on_button_feina_pressed() -> void:
 	tasca_actual = tasca_exemple.duplicate()

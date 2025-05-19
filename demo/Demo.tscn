@@ -70,6 +70,7 @@ volume_db = -12.0
 [node name="Empty" parent="Oficina" instance=ExtResource("7_lx2vk")]
 
 [node name="PuntInici" type="Marker2D" parent="Oficina"]
+visible = false
 position = Vector2(543, 342)
 
 [node name="descans" type="Node" parent="Oficina"]
