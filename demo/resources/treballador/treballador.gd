@@ -39,6 +39,8 @@ var moviment := false
 var treballant := false
 var tween_começat = false
 var last_delta = 0
+var cicles_estudi := 0
+
 
 var llista_emocions = {
 	"ofuscat": Vector2i(1,1), "cantant": Vector2i(2,1), "trist": Vector2i(3,1), "gota": Vector2i(4,1), "cercle": Vector2i(5,1),
@@ -48,8 +50,9 @@ var llista_emocions = {
 	"nuvol": Vector2i(4,6), "mal_humor": Vector2i(5,6)
 }
 var audio_bombolles = load("res://resources/treballador/702996_bombolles.mp3")
+var so_transporta = "res://resources/sons/178347__andromadax24__s_teleport_03.wav"
 
-enum States {TREBALLANT, ESTUDIANT, ESPERANT, AVORRIT, CAOS}
+enum States {TREBALLANT, ESTUDIANT, ESPERANT, AVORRIT, CAOS, CANSAT}
 
 var estat: States = States.ESPERANT
 var avorriment: Timer
@@ -73,6 +76,8 @@ func _ready() -> void:
 	sprite_2d.texture = load(imatge)
 	pantalla = get_node("/root/Pantalla")
 	animation_player.play("apareix")
+	audio_player.stream = load(so_transporta)
+	audio_player.play()
 	add_to_group("arrossegables")
 	#Ux = get_node("/root/Pantalla/Ux")
 	#connect("activar_display", Callable(Ux, "anima_entrada_display").bind(self))
@@ -97,6 +102,8 @@ func _process(delta: float) -> void:
 			avorreix(delta)
 		States.CAOS:
 			caos()
+		States.CANSAT:
+			descansa(delta)
 
 func regula_nivell() -> void:
 	if exp > atributs.nivell * 1000:
@@ -178,30 +185,68 @@ func fes_tasca() -> void:
 		feina_actual = tria_aleatori(stats)
 		match feina_actual:
 			"disseny":
-				particules_treball.texture = load("res://resources/palette.svg")
+				particules_treball.texture = load("res://resources/ux/generic_icons/Pencil.png")
 			"enginy":
-				particules_treball.texture = load("res://resources/unbalanced.svg")
+				particules_treball.texture = load("res://resources/ux/generic_icons/Wrench2.png")
 			"informatica":
-				particules_treball.texture = load("res://resources/processor.svg")
+				particules_treball.texture = load("res://resources/ux/generic_icons/Monitor.png")
 		var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
 		energia_actual -= punts_feina_actuals / 3
 		pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
 		pantalla.feina_total_acumulada += punts_feina_actuals
 		exp += punts_feina_actuals
 		#Pantalla.feina_total_acumulada += punts_feina_actuals
+		particules_treball.amount = 3
 		particules_treball.emitting = true
 		audio_player.stream = audio_bombolles
 		audio_player.pitch_scale = randf_range(0.7, 1.3)
 		audio_player.play()
 		await get_tree().create_timer(1.0).timeout
 		particules_treball.emitting = false
-		print(pantalla.feina_acumulada)
-		print(Pantalla.feina_acumulada)
+		#print(pantalla.feina_acumulada)
+		#print(Pantalla.feina_acumulada)
 	if descansant:
 		energia_actual += 10
 
 func estudia() -> void:
-	pass
+	if not treballant and not moviment:
+		if cicles_estudi == 0:
+			# Inici de l'estudi
+			mostra_emocio("bombeta")
+			tasca.set_wait_time(randf_range(18.0, 22.0))
+			tasca.start()
+			cicles_estudi = 1
+			animation_player.play("estudia")
+			
+			particules_treball.texture = load("res://resources/ux/generic_icons/Book.png")
+			particules_treball.amount = 1
+			particules_treball.emitting = true
+			audio_player.stream = audio_bombolles
+			audio_player.pitch_scale = randf_range(0.7, 1.3)
+			audio_player.play()
+		elif tasca.is_stopped() and cicles_estudi < 5:
+			# Continua estudiant
+			cicles_estudi += 1
+			tasca.set_wait_time(randf_range(18.0, 22.0))
+			tasca.start()
+			audio_player.pitch_scale = randf_range(0.7, 1.3)
+			audio_player.play()
+		elif cicles_estudi >= 5:
+			# Ha acabat d'estudiar
+			var stats := {
+				"disseny": atributs["disseny"],
+				"enginy": atributs["enginy"],
+				"informatica": atributs["informatica"]
+			}
+			var millorada = tria_aleatori(stats)
+			var punts = randi_range(10, 30)
+			atributs[millorada] += punts
+			exp += punts * 5
+			mostra_emocio("estrella")
+			particules_treball.emitting = false
+			estat = States.ESPERANT
+			cicles_estudi = 0
+
 
 func espera() -> void:
 	var confetti = get_node("/root/Pantalla/Confetti")
@@ -214,7 +259,7 @@ func espera() -> void:
 	if Pantalla.tasca_actual.size() != 0:
 		estat = States.TREBALLANT
 
-func avorreix(delta: float) -> void:
+func descansa(delta: float) -> void:
 	avorriment.start()
 	if not descansant and not moviment:
 		posicio_desti = limita_posicio(BusinessEngine.assigna_posicio_descans())
@@ -223,7 +268,7 @@ func avorreix(delta: float) -> void:
 		camina(posicio_desti, delta)
 	else:
 		if energia_actual < atributs["energia"]:
-			animation_player.play("idle")
+			animation_player.play("descansa")
 			if tasca.is_stopped():
 				tasca.set_wait_time(randi_range(1, 1))
 				tasca.start()
@@ -231,6 +276,8 @@ func avorreix(delta: float) -> void:
 		else:
 			BusinessEngine.posicions_descans[posicio_desti] = "lliure"
 			estat = States.ESPERANT
+func avorreix(delta: float) -> void:
+	pass
 
 func caos() -> void:
 	pass

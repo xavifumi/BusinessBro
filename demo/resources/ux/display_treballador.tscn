@@ -1,8 +1,8 @@
 [gd_scene load_steps=27 format=3 uid="uid://bge8b8yfh2tas"]
 
 [ext_resource type="Texture2D" uid="uid://eqnx8gncn523" path="res://resources/ux/UI/yellow/button_rectangle_depth_line.png" id="1_nyugu"]
-[ext_resource type="Script" path="res://resources/ux/fitxa_treballador.gd" id="1_t6iyc"]
 [ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Character 1.png" id="2_hvtbj"]
+[ext_resource type="Script" path="res://resources/ux/display_treballador.gd" id="2_ibkwx"]
 [ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="3_541fe"]
 [ext_resource type="Texture2D" uid="uid://dqg86md3i3tvx" path="res://resources/ux/generic_icons/Coin2.png" id="4_58iyo"]
 [ext_resource type="Texture2D" uid="uid://c6e12rm6hlmnx" path="res://resources/ux/generic_icons/Pencil.png" id="5_itw6f"]
@@ -52,7 +52,7 @@ texture_filter = 1
 offset_right = 456.0
 offset_bottom = 128.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_ffd1d")
-script = ExtResource("1_t6iyc")
+script = ExtResource("2_ibkwx")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -365,6 +365,7 @@ size_flags_vertical = 4
 texture = ExtResource("19_e3r3u")
 expand_mode = 1
 
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxSou/sou/HBoxContainer/AugmentaSouButton" to="." method="_on_augmenta_sou_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/MotivaButton" to="." method="_on_motiva_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/EstudiaButton" to="." method="_on_estudia_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/AcomiadaButton" to="." method="_on_acomiada_button_pressed"]

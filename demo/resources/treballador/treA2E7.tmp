@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://cgbepm64mxp57"]
+[gd_scene load_steps=21 format=3 uid="uid://cgbepm64mxp57"]
 
 [ext_resource type="Script" path="res://resources/treballador/treballador.gd" id="1_yrqwm"]
 [ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Character 1.png" id="2_sjpv1"]
 [ext_resource type="Texture2D" uid="uid://b27w2mpqxbsub" path="res://resources/pixel_style3.png" id="3_ux43y"]
-[ext_resource type="Texture2D" uid="uid://d1opaxodcxwbx" path="res://resources/ux/generic_icons/Book.png" id="4_7adi1"]
+[ext_resource type="Texture2D" uid="uid://cu25idy7sdyjq" path="res://resources/palette.svg" id="4_77350"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_otts6"]
 radius = 19.0
@@ -11,14 +11,14 @@ height = 50.0
 
 [sub_resource type="Curve" id="Curve_2oehg"]
 max_value = 200.0
-_data = [Vector2(0, 12.5392), 0.0, 0.0, 0, 0, Vector2(0.981061, 53.2915), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 65.9341), 0.0, 0.0, 0, 0, Vector2(0.986667, 200), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_qiir1"]
 curve = SubResource("Curve_2oehg")
 
 [sub_resource type="Curve" id="Curve_o1rg3"]
-_data = [Vector2(0.757576, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.510972), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.986667, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_0j22b"]
@@ -28,16 +28,16 @@ curve = SubResource("Curve_o1rg3")
 particle_flag_disable_z = true
 direction = Vector3(0, -10, 0)
 spread = 18.707
-initial_velocity_min = 72.92
-initial_velocity_max = 104.17
+initial_velocity_min = 166.67
+initial_velocity_max = 166.67
 gravity = Vector3(0, 0, 0)
-scale_min = 0.7
-scale_max = 1.5
+scale_min = 0.07
+scale_max = 0.1
 scale_curve = SubResource("CurveTexture_0j22b")
 scale_over_velocity_min = 3.0
 scale_over_velocity_max = 4.0
 anim_speed_min = 5.0
-anim_speed_max = 6.0
+anim_speed_max = 20.0
 anim_speed_curve = SubResource("CurveTexture_qiir1")
 
 [sub_resource type="Animation" id="Animation_ne7m8"]
@@ -191,23 +191,6 @@ tracks/0/keys = {
 "values": [Vector2i(0, 20), Vector2i(11, 20)]
 }
 
-[sub_resource type="Animation" id="Animation_m34fr"]
-resource_name = "estudia"
-length = 1.5
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.46667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2i(0, 19), Vector2i(9, 19)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u5se3"]
 _data = {
 "RESET": SubResource("Animation_ne7m8"),
@@ -215,7 +198,6 @@ _data = {
 "apareix": SubResource("Animation_r6aoj"),
 "celebra": SubResource("Animation_5mjeb"),
 "descansa": SubResource("Animation_ume1x"),
-"estudia": SubResource("Animation_m34fr"),
 "idle": SubResource("Animation_47ug6"),
 "walk": SubResource("Animation_rr782"),
 "work": SubResource("Animation_g7cfe")
@@ -261,12 +243,12 @@ region_rect = Rect2(0, 0, 16, 16)
 unique_name_in_owner = true
 position = Vector2(31.5, 21)
 emitting = false
-amount = 3
-amount_ratio = 0.284
+amount = 4
+amount_ratio = 0.5
 process_material = SubResource("ParticleProcessMaterial_ka4ix")
-texture = ExtResource("4_7adi1")
-lifetime = 0.3
-randomness = 0.2
+texture = ExtResource("4_77350")
+explosiveness = 0.41
+randomness = 0.4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true

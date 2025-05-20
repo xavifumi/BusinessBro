@@ -17,7 +17,7 @@ class_name UX
 @onready var menu_compres: PanelContainer = %MenuCompres
 @onready var material: VBoxContainer = %Material
 @onready var locals: VBoxContainer = %Locals
-@onready var display_treballador: FitxaTreballador = %DisplayTreballador
+@onready var display_treballador: DisplayTreballador = %DisplayTreballador
 var pantalla
 var fxplayer
 var treballadors_per_generar = []
@@ -142,6 +142,8 @@ func contracta_treballador(treballador_temp: Dictionary, index: int) -> void:
 		for entrada in llista_candidats.get_children():
 			entrada.queue_free()
 		activa_menu_personal()
+		fxplayer.stream = load(so_compra)
+		fxplayer.play()
 	else:
 		activa_popup("Ja tens el màxim de treballadors permesos en aquesta oficina!
 Prova a traslladar-te a una nova.")
@@ -149,8 +151,7 @@ Prova a traslladar-te a una nova.")
 func genera_treballador(treballador_temp: Dictionary) -> void:
 	pantalla.treballador_temp = treballador_temp
 	pantalla.afegeix_treballador($%Plantilla)
-	fxplayer.stream = load(so_compra)
-	fxplayer.play()
+
 
 func _on_popup_close_button_pressed() -> void:
 	get_node("%PopUp").hide()
