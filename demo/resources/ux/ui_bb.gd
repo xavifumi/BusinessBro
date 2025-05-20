@@ -34,6 +34,7 @@ var fitxa_tasca = preload("res://resources/ux/fitxa_tasca.tscn")
 var fitxa_material = preload("res://resources/ux/fitxa_material.tscn")
 var fitxa_local = preload("res://resources/ux/fitxa_local.tscn")
 var so_compra = "res://resources/oficina/resources/180894__jobro__cash-register-opening.wav"
+var so_inici_feina = "res://resources/sons/651010__therandomsoundbyte2637__pre-match-countdown.wav"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -209,9 +210,14 @@ func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 	if Pantalla.tasca_actual.size() != 0:
 		activa_popup("Ja tens un contracte actiu! Acaba'l abans d'agafar-ne un altre!")
 	else:
+		pantalla.inici_feina = true
 		Pantalla.tasca_actual = tasca_temp
 		BusinessEngine.llista_tasques.remove_at(index)
 		_on_close_menu_tasques_pressed()
+		fxplayer.stream = load(so_inici_feina)
+		fxplayer.play()
+		await get_tree().create_timer(3.0).timeout
+		pantalla.inici_feina = false
 		#print(Pantalla.tasca_actual)
 		
 

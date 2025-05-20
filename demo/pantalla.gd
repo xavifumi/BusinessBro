@@ -42,6 +42,7 @@ var so_celebra = "res://resources/oficina/resources/651642__krizin__crowd-cheer-
 var so_no_celebra = "res://resources/sons/362206__taranp__horn_fail_wahwah_1.wav"
 var button_feina 
 
+var inici_feina = false
 var objecte_instance : Node2D = null
 var mode_precol·locacio := false
 var node_oficina : Node = null

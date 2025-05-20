@@ -49,6 +49,8 @@ func _on_estudia_button_pressed() -> void:
 func _on_acomiada_button_pressed() -> void:
 	get_tree().root.get_node("Pantalla/Ux").anima_sortida_display()
 	treballador.get_node("%AnimationPlayer").play("acomiada")
+	treballador.get_node("%AudioStreamPlayer").stream = load(treballador.so_transporta)
+	treballador.get_node("%AudioStreamPlayer").play
 	await get_tree().create_timer(0.95).timeout
 	treballador.queue_free()
 
