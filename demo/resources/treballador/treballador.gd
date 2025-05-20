@@ -43,29 +43,11 @@ var cicles_estudi := 0
 
 
 var llista_emocions = {
-	"ofuscat": Vector2i(1,1), 
-	"cantant": Vector2i(2,1), 
-	"trist": Vector2i(3,1), 
-	"gota": Vector2i(4,1), 
-	"cercle": Vector2i(5,1),
-	"malediccio": Vector2i(1,2), 
-	"riure": Vector2i(2,2), 
-	"feliç": Vector2i(3,2), 
-	"diners": Vector2i(5,2), 
-	"estrella": Vector2i(1,3),
-	"bombeta": Vector2i(2,3), 
-	"son" : Vector2i(1,4),
-	"cors": Vector2i(2,4), 
-	"exclamacions": Vector2i(3,4), 
-	"enfadat": Vector2i(5,4), 
-	"cor_trencat": Vector2i(2,5),
-	"exclamacio_gran": Vector2i(3,5), 
-	"creu": Vector2i(4,5), 
-	"interrogant": Vector2i(1,6), 
-	"cor_gran": Vector2i(2,6), 
-	"suor": Vector2i(3,6),
-	"nuvol": Vector2i(4,6), 
-	"mal_humor": Vector2i(5,6)
+	"ofuscat": Vector2i(1,1), "cantant": Vector2i(2,1), "trist": Vector2i(3,1), "gota": Vector2i(4,1), "cercle": Vector2i(5,1),
+	"malediccio": Vector2i(1,2), "riure": Vector2i(2,2), "feliç": Vector2i(3,2), "diners": Vector2i(5,2), "estrella": Vector2i(1,3),
+	"bombeta": Vector2i(2,3), "cors": Vector2i(2,4), "exclamacions": Vector2i(3,4), "enfadat": Vector2i(5,4), "cor_trencat": Vector2i(2,5),
+	"exclamacio_gran": Vector2i(3,5), "creu": Vector2i(4,5), "interrogant": Vector2i(1,6), "cor_gran": Vector2i(2,6), "suor": Vector2i(3,6),
+	"nuvol": Vector2i(4,6), "mal_humor": Vector2i(5,6)
 }
 var audio_bombolles = load("res://resources/treballador/702996_bombolles.mp3")
 var so_transporta = "res://resources/sons/178347__andromadax24__s_teleport_03.wav"
@@ -126,13 +108,11 @@ func _process(delta: float) -> void:
 func regula_nivell() -> void:
 	if exp > atributs.nivell * 1000:
 		atributs.nivell += 1
-		mostra_emocio("estrella")
 		var stats := ["disseny", "enginy", "informatica"]
 		var millora = stats.pick_random()
 		atributs[millora] += exp/100
 
 func mostra_emocio(emocio: String) -> void:
-	#emocions.show()
 	tween_começat = true
 	var coord_emocio = llista_emocions[emocio] - Vector2i(1,1)
 	emocions.frame_coords = coord_emocio
@@ -143,16 +123,11 @@ func mostra_emocio(emocio: String) -> void:
 		tween.set_trans(Tween.TRANS_ELASTIC)
 		tween.tween_property(emocions, "scale", Vector2(), 1).set_delay(5)
 		tween_começat = false
-		await tween.finished
-		#emocions.hide()
 
 func treballa(delta: float) -> void:
 	if Pantalla.tasca_actual.size() != 0:
-		mostra_emocio("exclamacions")
 		if energia_actual > atributs["energia"] * 0.1:
 			if not treballant and not moviment:
-				if pantalla.inici_feina == true:
-					await get_tree().create_timer(3.0).timeout
 				var nova_posicio = BusinessEngine.assigna_posicio_treball()
 				if nova_posicio != Vector2.INF:
 					if posicio_desti != Vector2.ZERO and posicio_desti in BusinessEngine.posicions_treball:
@@ -165,23 +140,20 @@ func treballa(delta: float) -> void:
 			elif not treballant and moviment:
 				camina(posicio_desti, delta)
 			else:
-				mostra_emocio("suor")
-				espera()
-
-			if tasca.is_stopped() and (treballant or not moviment):
-				animation_player.play("work")
-				await get_tree().create_timer(1.0).timeout
-				tasca.set_wait_time(randi_range(2, 5))
-				tasca.start()
+				if tasca.is_stopped() and (treballant or not moviment):
+					animation_player.play("work")
+					await get_tree().create_timer(1.0).timeout
+					tasca.set_wait_time(randi_range(2, 5))
+					tasca.start()
+			
 		else:
 			if posicio_desti in BusinessEngine.posicions_treball:
 				BusinessEngine.posicions_treball[posicio_desti] = "lliure"
-			mostra_emocio("son")
+			mostra_emocio("ofuscat")
 			estat = States.CANSAT
 			treballant = false
 	else:
-		if !Ux.get_node("%FeinaNoAcabada").is_visible_in_tree():
-			mostra_emocio("feliç")
+		mostra_emocio("feliç")
 		estat = States.ESPERANT
 		treballant = false
 		if posicio_desti in BusinessEngine.posicions_treball:
@@ -277,13 +249,10 @@ func estudia() -> void:
 
 func espera() -> void:
 	var confetti = get_node("/root/Pantalla/Confetti")
-	var fail = Ux.get_node("%FeinaNoAcabada")
 	if confetti.get_node("verd").is_emitting():
 		var delay = randf_range(0.0, 1.5)
 		await get_tree().create_timer(delay).timeout
 		animation_player.play("celebra")
-	elif fail.is_visible_in_tree():
-		mostra_emocio("trist")
 	else:
 		animation_player.queue("idle")
 	if Pantalla.tasca_actual.size() != 0:
@@ -328,6 +297,22 @@ func camina(desti: Vector2, delta: float) -> void:
 		global_position = global_position.move_toward(desti, delta * max_speed)
 	else:
 		moviment = false
+		if BusinessEngine.posicions_treball.has(desti) and BusinessEngine.posicions_treball[desti] == "reservat":
+			BusinessEngine.posicions_treball[desti] = "ocupat"
+			treballant = true
+		if BusinessEngine.posicions_descans.has(desti) and BusinessEngine.posicions_descans[desti] == "reservat":
+			BusinessEngine.posicions_descans[desti] = "ocupat"
+			descansant = true
+		print("posicions treball:")
+		print(BusinessEngine.posicions_treball)
+
+func allibera_posicio_treball():
+	if posicio_desti in BusinessEngine.posicions_treball:
+		BusinessEngine.posicions_treball[posicio_desti] = "lliure"
+	posicio_desti = Vector2.INF
+	moviment = false
+	treballant = false
+
 
 func limita_posicio(pos: Vector2) -> Vector2:
 	var screen_rect = get_viewport().get_visible_rect()

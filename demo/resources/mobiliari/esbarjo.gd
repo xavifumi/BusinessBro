@@ -17,10 +17,12 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	body.descansant = true
+	pass
 	#ocupat = true
 
 func _on_body_exited(body: Node2D) -> void:
 	body.descansant = false
+	pass
 	#ocupat = false
 	
 func _on_input_event(viewport, event, shape_idx):

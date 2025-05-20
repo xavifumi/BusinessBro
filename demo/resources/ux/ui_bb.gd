@@ -216,6 +216,8 @@ func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 		_on_close_menu_tasques_pressed()
 		fxplayer.stream = load(so_inici_feina)
 		fxplayer.play()
+		for treballador in pantalla.get_node("Oficina/Plantilla").get_children():
+			treballador.mostra_emocio("exclamacions")
 		await get_tree().create_timer(3.0).timeout
 		pantalla.inici_feina = false
 		#print(Pantalla.tasca_actual)

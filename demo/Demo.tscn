@@ -77,8 +77,9 @@ position = Vector2(543, 342)
 
 [node name="treball" type="Node" parent="Oficina"]
 
-[node name="Plantilla" type="Node" parent="Oficina"]
+[node name="Plantilla" type="Node2D" parent="Oficina"]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="Confetti" parent="." instance=ExtResource("4_lhj1s")]
 unique_name_in_owner = true

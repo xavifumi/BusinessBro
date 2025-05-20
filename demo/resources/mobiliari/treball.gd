@@ -17,11 +17,13 @@ func _process(_delta: float) -> void:
 	pass
 	
 func _on_body_entered(body: Node2D) -> void:
-	body.treballant = true
+	pass
+	#body.treballant = true
 	#ocupat = true
 	
 func _on_body_exited(body: Node2D) -> void:
-	body.treballant = false
+	pass
+	#body.treballant = false
 	#ocupat = false
 
 func _on_input_event(viewport, event, shape_idx):

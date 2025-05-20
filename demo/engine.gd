@@ -310,13 +310,14 @@ static func genera_llista_tasques() -> void:
 static func assigna_posicio_treball() -> Vector2:
 	for pos in posicions_treball:
 		if posicions_treball[pos] == "lliure":
-			posicions_treball[pos] = "ocupat"
+			posicions_treball[pos] = "reservat"
 			return pos
-	return Vector2.INF  # Indica que no hi ha llocs lliures
+	return Vector2.INF  # Cap lloc disponible
+
 	
 static func assigna_posicio_descans() -> Vector2:
 	for pos in posicions_descans:
 		if posicions_descans[pos] == "lliure":
-			posicions_descans[pos] = "ocupat"
+			posicions_descans[pos] = "reservat"
 			return pos
 	return Vector2.INF 
