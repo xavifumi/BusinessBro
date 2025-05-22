@@ -47,6 +47,13 @@ func _on_estudia_button_pressed() -> void:
 
 
 func _on_acomiada_button_pressed() -> void:
+	var pantalla = get_tree().root.get_node("Pantalla")
+	get_node("Ux").anima_label(
+						get_tree().root.get_node("Pantalla/Ux").get_node("PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"),
+						pantalla.diners, pantalla.diners - (treballador.atributs["sou"]/365)*(treballador.dies_contractat - treballador.ultima_nomina)
+					)
+	pantalla.diners -= (treballador.atributs["sou"]/365)*(treballador.dies_contractat - treballador.ultima_nomina)
+	pantalla.get_node("%FxPlayer").stream = pantalla.so_compra
 	treballador.get_node("%AudioStreamPlayer").stream = load(treballador.so_transporta)
 	treballador.get_node("%AudioStreamPlayer").play()
 	get_tree().root.get_node("Pantalla/Ux").anima_sortida_display()
@@ -57,3 +64,7 @@ func _on_acomiada_button_pressed() -> void:
 
 func _on_augmenta_sou_button_pressed() -> void:
 	treballador.atributs["sou"] += 500
+
+
+func _on_nomina_button_pressed() -> void:
+	treballador.cobra_nomina()

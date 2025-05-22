@@ -40,6 +40,10 @@ var treballant := false
 var tween_começat = false
 var last_delta = 0
 var cicles_estudi := 0
+var dies_contractat := 0
+var ultima_nomina := 0
+var mes_nomina := 0
+var calendari
 
 
 var llista_emocions = {
@@ -75,6 +79,7 @@ func _ready() -> void:
 	progress_energia.max_value = atributs["energia"]
 	sprite_2d.texture = load(imatge)
 	pantalla = get_node("/root/Pantalla")
+	calendari = get_node("/root/Pantalla/Calendari")
 	animation_player.play("apareix")
 	audio_player.stream = load(so_transporta)
 	audio_player.play()
@@ -90,6 +95,7 @@ func _process(delta: float) -> void:
 	print_estat.text = "treballant: " + str(treballant) + " -descansant: " + str(descansant)
 	progress_energia.value = energia_actual
 	regula_nivell()
+	revisa_nomina()
 
 	match estat:
 		States.TREBALLANT:
@@ -105,12 +111,33 @@ func _process(delta: float) -> void:
 		States.CANSAT:
 			descansa(delta)
 
+func revisa_nomina() -> void:
+	if dies_contractat - ultima_nomina > 31:
+		motivacio_actual -= 0.05
+		
+
 func regula_nivell() -> void:
 	if exp > atributs.nivell * 1000:
 		atributs.nivell += 1
 		var stats := ["disseny", "enginy", "informatica"]
 		var millora = stats.pick_random()
 		atributs[millora] += exp/100
+
+func cobra_nomina() -> void:
+	if mes_nomina != calendari.month:
+		ultima_nomina = calendari.day
+		mes_nomina = calendari.month
+		Ux.anima_label(
+							Ux.get_node("PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"),
+							pantalla.diners, pantalla.diners - (atributs["sou"]/12)
+						)
+		pantalla.diners -= atributs["sou"]/12
+		var so = load(pantalla.so_compra)
+		pantalla.get_node("%FXPlayer").stream = so
+		pantalla.get_node("%FXPlayer").play()
+		motivacio_actual += 0.5
+	else:
+		Ux.activa_popup("Aquest més ja ha cobrat!")
 
 func mostra_emocio(emocio: String) -> void:
 	tween_começat = true
@@ -189,7 +216,7 @@ func fes_tasca() -> void:
 				particules_treball.texture = load("res://resources/ux/generic_icons/Wrench2.png")
 			"informatica":
 				particules_treball.texture = load("res://resources/ux/generic_icons/Monitor.png")
-		var punts_feina_actuals = randi_range(atributs[feina_actual]*atributs["motivacio"], atributs[feina_actual])
+		var punts_feina_actuals = randi_range(atributs[feina_actual]*motivacio_actual, atributs[feina_actual])
 		energia_actual -= punts_feina_actuals / 3
 		pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
 		pantalla.feina_total_acumulada += punts_feina_actuals
@@ -212,7 +239,7 @@ func estudia() -> void:
 		if cicles_estudi == 0:
 			# Inici de l'estudi
 			mostra_emocio("bombeta")
-			tasca.set_wait_time(randf_range(18.0, 22.0))
+			tasca.set_wait_time(randf_range(10.0, 15.0))
 			tasca.start()
 			cicles_estudi = 1
 			animation_player.play("estudia")
@@ -245,6 +272,7 @@ func estudia() -> void:
 			particules_treball.emitting = false
 			estat = States.ESPERANT
 			cicles_estudi = 0
+			motivacio_actual += 0.03
 
 
 func espera() -> void:

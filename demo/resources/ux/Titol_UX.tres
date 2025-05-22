@@ -1,8 +1,15 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://ck7mdtwu72mhs"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://ck7mdtwu72mhs"]
 
 [ext_resource type="FontFile" uid="uid://bbxggfjvdkw4g" path="res://resources/ux/Fonts/7-12-serif.regular.ttf" id="1_n831i"]
 [ext_resource type="FontFile" uid="uid://bl8s5moeoot0u" path="res://resources/ux/Fonts/born2bsporty-fs.regular.otf" id="1_qpd36"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ffvqc"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/font_sizes/font_size = 18
+Button/fonts/font = ExtResource("1_qpd36")
+Button/styles/normal = SubResource("StyleBoxFlat_ffvqc")
 Label/fonts/font = ExtResource("1_qpd36")
 RichTextLabel/fonts/normal_font = ExtResource("1_n831i")

@@ -185,6 +185,8 @@ func _feina_in_progress()->void:
 				"informatica": 0
 			}
 		feina_total_acumulada = 0
+		for treballador in get_node("%Plantilla").get_children():
+			treballador.motivacio_actual -= 0.025
 		get_node("%FXPlayer").stream = load(so_no_celebra)
 		get_node("%FXPlayer").volume_db = 0
 		get_node("%FXPlayer").play()

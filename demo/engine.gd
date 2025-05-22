@@ -229,6 +229,29 @@ static var felicitacions = [
 	]
 ]
 
+static var queixes = [
+	"Els hauries de fer treballar\nmés hores pel que cobren.",
+	"No sé si treballen o fan\nturisme laboral en grup.",
+	"Van més lents que una\nreunió sense cafè.",
+	"Jo crec que es pensen\nque l'horari és opcional.",
+	"Si ser improductius fos una\ncompetició, tindrien medalla d’or.",
+	"Només es mouen quan sona\nla sirena de plegar.",
+	"Treballar? Ells només ho\nfan si no hi ha cap altra opció.",
+	"Fan més pausa que feina,\ni encara es queixen.",
+	"No sé si estan treballant\no fent una performance d'art lent.",
+	"Van tan relaxats que fins\ni tot l’escó està cansat d’ells.",
+	"Són tan discrets treballant\nque sembla que no hi siguin.",
+	"Treballen amb tanta calma que\nem posen nerviós només de mirar-los.",
+	"Només els falta portar\nuna hamaca i un mojito.",
+	"Per què fer avui el que\npots ajornar eternament? Oi?",
+	"Van a un ritme que ni les\npedres els poden seguir.",
+	"Sembla que estiguin en una\nmeditació laboral permanent.",
+	"Si cobressin per cada excusa,\nserien milionaris.",
+	"Tenen una relació complicada\namb el concepte d’esforç.",
+	"Entre pausa i pausa,\npotser fan mitja tasca.",
+	"Ells pensen que 'multitasca'\nvol dir parlar i no fer res alhora."
+]
+
 
 
 

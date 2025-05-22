@@ -3,7 +3,8 @@ class_name UX
 #signal genera_treballador
 
 @onready var liquid: Label = %Liquid
-@onready var calendari: Control = %Calendari
+@onready var calendari: Node
+@onready var display_calendari: Button = %DisplayCalendari
 @onready var dia: Label = %dia
 @onready var mes: Label = %mes
 @onready var any: Label = %any
@@ -40,15 +41,17 @@ var so_inici_feina = "res://resources/sons/651010__therandomsoundbyte2637__pre-m
 func _ready() -> void:
 	pantalla = get_parent()
 	fxplayer = pantalla.get_node("%FXPlayer")
+	calendari = get_tree().root.get_node("Pantalla/Calendari")
 	calaix_aplicacions.get_children()[2].button_down.connect(activa_menu_compres)
 	calaix_aplicacions.get_children()[1].button_down.connect(activa_menu_tasques)
 	calaix_aplicacions.get_children()[0].button_down.connect(activa_menu_personal)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	dia.text = str(Calendar.day)
-	mes.text = str(Calendar.mes_en_text)
-	any.text = str(Calendar.year)
+	#dia.text = str(Calendar.day)
+	#mes.text = str(Calendar.mes_en_text)
+	#any.text = str(Calendar.year)
+	display_calendari.text = str(Calendar.day) + " " + str(Calendar.mes_en_text) + " " + str(Calendar.year)
 	for button in calaix_aplicacions.get_children():
 		btn_hovered(button)
 	if Pantalla.tasca_actual.size() != 0:
@@ -330,6 +333,7 @@ func on_feina_acabada_mostra(estrelles: int, fama: int, exp: int) -> void:
 	get_node("%FeinaAcabada").show()
 
 func on_feina_no_acabada_mostra(fama: int, multa: int) -> void:
+	get_node("%FeinaNoAcabada/MarginContainer2/VBoxContainer/queixaLabel").text = BusinessEngine.queixes.pick_random()
 	get_node("%FeinaNoAcabada/MarginContainer2/VBoxContainer/VBoxContainer/PopUpLabel3").text = "FAMA: " + str(fama)
 	get_node("%FeinaNoAcabada/MarginContainer2/VBoxContainer/VBoxContainer/PopUpLabel2").text = "MULTA: " + str(multa)
 	get_node("%FeinaNoAcabada").show()
@@ -340,3 +344,37 @@ func _on_feina_no_acabada_close_button_pressed() -> void:
 
 func _on_feina_acabada_close_button_pressed() -> void:
 	get_node("%FeinaAcabada").hide()
+
+
+func _on_calendari_pressed() -> void:
+	if !get_node("%ControlTemps").is_visible():
+		get_node("%ControlTemps").show()
+	else:
+		%ControlTemps.hide()
+
+
+func _on_control_temps_close_button_pressed() -> void:
+	if !get_node("%ControlTemps").is_visible():
+		get_node("%ControlTemps").show()
+	else:
+		%ControlTemps.hide()
+
+
+func _on_renda_button_pressed() -> void:
+	calendari.paga_renda()
+
+
+func _on_impostos_button_pressed() -> void:
+	calendari.paga_impostos()
+
+
+func _on_temps_x_1_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_temps_x_2_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_temps_x_3_pressed() -> void:
+	pass # Replace with function body.

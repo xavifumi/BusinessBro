@@ -37,7 +37,7 @@ var dialogue_items: Array[Dictionary] = [
 		"character": "base",
 	},
 	{
-		"text": "L'únic que has de recordar és que els diners que t'hem deixat, [pulse freq=1.0 color=#ffffff40 ease=-2.0][b]ens els has de tornar d'aqui 6 mesos exactament.[/b][/pulse] El dia 1 de juliol.",
+		"text": "L'únic que has de recordar és que els 100.000$ que t'hem deixat, [pulse freq=1.0 color=#ffffff40 ease=-2.0][b]ens els has de tornar d'aqui 6 mesos exactament.[/b][/pulse] El dia 1 de juliol.",
 		"character": "base",
 	},
 	{
@@ -46,6 +46,14 @@ var dialogue_items: Array[Dictionary] = [
 	},
 		{
 		"text": "Millor que no t'hi trobis. De veritat",
+		"character": "base",
+	},
+	{
+		"text": "Ara de debò, revisa el calendari per a no oblidar res important.",
+		"character": "base",
+	},
+	{
+		"text": "I no oblidis mai pagar als terballadors ni els donis menjar després de mitjanit.",
 		"character": "base",
 	},
 		{

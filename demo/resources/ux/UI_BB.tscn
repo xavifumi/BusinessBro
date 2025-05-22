@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bnx7d7x0olguq"]
+[gd_scene load_steps=35 format=3 uid="uid://bnx7d7x0olguq"]
 
 [ext_resource type="Texture2D" uid="uid://b730uiyp6cy23" path="res://resources/ux/UI/yellow/button_square_flat.png" id="1_qwasm"]
 [ext_resource type="Script" path="res://resources/ux/ui_bb.gd" id="1_rhcq0"]
@@ -6,9 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://bpv15yqfej8fk" path="res://resources/ux/UI/yellow/arrow_basic_e_small.png" id="2_kuiqx"]
 [ext_resource type="Texture2D" uid="uid://eqnx8gncn523" path="res://resources/ux/UI/yellow/button_rectangle_depth_line.png" id="2_qk8x0"]
 [ext_resource type="Texture2D" uid="uid://bd4labemwcfrc" path="res://resources/ux/generic_icons/Battery.png" id="3_8qwt1"]
+[ext_resource type="Texture2D" uid="uid://q247cf45l4f" path="res://resources/ux/Small (24x24) PNG/Yellow/Exclamation_Yellow.png" id="4_727qx"]
 [ext_resource type="Texture2D" uid="uid://c0wixt2eavejf" path="res://resources/ux/generic_icons/Team.png" id="4_au4hh"]
 [ext_resource type="Theme" uid="uid://duyldufw2r0bd" path="res://resources/ux/Text negreta_UX.tres" id="4_gj6jl"]
 [ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="5_jx2w3"]
+[ext_resource type="Texture2D" uid="uid://6cwm8mukhnjp" path="res://resources/ux/Small (24x24) PNG/Yellow/Exclamation Black_Yellow.png" id="5_loy6u"]
 [ext_resource type="PackedScene" uid="uid://bpoiw2pucgank" path="res://resources/ux/fitxa_treballador.tscn" id="6_mj216"]
 [ext_resource type="Texture2D" uid="uid://b0c5m75uxw2ls" path="res://resources/ux/UI/yellow/icon_outline_cross.png" id="7_ntg42"]
 [ext_resource type="Theme" uid="uid://ck7mdtwu72mhs" path="res://resources/ux/Titol_UX.tres" id="8_1hulg"]
@@ -102,7 +104,8 @@ script = ExtResource("1_rhcq0")
 tween_intensity = 1.5
 tween_duration = 0.2
 
-[node name="ContorlTemps" type="PanelContainer" parent="."]
+[node name="ControlTemps" type="PanelContainer" parent="."]
+unique_name_in_owner = true
 visible = false
 offset_left = 410.0
 offset_top = 44.0
@@ -110,23 +113,29 @@ offset_right = 749.0
 offset_bottom = 178.0
 theme_override_styles/panel = ExtResource("18_ucavl")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ContorlTemps"]
+[node name="MarginContainer" type="MarginContainer" parent="ControlTemps"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlTemps/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ContorlTemps/VBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
+[node name="ControlVelocitat" type="HBoxContainer" parent="ControlTemps/MarginContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
 
-[node name="Button1" type="Control" parent="ContorlTemps/VBoxContainer/HBoxContainer"]
+[node name="Button1" type="Control" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="TextureButton" type="TextureButton" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button1"]
+[node name="tempsX1" type="TextureButton" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button1"]
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 0
 offset_top = 1.0
@@ -136,7 +145,7 @@ texture_normal = ExtResource("2_kuiqx")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button1"]
+[node name="Label" type="Label" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button1"]
 layout_mode = 0
 offset_right = 17.0
 offset_bottom = 23.0
@@ -146,13 +155,13 @@ text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button2" type="Control" parent="ContorlTemps/VBoxContainer/HBoxContainer"]
+[node name="Button2" type="Control" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="TextureButton" type="TextureButton" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button2"]
+[node name="tempsX2" type="TextureButton" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button2"]
 modulate = Color(1, 0.658824, 0.756863, 1)
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 0
@@ -163,7 +172,7 @@ texture_normal = ExtResource("2_kuiqx")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button2"]
+[node name="Label" type="Label" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button2"]
 layout_mode = 0
 offset_right = 17.0
 offset_bottom = 23.0
@@ -173,13 +182,13 @@ text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button3" type="Control" parent="ContorlTemps/VBoxContainer/HBoxContainer"]
+[node name="Button3" type="Control" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="TextureButton" type="TextureButton" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button3"]
+[node name="tempsX3" type="TextureButton" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button3"]
 modulate = Color(1, 0.396078, 0.25098, 1)
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 0
@@ -190,7 +199,7 @@ texture_normal = ExtResource("2_kuiqx")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="ContorlTemps/VBoxContainer/HBoxContainer/Button3"]
+[node name="Label" type="Label" parent="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button3"]
 layout_mode = 0
 offset_right = 17.0
 offset_bottom = 23.0
@@ -200,11 +209,117 @@ text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="ContorlTemps/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ControlTemps/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
-size_flags_vertical = 3
-text = "Pagament impostos:
-març, juny, setembre, desembre"
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 34
+
+[node name="NominesButton" type="Control" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer"]
+visible = false
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="TextureButton" type="TextureButton" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer/NominesButton"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 0
+offset_top = 1.0
+offset_right = 19.0
+offset_bottom = 22.0
+texture_normal = ExtResource("2_kuiqx")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer/NominesButton"]
+layout_mode = 0
+offset_right = 17.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer2"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("4_gj6jl")
+theme_override_colors/font_color = Color(0.664513, 0, 0.0523418, 1)
+text = "Pagar nòmines: cada més"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ControlTemps/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(20, 25)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="ImpostosButton" type="TextureButton" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.726791, 0.477562, 0, 0.560784)
+custom_minimum_size = Vector2(24, 18)
+layout_mode = 2
+tooltip_text = "Paga impostos"
+texture_normal = ExtResource("4_727qx")
+ignore_texture_size = true
+
+[node name="Label2" type="Label" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer3"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("4_gj6jl")
+theme_override_colors/font_color = Color(0.678431, 0.0784314, 0.129412, 1)
+text = "Pagar impostos: 
+març, juny, setembre i desembre"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="ControlTemps/MarginContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(20, 25)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="RendaButton" type="TextureButton" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer4/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 18)
+layout_mode = 2
+tooltip_text = "Fes la renda"
+texture_normal = ExtResource("5_loy6u")
+ignore_texture_size = true
+
+[node name="Label2" type="Label" parent="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer4"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("4_gj6jl")
+theme_override_colors/font_color = Color(0.678431, 0.0784314, 0.129412, 1)
+text = "Declaració renda: abril-juny"
+
+[node name="MarginContainer2" type="MarginContainer" parent="ControlTemps"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ControlTempsCloseButton" type="TextureButton" parent="ControlTemps/MarginContainer2"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_c3wmj")
+stretch_mode = 4
 
 [node name="PantallaSencera" type="VBoxContainer" parent="."]
 anchors_preset = 15
@@ -249,12 +364,17 @@ theme_override_colors/font_color = Color(0.329386, 0.584566, 0.0497552, 1)
 text = "€"
 vertical_alignment = 1
 
-[node name="Calendari" type="Control" parent="PantallaSencera/PanellSuperior/MarginContainer"]
+[node name="DisplayCalendari" type="Button" parent="PantallaSencera/PanellSuperior/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
+theme = ExtResource("8_1hulg")
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 0)
+text = "1 gener 2025"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PantallaSencera/PanellSuperior/MarginContainer/DisplayCalendari"]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -264,21 +384,21 @@ offset_right = 52.0
 offset_bottom = 23.0
 grow_horizontal = 2
 
-[node name="dia" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="dia" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/DisplayCalendari/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("4_gj6jl")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "30"
 
-[node name="mes" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="mes" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/DisplayCalendari/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("4_gj6jl")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "març"
 
-[node name="any" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/Calendari/HBoxContainer"]
+[node name="any" type="Label" parent="PantallaSencera/PanellSuperior/MarginContainer/DisplayCalendari/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("4_gj6jl")
@@ -831,13 +951,32 @@ theme_override_styles/panel = ExtResource("18_ucavl")
 
 [node name="MarginContainer2" type="MarginContainer" parent="FeinaNoAcabada"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="FeinaNoAcabada/MarginContainer2"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="PopUpLabel" type="Label" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 0
+
+[node name="FeinaNoAcabadaCloseButton" type="TextureButton" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_c3wmj")
+stretch_mode = 4
+
+[node name="queixaLabel" type="Label" parent="FeinaNoAcabada/MarginContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -845,8 +984,9 @@ theme = ExtResource("5_jx2w3")
 theme_override_colors/font_color = Color(0.76, 0.1596, 0.1596, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("20_507v7")
-theme_override_font_sizes/font_size = 50
-text = "Epic Fail!"
+theme_override_font_sizes/font_size = 40
+text = "Treballen amb tanta calma que
+em posen nerviós només de mirar-los"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -912,26 +1052,16 @@ text = "MULTA: 5000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="FeinaNoAcabada"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="FeinaNoAcabadaCloseButton" type="TextureButton" parent="FeinaNoAcabada/MarginContainer"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture_normal = ExtResource("13_c3wmj")
-stretch_mode = 4
-
+[connection signal="pressed" from="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button1/tempsX1" to="." method="_on_temps_x_1_pressed"]
+[connection signal="pressed" from="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button2/tempsX2" to="." method="_on_temps_x_2_pressed"]
+[connection signal="pressed" from="ControlTemps/MarginContainer/VBoxContainer/ControlVelocitat/Button3/tempsX3" to="." method="_on_temps_x_3_pressed"]
+[connection signal="pressed" from="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer/ImpostosButton" to="." method="_on_impostos_button_pressed"]
+[connection signal="pressed" from="ControlTemps/MarginContainer/VBoxContainer/HBoxContainer4/MarginContainer/RendaButton" to="." method="_on_renda_button_pressed"]
+[connection signal="pressed" from="ControlTemps/MarginContainer2/ControlTempsCloseButton" to="." method="_on_control_temps_close_button_pressed"]
+[connection signal="pressed" from="PantallaSencera/PanellSuperior/MarginContainer/DisplayCalendari" to="." method="_on_calendari_pressed"]
 [connection signal="pressed" from="PantallaSencera/MenuTreballadors/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTreballadors" to="." method="_on_close_menu_treballadors_pressed"]
 [connection signal="pressed" from="PantallaSencera/MenuTasques/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuTasques" to="." method="_on_close_menu_tasques_pressed"]
 [connection signal="pressed" from="PantallaSencera/MenuCompres/MarginContainer/VBoxContainer/Titol/HBoxContainer/closeMenuCompres" to="." method="_on_close_menu_compres_pressed"]
 [connection signal="pressed" from="PopUp/MarginContainer/PopupCloseButton" to="." method="_on_popup_close_button_pressed"]
 [connection signal="pressed" from="FeinaAcabada/MarginContainer/FeinaAcabadaCloseButton" to="." method="_on_feina_acabada_close_button_pressed"]
-[connection signal="pressed" from="FeinaNoAcabada/MarginContainer/FeinaNoAcabadaCloseButton" to="." method="_on_feina_no_acabada_close_button_pressed"]
+[connection signal="pressed" from="FeinaNoAcabada/MarginContainer2/VBoxContainer/MarginContainer/FeinaNoAcabadaCloseButton" to="." method="_on_feina_no_acabada_close_button_pressed"]

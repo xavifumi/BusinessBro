@@ -6,12 +6,14 @@ static var month: int = 1  # Gener
 static var mes_en_text: String = "gener"
 static var day: int = 1
 var global_engine 
+var pantalla
 @onready var display_any: Label = $UI/VBoxContainer/displayAny
 @onready var display_mes: Label = $UI/VBoxContainer/HBoxContainer/displayMes
 @onready var display_dia: Label = $UI/VBoxContainer/HBoxContainer/displayDia
 @onready var button_x_2: Button = $UI/VBoxContainer/HBoxContainer2/x2
 @onready var button_x_1: Button = $UI/VBoxContainer/HBoxContainer2/x1
 @onready var button_x_4: Button = $UI/VBoxContainer/HBoxContainer2/x4
+@onready var impostos_button: TextureButton = get_node("/root/Pantalla").get_node("Ux").get_node("%ImpostosButton")
 
 
 var seconds_per_day: float = 10.0  # Un dia dura 60 segons
@@ -63,6 +65,7 @@ func _ready():
 	)
 	global_engine = get_tree().root.get_node("GlobalEngine")
 
+
 func is_leap_year(y: int) -> bool:
 	return (y % 4 == 0 and y % 100 != 0) or (y % 400 == 0)
 
@@ -97,20 +100,56 @@ func update_calendari() -> void:
 	display_any.text = str(year)
 	display_mes.text = str(mesos_in_any[month-1])
 	display_dia.text = str(day)
+	if month % 3 == 0:
+		impostos_button.disabled = false
+		impostos_button.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
+		
+	else:
+		impostos_button.disabled = true
+		#impostos_button
+		#impostos_button.self_modulate = Color(0.5, 0.5, 0.5, 1.0)
+		pass
+	#display_calendari.text = str(day) + " " + str(mesos_in_any[month-1]) + " " + str(year)
+
 
 func paga_nomines() -> void:
 	var nomines = 0
 	for treballadors in get_tree().root.get_node("Pantalla/Oficina/Plantilla").get_children():
 		nomines += treballadors.atributs["sou"]
+	get_node("Ux").anima_label(get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"), Pantalla.diners, Pantalla.diners - nomines - Pantalla.lloguer)
 	Pantalla.diners -= nomines
 	Pantalla.diners -= Pantalla.lloguer
 	Pantalla.despeses += (nomines + Pantalla.lloguer)
+	var so = load(pantalla.so_compra)
+	pantalla.get_node("%FXPlayer").stream = so
+	pantalla.get_node("%FXPlayer").play()
 	
 func paga_impostos() -> void:
-	get_node("Ux").anima_label(get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"), Pantalla.diners, Pantalla.beneficis_trimestre * 0.21)
+	get_node("Ux").anima_label(get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"), Pantalla.diners, Pantalla.diners - Pantalla.beneficis_trimestre * 0.21)
 	Pantalla.diners -= Pantalla.beneficis_trimestre * 0.21
 	Pantalla.beneficis_any += Pantalla.beneficis_trimestre
 	Pantalla.beneficis_trimestre = 0
+	var so = load(pantalla.so_compra)
+	pantalla.get_node("%FXPlayer").stream = so
+	pantalla.get_node("%FXPlayer").play()
 	
 func paga_renda() -> void:
-	Pantalla.diners -= (Pantalla.beneficis_trimestre - Pantalla.despeses) * 0.25
+	get_node("Ux").anima_label(get_node("Ux/PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer/Liquid"), Pantalla.diners, Pantalla.diners - (Pantalla.beneficis_any - Pantalla.despeses) * 0.25)
+	Pantalla.diners -= (Pantalla.beneficis_any - Pantalla.despeses) * 0.25
+	Pantalla.beneficis_any = 0
+	var so = load(pantalla.so_compra)
+	pantalla.get_node("%FXPlayer").stream = so
+	pantalla.get_node("%FXPlayer").play()
+
+func compte_enrere() -> void:
+	if month == 7:
+		if Pantalla.diners > 100000:
+			victoria()
+		else:
+			derrota()
+
+func victoria() -> void:
+	pass
+	
+func derrota() -> void:
+	pass

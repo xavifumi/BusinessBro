@@ -1,0 +1,90 @@
+[gd_scene load_steps=14 format=3 uid="uid://vem35m58na6p"]
+
+[ext_resource type="Script" path="res://pantalla.gd" id="1_5vbv4"]
+[ext_resource type="PackedScene" uid="uid://bkcsjsk2ciff" path="res://addons/maaacks_menus_template/base/scenes/music_players/background_music_player.tscn" id="2_c2066"]
+[ext_resource type="PackedScene" uid="uid://bnx7d7x0olguq" path="res://resources/ux/UI_BB.tscn" id="2_nlrnl"]
+[ext_resource type="AudioStream" uid="uid://d401w8jkux7p" path="res://resources/menus/Tabletop Jazz Cafe.wav" id="3_0i8vf"]
+[ext_resource type="Texture2D" uid="uid://d30qxsw4e6yig" path="res://resources/menus/vecteezy_dollar-symbol-hand-drawn-seamless-pattern2_31708438.jpg" id="3_87ltm"]
+[ext_resource type="PackedScene" uid="uid://2yjtaugoco0x" path="res://resources/calendari/TestCalendari.tscn" id="3_ue7x6"]
+[ext_resource type="PackedScene" uid="uid://wwuamji57p7u" path="res://resources/ux/Particules_Pantalla.tscn" id="4_lhj1s"]
+[ext_resource type="Shader" path="res://resources/menus/sliding_background.gdshader" id="5_kypb7"]
+[ext_resource type="PackedScene" uid="uid://bjc7mf800j7j6" path="res://resources/oficina/local-placeholder.tscn" id="7_lx2vk"]
+[ext_resource type="PackedScene" uid="uid://bggi6brq24jam" path="res://resources/menus/dialogue.tscn" id="10_c6qyi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_on3ed"]
+shader = ExtResource("5_kypb7")
+shader_parameter/bg_color = Color(1.62441e-07, 0.155563, 0.227093, 1)
+shader_parameter/pattern_color = Color(0.26612, 0.655657, 0.999994, 1)
+shader_parameter/pattern_size = 128.0
+shader_parameter/pattern_sampler = ExtResource("3_87ltm")
+
+[sub_resource type="Gradient" id="Gradient_7w0je"]
+interpolation_mode = 2
+interpolation_color_space = 2
+colors = PackedColorArray(0.00279166, 0.132059, 0.193247, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iqqiy"]
+gradient = SubResource("Gradient_7w0je")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[node name="Pantalla" type="Node2D"]
+script = ExtResource("1_5vbv4")
+
+[node name="BG" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="BG"]
+material = SubResource("ShaderMaterial_on3ed")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(4.81307e-07, 0.313267, 0.471789, 1)
+
+[node name="TextureRect" type="TextureRect" parent="BG"]
+modulate = Color(1, 1, 1, 0.741176)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_iqqiy")
+
+[node name="BackgroundMusicPlayer" parent="." instance=ExtResource("2_c2066")]
+stream = ExtResource("3_0i8vf")
+volume_db = -12.0
+bus = &"Master"
+
+[node name="FXPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+volume_db = -12.0
+
+[node name="Calendari" parent="." instance=ExtResource("3_ue7x6")]
+
+[node name="Oficina" type="Node" parent="."]
+
+[node name="Empty" parent="Oficina" instance=ExtResource("7_lx2vk")]
+
+[node name="PuntInici" type="Marker2D" parent="Oficina"]
+visible = false
+position = Vector2(543, 342)
+
+[node name="descans" type="Node" parent="Oficina"]
+
+[node name="treball" type="Node" parent="Oficina"]
+
+[node name="Plantilla" type="Node2D" parent="Oficina"]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Confetti" parent="." instance=ExtResource("4_lhj1s")]
+unique_name_in_owner = true
+
+[node name="Ux" parent="." instance=ExtResource("2_nlrnl")]
+
+[node name="Dialogue" parent="." instance=ExtResource("10_c6qyi")]
+visible = false
