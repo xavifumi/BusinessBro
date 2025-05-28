@@ -13,6 +13,11 @@ class_name DisplayTreballador extends PanelContainer
 @onready var cansament_progress_bar: TextureProgressBar = $MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer3/CansamentProgressBar
 
 var treballador : Treballador
+var bbb
+var opcio_jugador
+var variables_joc = [
+	"burpee", "bitcoin", "babe"
+]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -33,7 +38,47 @@ func _on_popup_close_button_pressed() -> void:
 
 
 func _on_motiva_button_pressed() -> void:
-	pass # Replace with function body.
+	bbb = variables_joc.pick_random()
+	var Ux = get_tree().root.get_node("Pantalla/Ux")
+	Ux.bbb.show()
+
+func bbb_joc() -> void:
+	var resultat
+	if opcio_jugador == "burpee":
+		if bbb == "babe":
+			resultat = "victoria"
+		elif bbb == "bitcoin":
+			resultat = "derrota"
+		else:
+			resultat = "empat"
+	if opcio_jugador == "babe":
+		if bbb == "bitcoin":
+			resultat = "victoria"
+		elif bbb == "burpee":
+			resultat = "derrota"
+		else:
+			resultat = "empat"
+	if opcio_jugador == "bitcoin":
+		if bbb == "burpee":
+			resultat = "victoria"
+		elif bbb == "babe":
+			resultat = "derrota"
+		else:
+			resultat = "empat"
+	var pantalla = get_tree().root.get_node("Pantalla")
+	match resultat:
+		"victoria": 
+			treballador.motivacio_actual += 0.10
+			pantalla.get_node("%Confetti").dispara_confetti()
+			pantalla.get_node("%FXPlayer").stream = load("res://resources/oficina/resources/651642__krizin__crowd-cheer-2.wav")
+			pantalla.get_node("%FXPlayer").play()
+		"derrota": 
+			treballador.motivacio_actual -= 0.05
+			pantalla.get_node("%FXPlayer").stream = load("res://resources/sons/362206__taranp__horn_fail_wahwah_1.wav")
+			pantalla.get_node("%FXPlayer").play()
+		"empat": 
+			treballador.motivacio_actual
+	opcio_jugador = ""
 
 
 func _on_estudia_button_pressed() -> void:
@@ -68,3 +113,7 @@ func _on_augmenta_sou_button_pressed() -> void:
 
 func _on_nomina_button_pressed() -> void:
 	treballador.cobra_nomina()
+
+
+func _on_descansar_button_pressed() -> void:
+	treballador.estat = treballador.States.CANSAT

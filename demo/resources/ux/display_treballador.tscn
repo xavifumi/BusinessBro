@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bge8b8yfh2tas"]
+[gd_scene load_steps=29 format=3 uid="uid://bge8b8yfh2tas"]
 
 [ext_resource type="Texture2D" uid="uid://eqnx8gncn523" path="res://resources/ux/UI/yellow/button_rectangle_depth_line.png" id="1_nyugu"]
 [ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Character 1.png" id="2_hvtbj"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://c0wixt2eavejf" path="res://resources/ux/generic_icons/Team.png" id="8_ev5gx"]
 [ext_resource type="Texture2D" uid="uid://bb6dixs2bcdji" path="res://resources/ux/generic_icons/Cash.png" id="9_hfbb8"]
 [ext_resource type="Texture2D" uid="uid://d1opaxodcxwbx" path="res://resources/ux/generic_icons/Book.png" id="10_7tx2v"]
+[ext_resource type="Texture2D" uid="uid://covba7wy5jdl5" path="res://resources/ux/Small (24x24) PNG/Lightgreen/Music_Lightgreen.png" id="11_5o3co"]
 [ext_resource type="Texture2D" uid="uid://3inouujdu0pj" path="res://resources/ux/Small (24x24) PNG/Blue/Writing_Blue.png" id="11_28noc"]
 [ext_resource type="Texture2D" uid="uid://cnbd3oresvxag" path="res://resources/ux/Small (24x24) PNG/Purple/Heart_Purple.png" id="11_o6vxb"]
 [ext_resource type="Texture2D" uid="uid://e53w4ogdj0by" path="res://resources/ux/Small (24x24) PNG/Red/Warning_Red.png" id="11_rrgew"]
@@ -238,11 +239,19 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="NominaButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions"]
+[node name="DescansarButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions"]
 texture_filter = 1
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-tooltip_text = "Motivar"
+tooltip_text = "Descansa"
+texture_normal = ExtResource("11_5o3co")
+stretch_mode = 0
+
+[node name="NominaButton2" type="TextureButton" parent="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Pagar nòmina"
 texture_normal = ExtResource("11_28noc")
 stretch_mode = 0
 
@@ -375,7 +384,8 @@ texture = ExtResource("19_e3r3u")
 expand_mode = 1
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxSou/sou/HBoxContainer/AugmentaSouButton" to="." method="_on_augmenta_sou_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/NominaButton" to="." method="_on_nomina_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/DescansarButton" to="." method="_on_descansar_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/NominaButton2" to="." method="_on_nomina_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/MotivaButton" to="." method="_on_motiva_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/EstudiaButton" to="." method="_on_estudia_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PanellCentral/MarginContainer/VBoxContainer/HBoxAccions/AcomiadaButton" to="." method="_on_acomiada_button_pressed"]

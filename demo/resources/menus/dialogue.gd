@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+var escena_final = false
+
 var bodies := {
 	"base": preload("res://resources/dialegs/1746946914129.jpg")
 }
@@ -96,7 +98,10 @@ func show_text() -> void:
 func advance() -> void:
 	current_item_index += 1
 	if current_item_index == dialogue_items.size():
-		queue_free()
+		if escena_final:
+			get_tree().quit()
+		else:
+			queue_free()
 	else:
 		show_text()
 		

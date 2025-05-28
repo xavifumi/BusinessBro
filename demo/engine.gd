@@ -1,6 +1,7 @@
 class_name BusinessEngine extends Node
 
 static var nivell_joc
+@onready var pantalla = get_tree().root.get_node("Pantalla")
 static var min_habilitat := 15
 static var posicions_descans = {}
 static var posicions_treball = {}
@@ -143,33 +144,191 @@ static var noms_empresa = [
 ]
 
 static var llista_material = {
-	"taula_treball" : {
-		"tipus": "treball",
-		"nom": "Taula de treball",
-		"descripcio" : "Una taula, per a que els teus treballadors s'estiguin una estona quiets. A veure si es concentren.",
-		"icona": "res://resources/oficina/resources/taula.png",
-		"preu":200,
-		"h": 64,
-		"w": 64,
-		"nivell": 1,
-		"escena":"res://resources/mobiliari/llocTreball.tscn"
-	},
-	"cadira_escriptori" : {
+	"planta_plastic" : {
 		"tipus": "descans",
-		"nom": "Cadira d'escriptori",
-		"descripcio" : "Una cadira. D'una botiga de nom suec. Tampoc es mereixen gaire més.",
-		"icona": "res://resources/oficina/resources/cadira.png",
+		"nom": "Planta de plàstic",
+		"descripcio" : "Una planta feta de plàstic, redueix l'estrés. Requereix menys manteniment que un treballador i tenen una intel·ligència similar.",
+		"icona": "Planta",
 		"preu": 100,
 		"h": 64,
 		"w": 64,
 		"nivell": 1,
-		"escena":"res://resources/mobiliari/llocDescans.tscn"
-	}
+		"escena":"res://resources/mobiliari/llocDescans.tscn",
+		"atributs": {
+			"disseny": 0,
+			"enginy": 0,
+			"informatica": 0,
+			"social": 0,
+			"recuperacio_energia": 0
+		}
+	},
+	"taula_treball" : {
+		"tipus": "treball",
+		"nom": "Taula de treball",
+		"descripcio" : "Una taula, per a que els teus treballadors s'estiguin una estona quiets. A veure si es concentren.",
+		"icona": "Taula",
+		"preu":200,
+		"h": 64,
+		"w": 64,
+		"nivell": 1,
+		"escena":"res://resources/mobiliari/llocTreball.tscn",
+		"atributs": {
+			"disseny": 0,
+			"enginy": 0,
+			"informatica": 0,
+			"social": 0,
+			"recuperacio_energia": 0
+		}
+	},
+	"dispensador_aigua" : {
+		"tipus": "descans",
+		"nom": "Dispensador d'aigua",
+		"descripcio" : "Ideal per a que els treballadors s'hidratin mentre descansen. No reomplir amb alcohol, un altre cop no siusplau.",
+		"icona": "Aigua",
+		"preu": 250,
+		"h": 64,
+		"w": 64,
+		"nivell": 1,
+		"escena":"res://resources/mobiliari/llocDescans.tscn",
+		"atributs": {
+			"disseny": 0,
+			"enginy": 0,
+			"informatica": 0,
+			"social": 0,
+			"recuperacio_energia": 0.005
+		}
+	},
+	"taula_llibres" : {
+		"tipus": "treball",
+		"nom": "Taula amb llibres",
+		"descripcio" : "Espai de treball creatiu, amb llibres per colorejar i contes moderns que eviten traumes infantils",
+		"icona": "Llibres",
+		"preu":350,
+		"h": 64,
+		"w": 64,
+		"nivell": 1,
+		"escena":"res://resources/mobiliari/llocTreball.tscn",
+		"atributs": {
+			"disseny": 0,
+			"enginy": 10,
+			"informatica": 0,
+			"social": 0,
+			"recuperacio_energia": 0
+		}
+	},
+	"taula_telefon" : {
+		"tipus": "treball",
+		"nom": "Taula amb telefon",
+		"descripcio" : "Taula equipada amb línia telefònica. Res de smartphones, que ens deprimeixen els comercials.",
+		"icona": "Telefon",
+		"preu":350,
+		"h": 64,
+		"w": 64,
+		"nivell": 2,
+		"escena":"res://resources/mobiliari/llocTreball.tscn",
+		"atributs": {
+			"disseny": 0,
+			"enginy": 0,
+			"informatica": 10,
+			"social": 0,
+			"recuperacio_energia": 0
+		}
+	},
+	"nevera" : {
+		"tipus": "descans",
+		"nom": "Nevera compartida",
+		"descripcio" : "Compartiment refrigerat per a que desin les seves racions d'aliment. Es recomana canviar-la cada dos anys o si un tupper s'hi queda durant tres mesos",
+		"icona": "Nevera",
+		"preu": 500,
+		"h": 64,
+		"w": 64,
+		"nivell": 2,
+		"escena":"res://resources/mobiliari/llocDescans.tscn",
+		"atributs": {
+			"disseny": 0,
+			"enginy": 0,
+			"informatica": 0,
+			"social": 0,
+			"recuperacio_energia": 0.01
+		}
+	},
+	"cafetera" : {
+		"tipus": "descans",
+		"nom": "Màquina de cafè",
+		"descripcio" : "Base de càrrega per a treballadors. Utilitza bateries tipus 'Arabica' o 'Capuccino', en altes quantitats produeix adicció",
+		"icona": "Cafetera",
+		"preu": 600,
+		"h": 64,
+		"w": 64,
+		"nivell": 3,
+		"escena":"res://resources/mobiliari/llocDescans.tscn",
+		"atributs": {
+			"disseny": 0,
+			"enginy": 0,
+			"informatica": 0,
+			"social": 0,
+			"recuperacio_energia": 0.015
+		}
+	},
+	"ordinador" : {
+		"tipus": "treball",
+		"nom": "Ordinador Personal",
+		"descripcio" : "El futur, un Commodore últim model per a que puguin escriure, fer fulls de càlcul o jugar al solitari. El que donen de si 64Kb de RAM",
+		"icona": "Ordinador",
+		"preu":900,
+		"h": 64,
+		"w": 64,
+		"nivell": 3,
+		"escena":"res://resources/mobiliari/llocTreball.tscn",
+		"atributs": {
+			"disseny": 20,
+			"enginy": 0,
+			"informatica": 20,
+			"social": 0,
+			"recuperacio_energia": 0
+		}
+	},
+	"expenedora" : {
+		"tipus": "descans",
+		"nom": "Màquina Expenedora",
+		"descripcio" : "El més semblant a un restaurant que veuran avui els treballadors. Els permet exercir la llibertat de compra. Capitalisme en una capsa. Genial.",
+		"icona": "Expenedora",
+		"preu": 1000,
+		"h": 64,
+		"w": 64,
+		"nivell": 4,
+		"escena":"res://resources/mobiliari/llocDescans.tscn",
+		"atributs": {
+			"disseny": 0,
+			"enginy": 0,
+			"informatica": 0,
+			"social": 0,
+			"recuperacio_energia": 0.02
+		}
+	},
+	"impressora" : {
+		"tipus": "treball",
+		"nom": "Impressora Multifunció",
+		"descripcio" : "Dossiers, informes, novel·les pirata. Si ho pots llegir ho pots imprimir! Així podreu repartir coses a les reunions i els treballadors se sentiran estimats.",
+		"icona": "Impressora",
+		"preu":1200,
+		"h": 64,
+		"w": 64,
+		"nivell": 4,
+		"escena":"res://resources/mobiliari/llocTreball.tscn",
+		"atributs": {
+			"disseny": 20,
+			"enginy": 20,
+			"informatica": 20,
+			"social": 0,
+			"recuperacio_energia": 0
+		}
+	},
 }
 
 static var llista_locals = {
 	"Parquing de casa la iaia": {
-		"descripcio": "",
+		"descripcio": "Una habitació que ningú fa servir ja que tràfic va calificar la iaia com a perill públic al volant. A és, mai et faltarà colacao!",
 		"treballadors": 2,
 		"material": 3,
 		"preu": 130,
@@ -258,7 +417,7 @@ static var queixes = [
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	genera_llista_candidats()
-	genera_llista_tasques()
+	#genera_llista_tasques()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -272,8 +431,10 @@ static func genera_treballador():
 	var lvl = randi_range(1 if nivell_joc/2 < 1 else int(nivell_joc/2), int(nivell_joc+nivell_joc/2))
 	var ambicio = randi_range(-10, 10)
 	var habilitat = "no" if randi_range(0,1)==1 else llista_habilitats.pick_random()
-	var sou_mig = (16576*(1+0.05*lvl))+ 100*(lvl-1)
-	var sou = (sou_mig+(sou_mig*(ambicio/100))) * ((randf_range(50.0,75.0)/100.0) if habilitat=="becari" else 1)
+	var sou_mig = (16576.0*(1.0+0.05*lvl))+ 100.0*(lvl-1)
+	print(sou_mig* (ambicio/100.0))
+	print(sou_mig* (ambicio/100.0) + sou_mig)
+	var sou = (sou_mig* (ambicio/100.0) + sou_mig) * (randf_range(50.0,75.0)/100.0) if habilitat=="becari" else sou_mig* (ambicio/100.0) + sou_mig
 	var mitja_habilitats = 100 + (lvl - 1)*10 + ambicio
 	var disseny = randi_range(min_habilitat, mitja_habilitats - min_habilitat)
 	var enginy = randi_range(min_habilitat, mitja_habilitats - disseny - min_habilitat)
@@ -302,12 +463,12 @@ static func genera_llista_candidats() -> void:
 	for candidat in 4:
 		llista_candidats.append(genera_treballador())
 	
-static func genera_tasca() -> Dictionary:
+func genera_tasca() -> Dictionary:
 	var nom_tasca = idees_creatives[0].pick_random() + " " + idees_creatives[1].pick_random() + " " + idees_creatives[2].pick_random()
 	var empresa = noms_empresa[0].pick_random() + noms_empresa[1].pick_random() + " " +noms_empresa[2].pick_random()
 	var durada = randi_range(5,15)
 	var dificultat = randf_range(0.5, 1.5)
-	var punts_necessaris = 50 * dificultat * Pantalla.maxim_treballadors * durada
+	var punts_necessaris = 50 * dificultat * pantalla.maxim_treballadors * durada
 	var recompensa = int(punts_necessaris * 1.5)
 	var stat = ["disseny", "enginy", "informatica"].pick_random()
 	var retorn = {
@@ -322,9 +483,10 @@ static func genera_tasca() -> Dictionary:
 		"stat_important": stat
 	}
 	#print(str(dificultat) + " - " +str(Pantalla.maxim_treballadors ) + " - "+ str(durada) + " - "+ str(punts_necessaris))
+	#print(retorn)
 	return retorn
 	
-static func genera_llista_tasques() -> void:
+func genera_llista_tasques() -> void:
 	llista_tasques = []
 	for tasca in 4:
 		llista_tasques.append(genera_tasca())

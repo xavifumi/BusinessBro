@@ -2,6 +2,13 @@ extends Area2D
 var ocupat := false
 @export var tipus: String = "treball" # o "treball", segons el cas
 var preu
+var atributs = {
+	"disseny": 0,
+	"enginy": 0,
+	"informatica": 0,
+	"social": 0,
+	"recuperacio_energia": 0
+}
 
 signal reubicar_solicitat(node)
 
@@ -17,12 +24,18 @@ func _process(_delta: float) -> void:
 	pass
 	
 func _on_body_entered(body: Node2D) -> void:
-	pass
+	body.atributs_lloc = atributs
 	#body.treballant = true
 	#ocupat = true
 	
 func _on_body_exited(body: Node2D) -> void:
-	pass
+	body.atributs_lloc = {
+	"disseny": 0,
+	"enginy": 0,
+	"informatica": 0,
+	"social": 0,
+	"recuperacio_energia": 0
+}
 	#body.treballant = false
 	#ocupat = false
 

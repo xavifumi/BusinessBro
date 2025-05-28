@@ -2,6 +2,13 @@ extends Area2D
 var ocupat := false
 @export var tipus: String = "descans" # o "treball", segons el cas
 var preu
+var atributs = {
+	"disseny": 0,
+	"enginy": 0,
+	"informatica": 0,
+	"social": 0,
+	"recuperacio_energia": 0
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,11 +23,19 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_body_entered(body: Node2D) -> void:
+	body.atributs_lloc = atributs
 	body.descansant = true
 	pass
 	#ocupat = true
 
 func _on_body_exited(body: Node2D) -> void:
+	body.atributs_lloc= {
+	"disseny": 0,
+	"enginy": 0,
+	"informatica": 0,
+	"social": 0,
+	"recuperacio_energia": 0
+}
 	body.descansant = false
 	pass
 	#ocupat = false

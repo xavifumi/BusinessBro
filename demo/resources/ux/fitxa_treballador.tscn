@@ -91,7 +91,7 @@ texture = ExtResource("2_bnr5t")
 [node name="labelSou" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/sou/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "sou"
+tooltip_text = "Sou"
 mouse_filter = 0
 theme = ExtResource("2_bl4tq")
 text = "30.000€"
@@ -174,5 +174,6 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
+tooltip_text = "Contractar"
 texture_normal = ExtResource("7_gjpbl")
 stretch_mode = 4

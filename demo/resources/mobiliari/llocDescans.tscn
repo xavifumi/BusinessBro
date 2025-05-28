@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cpbfprb56uk0u"]
+[gd_scene load_steps=4 format=3 uid="uid://dpc57onwac12k"]
 
 [ext_resource type="Script" path="res://resources/mobiliari/esbarjo.gd" id="1_ywp07"]
-[ext_resource type="Texture2D" uid="uid://clrx7dxu1k8pn" path="res://resources/oficina/resources/Office tiles/Little_Bits_office_objects.png" id="2_0lwhe"]
+[ext_resource type="Texture2D" uid="uid://cg2c1jpddsneu" path="res://resources/oficina/resources/Modern_Office_32x32.png" id="2_2vwn5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pkoqg"]
 size = Vector2(64, 64)
@@ -10,17 +10,69 @@ size = Vector2(64, 64)
 collision_mask = 2
 script = ExtResource("1_ywp07")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(32.22, 32.295)
-scale = Vector2(4, 4)
-texture = ExtResource("2_0lwhe")
-region_enabled = true
-region_rect = Rect2(50.9418, 31.4149, 10.4167, 17.1969)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(32, 32)
 shape = SubResource("RectangleShape2D_pkoqg")
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Planta" type="Node2D" parent="Sprites"]
+visible = false
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprites/Planta"]
+texture_filter = 1
+position = Vector2(32, 29)
+texture = ExtResource("2_2vwn5")
+region_enabled = true
+region_rect = Rect2(195.566, 406.563, 24.756, 54.1897)
+
+[node name="Aigua" type="Node2D" parent="Sprites"]
+visible = false
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprites/Aigua"]
+texture_filter = 1
+position = Vector2(32, 29)
+texture = ExtResource("2_2vwn5")
+region_enabled = true
+region_rect = Rect2(385.727, 495.617, 26.6912, 60.6657)
+
+[node name="Nevera" type="Node2D" parent="Sprites"]
+visible = false
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprites/Nevera"]
+texture_filter = 1
+position = Vector2(32, 32)
+texture = ExtResource("2_2vwn5")
+region_enabled = true
+region_rect = Rect2(142.081, 767.674, 38.4973, 47.1902)
+
+[node name="Cafetera" type="Node2D" parent="Sprites"]
+visible = false
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprites/Cafetera"]
+texture_filter = 1
+position = Vector2(32, 32)
+texture = ExtResource("2_2vwn5")
+region_enabled = true
+region_rect = Rect2(263.526, 1229.83, 50.985, 64.5565)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprites/Cafetera"]
+visible = false
+texture_filter = 1
+position = Vector2(32, 20.585)
+texture = ExtResource("2_2vwn5")
+region_enabled = true
+region_rect = Rect2(255.708, 705.554, 30.8279, 36.6165)
+
+[node name="Expenedora" type="Node2D" parent="Sprites"]
+visible = false
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprites/Expenedora"]
+texture_filter = 1
+position = Vector2(32, 29)
+texture = ExtResource("2_2vwn5")
+region_enabled = true
+region_rect = Rect2(71.5857, 744.306, 47.8111, 69.5435)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

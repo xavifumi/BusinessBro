@@ -81,6 +81,7 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/preu"]
 layout_mode = 2
+tooltip_text = "Lloguer"
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/preu/HBoxContainer"]
 layout_mode = 2
@@ -97,6 +98,7 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/persones"]
 layout_mode = 2
+tooltip_text = "Capacitat de gent"
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/persones/HBoxContainer"]
 layout_mode = 2
@@ -113,6 +115,7 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/material"]
 layout_mode = 2
+tooltip_text = "Capacitat de material"
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/material/HBoxContainer"]
 layout_mode = 2
@@ -132,5 +135,6 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
+tooltip_text = "Lloga"
 texture_normal = ExtResource("5_8kyqu")
 stretch_mode = 4

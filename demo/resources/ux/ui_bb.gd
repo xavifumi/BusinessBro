@@ -19,6 +19,10 @@ class_name UX
 @onready var material: VBoxContainer = %Material
 @onready var locals: VBoxContainer = %Locals
 @onready var display_treballador: DisplayTreballador = %DisplayTreballador
+@onready var info_treballadors: Label = $PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer2/InfoTreballadors
+@onready var info_material: Label = $PantallaSencera/PanellSuperior/MarginContainer/HBoxContainer2/InfoMaterial
+@onready var bbb: PanelContainer = %BBB
+
 var pantalla
 var fxplayer
 var treballadors_per_generar = []
@@ -52,10 +56,12 @@ func _process(_delta: float) -> void:
 	#mes.text = str(Calendar.mes_en_text)
 	#any.text = str(Calendar.year)
 	display_calendari.text = str(Calendar.day) + " " + str(Calendar.mes_en_text) + " " + str(Calendar.year)
+	var viewport = get_viewport().size
 	for button in calaix_aplicacions.get_children():
 		btn_hovered(button)
 	if Pantalla.tasca_actual.size() != 0:
 		var tween = create_tween()
+		%FeinaInfo.show()
 		tween.tween_property(%FeinaInfo, "position:y", 575, tween_duration)
 		#%FeinaInfo.show()
 	else :
@@ -67,7 +73,8 @@ func _process(_delta: float) -> void:
 		%FeinaInfoDies.text = str(Pantalla.tasca_actual["dies_restants"]) if Pantalla.tasca_actual.size() != 0 else ""
 		%FeinaInfoProgress.max_value = Pantalla.tasca_actual["feina"] if Pantalla.tasca_actual.size() != 0 else 0
 		%FeinaInfoProgress.value = Pantalla.feina_acumulada["disseny"] + Pantalla.feina_acumulada["enginy"] + Pantalla.feina_acumulada["informatica"]
-		
+	info_treballadors.text =  str(pantalla.get_node("Oficina/Plantilla").get_child_count()) + "/" + str(Pantalla.maxim_treballadors) 
+	info_material.text = str(pantalla.get_node("Oficina/treball").get_child_count()+pantalla.get_node("Oficina/descans").get_child_count()) + "/" + str(Pantalla.maxim_material)
 
 func start_tween(object: Object, property: String, final_val:Variant, duration: float):
 	var tween = create_tween()
@@ -189,7 +196,7 @@ func activa_menu_tasques():
 		var counter := 0
 		if BusinessEngine.llista_tasques.is_empty():
 			var fitxa_terballador_temp = fitxa_informativa.instantiate()
-			fitxa_informativa.get_node("Label").text = "No hi ha contractes disponibles!"
+			fitxa_terballador_temp.get_node("Label").text = "No hi ha contractes disponibles!"
 			llista_tasques.add_child(fitxa_terballador_temp)
 		else:
 			for contractes_temp in BusinessEngine.llista_tasques :
@@ -225,6 +232,41 @@ func accepta_contracte(tasca_temp: Dictionary, index: int) -> void:
 		pantalla.inici_feina = false
 		#print(Pantalla.tasca_actual)
 		
+func carrega_imatge_material(nom_sprite: String, tipus: String, placeholder_path: Node) -> void:
+	var ruta_escena: String
+
+	match tipus:
+		"treball":
+			ruta_escena = "res://resources/mobiliari/llocTreball.tscn"
+		"descans":
+			ruta_escena = "res://resources/mobiliari/llocDescans.tscn"
+		_:
+			push_error("Tipus desconegut: %s" % tipus)
+			return
+
+	var escena_base = load(ruta_escena)
+	var instancia = escena_base.instantiate()
+
+	var sprite_nou = instancia.get_node("Sprites/%s" % nom_sprite)
+	if sprite_nou == null:
+		push_error("No s'ha trobat el node 'Sprites/%s'" % nom_sprite)
+		return
+
+	sprite_nou.get_parent().remove_child(sprite_nou)
+	sprite_nou.show()
+
+	var placeholder = placeholder_path
+	var parent = placeholder.get_parent()
+	var index = placeholder.get_index()
+
+	sprite_nou.position = placeholder.position
+
+	parent.remove_child(placeholder)
+	placeholder.queue_free()
+
+	parent.add_child(sprite_nou)
+	parent.move_child(sprite_nou, index)
+
 
 func activa_menu_compres():
 	if not menu_compres.is_visible_in_tree() and !generant_treballadors:
@@ -233,50 +275,53 @@ func activa_menu_compres():
 		menu_compres.show()
 		
 		if BusinessEngine.llista_material.is_empty():
-			var fitxa_terballador_temp = fitxa_informativa.instantiate()
-			fitxa_terballador_temp.get_node("Label").text = "No hi ha materials disponibles!"
-			material.add_child(fitxa_terballador_temp)
+			var fitxa_material_temp = fitxa_informativa.instantiate()
+			fitxa_material_temp.get_node("Label").text = "No hi ha materials disponibles!"
+			material.add_child(fitxa_material_temp)
 		else:
 			var counter := 0
 			for contractes_temp in BusinessEngine.llista_material :
 				var valors = BusinessEngine.llista_material[contractes_temp]
+				print(str(valors.nivell) + " - " + str(pantalla.nivell))
 				if valors.nivell <= pantalla.nivell:
-					var fitxa_terballador_temp = fitxa_material.instantiate()
+					var fitxa_material_temp = fitxa_material.instantiate()
 					#print(contractes_temp)
-					fitxa_terballador_temp.get_node("%labelNom").text = valors.nom
-					fitxa_terballador_temp.get_node("%imatge").texture = load(valors.icona)
-					fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
-					fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
-					fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.carregar_i_precol·locar.bind(valors))
-					material.add_child(fitxa_terballador_temp)
+					fitxa_material_temp.get_node("%labelNom").text = valors.nom
+					#fitxa_material_temp.get_node("%imatge").texture = load(valors.icona)
+					fitxa_material_temp.get_node("%descripcio").text = valors.descripcio
+					fitxa_material_temp.get_node("%labelPreu").text = str(valors.preu)
+					var tipus = valors.tipus
+					carrega_imatge_material(valors.icona, tipus, fitxa_material_temp.get_node("%imatge"))
+					fitxa_material_temp.get_node("%buttonCompra").pressed.connect(pantalla.carregar_i_precol·locar.bind(valors))
+					material.add_child(fitxa_material_temp)
 				else:
-					var fitxa_terballador_temp = fitxa_informativa.instantiate()
-					fitxa_terballador_temp.get_node("label"). text = valors.nom + " disponible a partir del nivell " + str(valors.nivell)
-					material.add_child(fitxa_terballador_temp)
+					var fitxa_material_temp = fitxa_informativa.instantiate()
+					fitxa_material_temp.get_node("Label"). text = valors.nom + " disponible a partir del nivell " + str(valors.nivell)
+					material.add_child(fitxa_material_temp)
 				counter+=1
 			
 		if BusinessEngine.llista_locals.is_empty():
-			var fitxa_terballador_temp = fitxa_informativa.instantiate()
-			fitxa_terballador_temp.get_node("Label").text = "No hi ha locals disponibles!"
-			locals.add_child(fitxa_terballador_temp)
+			var fitxa_material_temp = fitxa_informativa.instantiate()
+			fitxa_material_temp.get_node("Label").text = "No hi ha locals disponibles!"
+			locals.add_child(fitxa_material_temp)
 		else:
 			var counter := 0
 			for contractes_temp in BusinessEngine.llista_locals :
 				var valors = BusinessEngine.llista_locals[contractes_temp]
 				if valors.nivell <= pantalla.nivell:
-					var fitxa_terballador_temp = fitxa_local.instantiate()
+					var fitxa_material_temp = fitxa_local.instantiate()
 					#print(contractes_temp)
-					fitxa_terballador_temp.get_node("%labelNom").text = contractes_temp
-					fitxa_terballador_temp.get_node("%descripcio").text = valors.descripcio
-					fitxa_terballador_temp.get_node("%labelPreu").text = str(valors.preu)
-					fitxa_terballador_temp.get_node("%labelCapacitat").text = str(valors.treballadors)
-					fitxa_terballador_temp.get_node("%labelMaterial").text = str(valors.material)
-					fitxa_terballador_temp.get_node("%buttonCompra").pressed.connect(pantalla.remplaça_local.bind(get_node("/root/Pantalla/Oficina").get_child(0), valors))
-					locals.add_child(fitxa_terballador_temp)
+					fitxa_material_temp.get_node("%labelNom").text = contractes_temp
+					fitxa_material_temp.get_node("%descripcio").text = valors.descripcio
+					fitxa_material_temp.get_node("%labelPreu").text = str(valors.preu)
+					fitxa_material_temp.get_node("%labelCapacitat").text = str(valors.treballadors)
+					fitxa_material_temp.get_node("%labelMaterial").text = str(valors.material)
+					fitxa_material_temp.get_node("%buttonCompra").pressed.connect(pantalla.remplaça_local.bind(get_node("/root/Pantalla/Oficina").get_child(0), valors))
+					locals.add_child(fitxa_material_temp)
 				else:
-					var fitxa_terballador_temp = fitxa_informativa.instantiate()
-					fitxa_terballador_temp.get_node("Label"). text = contractes_temp + " disponible a partir del nivell " + str(valors.nivell)
-					locals.add_child(fitxa_terballador_temp)
+					var fitxa_material_temp = fitxa_informativa.instantiate()
+					fitxa_material_temp.get_node("Label"). text = contractes_temp + " disponible a partir del nivell " + str(valors.nivell)
+					locals.add_child(fitxa_material_temp)
 				counter+=1
 
 func _on_close_menu_compres_pressed() -> void:
@@ -378,3 +423,22 @@ func _on_temps_x_2_pressed() -> void:
 
 func _on_temps_x_3_pressed() -> void:
 	pass # Replace with function body.
+
+
+func _on_burpee_button_pressed() -> void:
+	
+	%DisplayTreballador.opcio_jugador = "burpee"
+	%DisplayTreballador.bbb_joc()
+	%BBB.hide()
+
+
+func _on_baby_button_pressed() -> void:
+	%DisplayTreballador.opcio_jugador = "babe"
+	%DisplayTreballador.bbb_joc()
+	%BBB.hide()
+
+
+func _on_bitcoin_button_pressed() -> void:
+	%DisplayTreballador.opcio_jugador = "bitcoin"
+	%DisplayTreballador.bbb_joc()
+	%BBB.hide()

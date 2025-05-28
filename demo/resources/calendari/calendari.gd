@@ -15,6 +15,7 @@ var pantalla
 @onready var button_x_4: Button = $UI/VBoxContainer/HBoxContainer2/x4
 @onready var impostos_button: TextureButton = get_node("/root/Pantalla").get_node("Ux").get_node("%ImpostosButton")
 
+var dialeg = preload("res://resources/menus/dialogue.tscn")
 
 var seconds_per_day: float = 10.0  # Un dia dura 60 segons
 var timer: Timer
@@ -37,6 +38,66 @@ var days_in_months = {
 var mesos_in_any = [
 	"gener","febrer","març","abril","maig","juny","juliol","agost","setembre","octubre","novembre","desembre"
 ]
+
+var dialeg_victoria: Array[Dictionary] = [
+
+	{
+		"text": "Vaja, vaja!",
+		"character": "base",
+	},
+	{
+		"text": "Sembla que ho has aconseguit! I jo que em pensava que no era possible!",
+		"character": "base",
+	},
+	{
+		"text": "Vull dir que la majoria no ho aconsegueixe, si no tenen els calerons del papa com a suport.",
+		"character": "base",
+	},
+	{
+		"text": "Així que t'has guanyat el dret d'entrar a la piràmide!",
+		"character": "base",
+	},
+	{
+		"text": "No, no és cap estafa, només cal que portis més emprenedors amb capital i tu t'emportes una part dels seus beneficis...",
+		"character": "base",
+	},
+	{
+		"text": "Convida'm a uns combinats i te n'explico els detalls...",
+		"character": "base",
+	},
+	{
+		"text": "Però sobretot, gràcies per jugar a Business Bro!",
+		"character": "base",
+	},
+	]
+
+var dialeg_derrota: Array[Dictionary] = [
+
+	{
+		"text": "Hola.",
+		"character": "base",
+	},
+	{
+		"text": "Ha arribat l'hora. He vingut a cobrar",
+		"character": "base",
+	},
+	{
+		"text": "I sembla que no ho has aconseguit.",
+		"character": "base",
+	},
+	{
+		"text": "Però no has de patir, la majoria no ho aconsegueixen.",
+		"character": "base",
+	},
+	{
+		"text": "I pels diners tampoc pateixis.",
+		"character": "base",
+	},
+	{
+		"text": "Em vas dir que encara tenies els dos ronyons oi?",
+		"character": "base",
+	}
+	]
 
 func _ready():
 	timer = Timer.new()
@@ -149,7 +210,14 @@ func compte_enrere() -> void:
 			derrota()
 
 func victoria() -> void:
-	pass
+	var final = dialeg.instantiate()
+	final.text= dialeg_victoria
+	final.escena_final = true
+	pantalla.add_child(final)
+	
 	
 func derrota() -> void:
-	pass
+	var final = dialeg.instantiate()
+	final.text= dialeg_derrota
+	final.escena_final = true
+	pantalla.add_child(final)

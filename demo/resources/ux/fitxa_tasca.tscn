@@ -61,6 +61,7 @@ theme_override_constants/separation = 25
 [node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 0
+tooltip_text = "Deadline"
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
 layout_mode = 2
@@ -82,6 +83,7 @@ text = "15 dies"
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
 layout_mode = 2
+tooltip_text = "Recompensa"
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer5"]
 layout_mode = 2
@@ -105,6 +107,7 @@ text = "750€"
 [node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 8
+tooltip_text = "Indemnització"
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer6"]
 layout_mode = 2
@@ -128,6 +131,7 @@ text = "250€"
 [node name="HBoxContainer7" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 8
+tooltip_text = "Dificultat"
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer3/HBoxContainer4/HBoxContainer7"]
 layout_mode = 2
@@ -155,5 +159,6 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
+tooltip_text = "Accepta projecte"
 texture_normal = ExtResource("3_elatg")
 stretch_mode = 4

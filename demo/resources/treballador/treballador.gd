@@ -27,13 +27,21 @@ var atributs = {
 	"informatica": 100,
 	"social": 0,
 	"motivacio": 1.0,
-	"energia": 100
+	"energia": 100,
+	"recuperacio_energia": 0.01
 }
 var imatge = "res://resources/treballador/imatges_treballadors/Character 1.png"
 
 var energia_actual := 100
 var motivacio_actual := 1.0
-var exp = 0
+var atributs_lloc = {
+	"disseny": 0,
+	"enginy": 0,
+	"informatica": 0,
+	"social": 0,
+	"recuperacio_energia": 0
+}
+var experiencia = 0
 var descansant = false
 var moviment := false
 var treballant := false
@@ -117,11 +125,16 @@ func revisa_nomina() -> void:
 		
 
 func regula_nivell() -> void:
-	if exp > atributs.nivell * 1000:
+	var exp_base= 1000
+	var increment = 500
+	if experiencia> exp_base + (atributs.nivell - 1)*increment :
 		atributs.nivell += 1
 		var stats := ["disseny", "enginy", "informatica"]
 		var millora = stats.pick_random()
-		atributs[millora] += exp/100
+		atributs[millora] += experiencia/100.0
+		experiencia = 0
+		animation_player.play("estudia")
+		animation_player.queue("idle")
 
 func cobra_nomina() -> void:
 	if mes_nomina != calendari.month:
@@ -216,11 +229,11 @@ func fes_tasca() -> void:
 				particules_treball.texture = load("res://resources/ux/generic_icons/Wrench2.png")
 			"informatica":
 				particules_treball.texture = load("res://resources/ux/generic_icons/Monitor.png")
-		var punts_feina_actuals = randi_range(atributs[feina_actual]*motivacio_actual, atributs[feina_actual])
+		var punts_feina_actuals = randi_range((atributs[feina_actual]+atributs_lloc[feina_actual])*motivacio_actual, (atributs[feina_actual]+atributs_lloc[feina_actual]))
 		energia_actual -= punts_feina_actuals / 3
 		pantalla.feina_acumulada[feina_actual] += punts_feina_actuals
 		pantalla.feina_total_acumulada += punts_feina_actuals
-		exp += punts_feina_actuals
+		experiencia += punts_feina_actuals
 		#Pantalla.feina_total_acumulada += punts_feina_actuals
 		particules_treball.amount = 3
 		particules_treball.emitting = true
@@ -267,7 +280,7 @@ func estudia() -> void:
 			var millorada = tria_aleatori(stats)
 			var punts = randi_range(10, 30)
 			atributs[millorada] += punts
-			exp += punts * 5
+			experiencia += punts * 5
 			mostra_emocio("estrella")
 			particules_treball.emitting = false
 			estat = States.ESPERANT
@@ -299,7 +312,7 @@ func descansa(delta: float) -> void:
 			if tasca.is_stopped():
 				tasca.set_wait_time(randi_range(1, 1))
 				tasca.start()
-			energia_actual += 0.01
+			energia_actual += (atributs.recuperacio_energia + atributs_lloc.recuperacio_energia)
 		else:
 			BusinessEngine.posicions_descans[posicio_desti] = "lliure"
 			estat = States.ESPERANT

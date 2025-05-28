@@ -4,13 +4,14 @@ class_name Pantalla extends Node2D
 var label 
 static var llista_treballadors = []
 var debug_tiles: Array = []  
-static var maxim_treballadors := 2
+static var maxim_treballadors := 0
+static var maxim_material = 0
 static var lloguer := 75
 static var treballador_temp
 static var punt_nou_treballador : Vector2
 static var nivell := 1
 static var fama = 0
-static var exp = 0
+static var experiencia = 0
 static var diners := 0
 var diners_inicials := 30000
 static var beneficis_any := 0 
@@ -84,6 +85,12 @@ func _process(_delta: float) -> void:
 	else:
 		return
 
+func regula_nivell() -> void:
+	var exp_base= 1000
+	var increment = 500
+	if experiencia> (exp_base + (nivell - 1)*increment)*maxim_treballadors :
+		nivell += 1
+		experiencia = 0
 
 func _actualitza_ui() -> void:
 	pass
@@ -218,6 +225,7 @@ func afegeix_treballador(ubicacio: Node) -> void:
 	ubicacio.add_child(fitxatge_treballador_temp)
 
 func carregar_i_precol·locar(data: Dictionary) -> void:
+	print(data)
 	var escena_path = data.get("escena", "")
 	tipus_actual = data.get("tipus", "descans")
 
@@ -227,6 +235,7 @@ func carregar_i_precol·locar(data: Dictionary) -> void:
 	
 	var escena_precarregada = load(escena_path)
 	objecte_instance = escena_precarregada.instantiate()
+	objecte_instance.get_node("Sprites/%s" % data.icona).show()
 	objecte_instance.preu = data.preu
 	objecte_instance.modulate.a = 0.5
 	objecte_instance.add_to_group("arrossegables")
@@ -322,6 +331,8 @@ func remplaça_local(original_node: Node2D, data: Dictionary):
 	var parent = original_node.get_parent()
 	var index = original_node.get_index()
 	var new_scene_path: String = data.escena
+	maxim_material = data.material
+	maxim_treballadors = data.treballadors
 	transform = original_node.transform # per 2D pots usar global_position, rotation, scale
 	
 	original_node.queue_free()
@@ -340,6 +351,9 @@ func remplaça_local(original_node: Node2D, data: Dictionary):
 	get_node("%FXPlayer").stream = steam
 	get_node("%FXPlayer").play()
 	#mostra_tiles_disponibles()
+	var engine = get_node("/root/GlobalEngine")
+	engine.genera_llista_tasques()
+
 
 
 func _on_reubicar_solicitat(node: Node2D) -> void:

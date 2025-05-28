@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://c38rdnxwrlxe1"]
+[gd_scene load_steps=8 format=3 uid="uid://c38rdnxwrlxe1"]
 
 [ext_resource type="Script" path="res://resources/ux/fitxa_material.gd" id="1_laimy"]
+[ext_resource type="Texture2D" uid="uid://cg2c1jpddsneu" path="res://resources/oficina/resources/Modern_Office_32x32.png" id="2_iavw2"]
 [ext_resource type="Texture2D" uid="uid://clkoj1mihtni" path="res://resources/treballador/imatges_treballadors/Character 1.png" id="2_xn41b"]
 [ext_resource type="Theme" uid="uid://cbnqop7u7csh" path="res://resources/ux/tema_UX.tres" id="3_1inpn"]
 [ext_resource type="Texture2D" uid="uid://dqg86md3i3tvx" path="res://resources/ux/generic_icons/Coin2.png" id="4_8jsij"]
@@ -23,8 +24,24 @@ theme_override_constants/margin_bottom = 5
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
+[node name="PanellImatge" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="imatgeNode" type="Node2D" parent="MarginContainer/HBoxContainer/PanellImatge"]
+unique_name_in_owner = true
+
+[node name="Sprite2D" type="Sprite2D" parent="MarginContainer/HBoxContainer/PanellImatge/imatgeNode"]
+visible = false
+texture_filter = 1
+position = Vector2(32, 32)
+texture = ExtResource("2_iavw2")
+region_enabled = true
+region_rect = Rect2(199.742, 575.916, 50.6204, 42.4523)
+
 [node name="imatge" type="TextureRect" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 texture_filter = 1
 clip_contents = true
 custom_minimum_size = Vector2(64, 64)
@@ -63,6 +80,7 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/sou"]
 layout_mode = 2
+tooltip_text = "Preu"
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/sou/HBoxContainer"]
 layout_mode = 2
@@ -92,5 +110,6 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
+tooltip_text = "Compra"
 texture_normal = ExtResource("5_0dfw6")
 stretch_mode = 4
